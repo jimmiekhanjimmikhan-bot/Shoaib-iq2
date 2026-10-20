@@ -439,6 +439,15 @@ main{width:100%;flex:1}
 .notif-bell .notif-count{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--ruby);color:#fff;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}50%{box-shadow:0 0 0 6px rgba(220,38,38,0)}}
 
+/* Plan payment modal styles */
+.plan-pay-summary{background:linear-gradient(135deg,#fefce8,#fef9c3);border:1.5px solid #fde047;border-radius:14px;padding:18px;margin:14px 0}
+.plan-pay-summary h4{font-family:'Playfair Display',serif;font-size:1rem;color:#854d0e;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.plan-pay-summary .pp-row{display:flex;justify-content:space-between;font-size:.85rem;padding:8px 0;border-bottom:1px dashed #fde047}
+.plan-pay-summary .pp-row:last-child{border-bottom:none;font-weight:800;font-size:1.05rem;color:#854d0e;padding-top:12px;margin-top:6px;border-top:2px solid #fde047}
+
+/* Admin create order modal */
+.admin-create-info{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;border-radius:12px;padding:14px;margin-bottom:14px;font-size:.82rem;color:var(--text-2);line-height:1.6}
+
 @media (max-width:768px){
   .page{padding:14px}
   .section{padding:18px;border-radius:14px}
@@ -527,6 +536,8 @@ main{width:100%;flex:1}
 <symbol id="i-share" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
 <symbol id="i-crown" viewBox="0 0 24 24"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/><path d="M4 20h16"/></symbol>
 <symbol id="i-gift" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></symbol>
 </defs>
 </svg>
 
@@ -947,6 +958,7 @@ main{width:100%;flex:1}
     <h2>Complete Your Payment</h2>
     <p class="modal-sub">Send payment to the account below, then submit the details for verification</p>
     <input type="hidden" id="payOrderId">
+    <input type="hidden" id="payContextType" value="order">
     <div class="admin-pay-box" id="payDetailsBox"></div>
     <div class="payment-details-box" id="payAmountBox"></div>
     <h4 style="font-size:.92rem;margin:18px 0 8px;color:var(--navy);font-weight:700">Your Payment Details</h4>
@@ -990,6 +1002,40 @@ main{width:100%;flex:1}
   </div>
 </div>
 
+<!-- ADMIN CREATE ORDER MODAL -->
+<div class="modal-bg" id="adminCreateOrderModal">
+  <div class="modal medium">
+    <button class="close-x" onclick="closeModal('adminCreateOrderModal')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
+    <h2>Create Order for User</h2>
+    <p class="modal-sub">Send an order directly to any user's profile — with or without payment</p>
+    <div class="admin-create-info">
+      <strong>💡 Note:</strong> Select a user, service, and quantity. Choose whether the order is <strong>Free</strong> (payment auto-verified) or <strong>Paid</strong> (user must pay, or you can record payment yourself).
+    </div>
+    <label>Select User *</label>
+    <select id="acoUserSelect"></select>
+    <label>Select Service *</label>
+    <select id="acoServiceSelect" onchange="updateAcoTotal()"></select>
+    <label>Word Count / Quantity *</label>
+    <input id="acoWords" type="number" min="1" value="100" oninput="updateAcoTotal()">
+    <label>Payment Type *</label>
+    <select id="acoPaymentType">
+      <option value="free">Free — No payment required (auto-verified)</option>
+      <option value="paid">Paid — User must pay</option>
+      <option value="admin-paid">Admin Records Payment — Mark as paid immediately</option>
+    </select>
+    <label>Special Instructions</label>
+    <textarea id="acoInstructions" rows="2" placeholder="Any notes for the user…"></textarea>
+    <div class="order-summary" style="margin-top:16px">
+      <div class="row"><span>Rate per word</span><span id="acoRate">$0.10</span></div>
+      <div class="row"><span>Quantity</span><span id="acoQty">100</span></div>
+      <div class="row total"><span>Total Amount</span><span id="acoTotal">$10.00</span></div>
+    </div>
+    <button class="btn green block" onclick="adminCreateOrder()" style="margin-top:16px">
+      <svg class="icon icon-md"><use href="#i-user-plus"/></svg> Create Order for User
+    </button>
+  </div>
+</div>
+
 <!-- ADMIN LOGIN -->
 <div class="modal-bg" id="adminLoginModal">
   <div class="modal small">
@@ -1010,11 +1056,15 @@ main{width:100%;flex:1}
     <h2>Admin Control Panel</h2>
     <p class="modal-sub">Full control over orders, users, chat, services, offers, and content</p>
     <div class="admin-stats" id="adminStats"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="btn green" onclick="openAdminCreateOrderModal()"><svg class="icon icon-md"><use href="#i-user-plus"/></svg> Create Order for User</button>
+    </div>
     <div class="tabs">
       <button class="tab active" data-tab="pending"   onclick="switchAdminTab('pending')"><svg class="icon icon-sm"><use href="#i-clock"/></svg> Pending</button>
       <button class="tab" data-tab="progress"  onclick="switchAdminTab('progress')"><svg class="icon icon-sm"><use href="#i-refresh"/></svg> In-Progress</button>
       <button class="tab" data-tab="completed" onclick="switchAdminTab('completed')"><svg class="icon icon-sm"><use href="#i-check"/></svg> Completed</button>
       <button class="tab" data-tab="payments"  onclick="switchAdminTab('payments')"><svg class="icon icon-sm"><use href="#i-credit-card"/></svg> Payments</button>
+      <button class="tab" data-tab="plans"     onclick="switchAdminTab('plans')"><svg class="icon icon-sm"><use href="#i-crown"/></svg> Plan Payments</button>
       <button class="tab" data-tab="newusers"  onclick="switchAdminTab('newusers')"><svg class="icon icon-sm"><use href="#i-user"/></svg> New Users</button>
       <button class="tab" data-tab="oldusers"  onclick="switchAdminTab('oldusers')"><svg class="icon icon-sm"><use href="#i-users"/></svg> Old Users</button>
       <button class="tab" data-tab="paidusers" onclick="switchAdminTab('paidusers')"><svg class="icon icon-sm"><use href="#i-crown"/></svg> Paid Plan Users</button>
@@ -1029,6 +1079,7 @@ main{width:100%;flex:1}
     <div class="tab-content" id="tab-progress"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">In-Progress Orders</h3><div id="adminProgress"></div></div>
     <div class="tab-content" id="tab-completed"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Completed Orders</h3><div id="adminCompleted"></div></div>
     <div class="tab-content" id="tab-payments"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Payment Verification</h3><div id="adminPayments"></div></div>
+    <div class="tab-content" id="tab-plans"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Plan Payment Verification</h3><div id="adminPlanPayments"></div></div>
     <div class="tab-content" id="tab-newusers"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">New Users (under 1 year)</h3><div id="newUsers"></div></div>
     <div class="tab-content" id="tab-oldusers"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Old Users (1 year or more)</h3><div id="oldUsers"></div></div>
     <div class="tab-content" id="tab-paidusers">
@@ -1242,7 +1293,8 @@ main{width:100%;flex:1}
 </div>
 
 <div class="toast" id="toast"></div>
-<script>// Import the functions you need from the SDKs you need
+<script>
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -1253,7 +1305,7 @@ import { getAnalytics } from "firebase/analytics";
 const firebaseConfig = {
   apiKey: "AIzaSyB5h-ltxhulwY3AHubPOg-GDzAn4TYCp2M",
   authDomain: "shoaib-iq.firebaseapp.com",
-  databaseURL: "https://shoaib-iq-default-rtdb.firebaseio.com",
+  databaseURL: "https://shoaib-iq-default-rtdb.firebaseio.com/"
   projectId: "shoaib-iq",
   storageBucket: "shoaib-iq.firebasestorage.app",
   messagingSenderId: "620967955154",
@@ -1263,7 +1315,8 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);</script>
+const analytics = getAnalytics(app);
+</script>
 <script>
 /* ============================================================
    CONSTANTS
@@ -1334,6 +1387,7 @@ let NOTIFICATIONS = [];
 let tempPayProof = '';
 let adBannerClosed = false;
 let tempLocationChoice = null;
+let currentPlanContext = null;
 
 let SITE_DATA = {
   brandName:'Shoaib .IQ', brandTagline:'Premium Services', logoDataUrl:'',
@@ -1428,6 +1482,10 @@ function saveChats(c){ localStorage.setItem('psh_chats', JSON.stringify(c)); }
 function getSession(){ try { return JSON.parse(localStorage.getItem('psh_session')); } catch(e){ return null; } }
 function setSession(u){ if (u) localStorage.setItem('psh_session', JSON.stringify(u)); else localStorage.removeItem('psh_session'); }
 function saveNotifications(){ localStorage.setItem('psh_notifications', JSON.stringify(NOTIFICATIONS)); }
+
+/* Plan purchases persistence */
+function getPlanPurchases(){ return JSON.parse(localStorage.getItem('psh_plan_purchases') || '[]'); }
+function savePlanPurchases(p){ localStorage.setItem('psh_plan_purchases', JSON.stringify(p)); }
 
 /* ============================================================
    NOTIFICATIONS
@@ -1634,7 +1692,7 @@ function renderPlans(){
       <h3>${p.name}</h3>
       <div class="plan-price">${p.price}<small> PKR</small></div>
       <ul>${p.features.map(f => `<li><svg class="icon icon-md"><use href="#i-check"/></svg> ${f}</li>`).join('')}</ul>
-      <button class="btn ${p.featured ? 'gold' : 'outline-dark'} block" onclick="choosePlan('${p.name}','${p.price}')">Choose ${p.name}</button>
+      <button class="btn ${p.featured ? 'gold' : 'outline-dark'} block" onclick="choosePlan('${p.name}','${p.price}')">Choose ${p.name} <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg></button>
     </div>
   `).join('');
   if ($('plansGridHome')) $('plansGridHome').innerHTML = html;
@@ -1689,7 +1747,7 @@ function updateAllPrices(){
 }
 
 /* ============================================================
-   LOCATION MODAL (FIXED)
+   LOCATION MODAL
    ============================================================ */
 function openLocationModal(){
   tempLocationChoice = USER_LOCATION ? { ...USER_LOCATION } : null;
@@ -1919,7 +1977,7 @@ function refreshProfilePage(){
   status.className = 'badge ' + (pct === 100 ? 'completed' : pct > 0 ? 'pending' : 'danger');
   status.textContent = pct === 100 ? 'Profile Complete' : `${pct}% Complete`;
   if (planBadge){
-    if (CURRENT_USER.planType === 'paid') planBadge.innerHTML = '<span class="badge paid">💎 Paid Plan</span>';
+    if (CURRENT_USER.planType === 'paid') planBadge.innerHTML = `<span class="badge paid">💎 Paid Plan${CURRENT_USER.planName ? ' — ' + escapeHtml(CURRENT_USER.planName) : ''}</span>`;
     else planBadge.innerHTML = '<span class="badge gray">🎁 Ad / Free Plan</span>';
   }
   logoutBtn.style.display = 'inline-flex';
@@ -1962,7 +2020,7 @@ function renderUserOrder(o){
     : '';
   let payStatus = '';
   if (done){
-    if (o.paymentVerified) payStatus = '<span class="badge completed">✓ Payment Verified</span>';
+    if (o.paymentVerified) payStatus = `<span class="badge completed">✓ Payment Verified${o.createdByAdmin ? ' (Admin)' : ''}</span>`;
     else if (o.paymentProof) payStatus = '<span class="badge pending">⏳ Payment Pending Review</span>';
     else payStatus = '<span class="badge danger">⚠ Payment Required</span>';
   }
@@ -2023,7 +2081,55 @@ function requestRevision(id){
 }
 
 /* ============================================================
-   PAYMENT (USER SUBMITS)
+   PLANS — PAYMENT FLOW (UPDATED)
+   ============================================================ */
+function choosePlan(name, price){
+  if (!CURRENT_USER){
+    showToast('Please sign in first to choose a plan', 'warn');
+    openAuthModal('signup');
+    return;
+  }
+  currentPlanContext = { name, price: Number(price) };
+  openPlanPaymentModal(name, price);
+}
+
+function openPlanPaymentModal(name, price){
+  const ps = SITE_DATA.paymentSettings || {};
+  $('payContextType').value = 'plan';
+  $('payOrderId').value = 'PLAN-' + Date.now();
+
+  $('payDetailsBox').innerHTML = `
+    <h4><svg class="icon icon-md"><use href="#i-credit-card"/></svg> Send Payment To:</h4>
+    ${ps.bankName ? `<div class="pd-row"><span>Bank</span><span>${escapeHtml(ps.bankName)}</span></div>` : ''}
+    ${ps.accountName ? `<div class="pd-row"><span>Account Title</span><span>${escapeHtml(ps.accountName)}</span></div>` : ''}
+    ${ps.accountNumber ? `<div class="pd-row"><span>Account / IBAN</span><span>${escapeHtml(ps.accountNumber)}</span></div>` : ''}
+    ${ps.jazzCash ? `<div class="pd-row"><span>JazzCash</span><span>${escapeHtml(ps.jazzCash)}</span></div>` : ''}
+    ${ps.easyPaisa ? `<div class="pd-row"><span>EasyPaisa</span><span>${escapeHtml(ps.easyPaisa)}</span></div>` : ''}
+    ${ps.instructions ? `<div class="pd-row" style="flex-direction:column;gap:4px;align-items:flex-start"><span>Note</span><span style="font-weight:500;font-size:.78rem">${escapeHtml(ps.instructions)}</span></div>` : ''}
+  `;
+
+  $('payAmountBox').innerHTML = `
+    <h4><svg class="icon icon-md"><use href="#i-crown"/></svg> Plan Payment</h4>
+    <div class="pd-row"><span>Plan</span><span>${escapeHtml(name)} Plan</span></div>
+    <div class="pd-row"><span>Billing</span><span>One-time / Monthly</span></div>
+    <div class="pd-row" style="font-size:1.05rem"><span>Total Amount</span><span style="color:var(--emerald);font-size:1.15rem">${escapeHtml(price)} PKR</span></div>
+  `;
+
+  $('payAccountName').value = '';
+  $('payHolderName').value = CURRENT_USER ? CURRENT_USER.name : '';
+  $('payUserNumber').value = '';
+  $('payTxnId').value = '';
+  const now = new Date();
+  $('payDate').value = now.toISOString().slice(0,10);
+  $('payTime').value = now.toTimeString().slice(0,5);
+  tempPayProof = '';
+  $('payProofPreview').removeAttribute('src');
+  $('payProofPreview').classList.remove('visible');
+  openModal('paymentProofModal');
+}
+
+/* ============================================================
+   ORDER PAYMENT PROOF (existing flow)
    ============================================================ */
 function openPaymentProofModal(orderId){
   const orders = getOrders();
@@ -2033,6 +2139,7 @@ function openPaymentProofModal(orderId){
     showToast('Payment proof already submitted — awaiting admin verification', 'warn');
     return;
   }
+  $('payContextType').value = 'order';
   $('payOrderId').value = orderId;
   const ps = SITE_DATA.paymentSettings || {};
   $('payDetailsBox').innerHTML = `
@@ -2063,6 +2170,7 @@ function openPaymentProofModal(orderId){
   $('payProofPreview').classList.remove('visible');
   openModal('paymentProofModal');
 }
+
 function handlePaymentProof(input){
   const file = input.files[0];
   if (!file) return;
@@ -2076,8 +2184,9 @@ function handlePaymentProof(input){
   };
   r.readAsDataURL(file);
 }
+
 function submitPaymentProof(){
-  const orderId = $('payOrderId').value;
+  const ctxType = $('payContextType').value;
   const accountName = $('payAccountName').value.trim();
   const holderName = $('payHolderName').value.trim();
   const userNumber = $('payUserNumber').value.trim();
@@ -2086,13 +2195,32 @@ function submitPaymentProof(){
   const txnId = $('payTxnId').value.trim();
   if (!accountName || !holderName || !userNumber || !payDate || !payTime) return showToast('All fields required', 'error');
   if (!tempPayProof) return showToast('Please upload payment proof', 'error');
+
+  if (ctxType === 'plan'){
+    submitPlanPayment({ accountName, holderName, userNumber, date: payDate, time: payTime, txnId });
+  } else {
+    submitOrderPayment({ accountName, holderName, userNumber, date: payDate, time: payTime, txnId });
+  }
+}
+
+function submitOrderPayment(details){
+  const orderId = $('payOrderId').value;
   const orders = getOrders();
   const o = orders.find(x => x.id === orderId);
   if (!o) return;
   o.paymentProof = {
-    accountName, holderName, userNumber, date: payDate, time: payTime, txnId,
-    service: o.service, amount: formatPrice(o.total), amountUSD: o.total,
-    proofImage: tempPayProof, submittedAt: Date.now(), status: 'pending'
+    accountName: details.accountName,
+    holderName: details.holderName,
+    userNumber: details.userNumber,
+    date: details.date,
+    time: details.time,
+    txnId: details.txnId,
+    service: o.service,
+    amount: formatPrice(o.total),
+    amountUSD: o.total,
+    proofImage: tempPayProof,
+    submittedAt: Date.now(),
+    status: 'pending'
   };
   saveOrders(orders);
   closeModal('paymentProofModal');
@@ -2100,6 +2228,41 @@ function submitPaymentProof(){
   addNotification(o.email, '⏳ Payment Submitted', 'Your payment proof for order ' + o.id + ' has been submitted. Awaiting admin verification.', 'info');
   alert('✅ Payment Proof Submitted!\n━━━━━━━━━━━━━━━━━━━━━━━━\nOrder: ' + o.id + '\nAmount: ' + formatPrice(o.total) + '\nStatus: PENDING VERIFICATION\n━━━━━━━━━━━━━━━━━━━━━━━━\nAdmin will verify your payment shortly.\nOnce verified, your download will unlock.');
   showToast('Payment submitted! Awaiting admin verification.');
+}
+
+function submitPlanPayment(details){
+  const ctx = currentPlanContext;
+  if (!ctx) return showToast('Plan context lost, please try again', 'error');
+  const purchases = getPlanPurchases();
+  const purchase = {
+    id: $('payOrderId').value,
+    userEmail: CURRENT_USER.email,
+    userName: CURRENT_USER.name,
+    planName: ctx.name,
+    planPrice: ctx.price,
+    proof: {
+      accountName: details.accountName,
+      holderName: details.holderName,
+      userNumber: details.userNumber,
+      date: details.date,
+      time: details.time,
+      txnId: details.txnId,
+      proofImage: tempPayProof,
+      submittedAt: Date.now(),
+      status: 'pending'
+    },
+    status: 'pending',
+    createdAt: Date.now(),
+    paymentVerified: false
+  };
+  purchases.unshift(purchase);
+  savePlanPurchases(purchases);
+  closeModal('paymentProofModal');
+  addNotification(CURRENT_USER.email, '⏳ Plan Payment Submitted',
+    `Your payment for ${ctx.name} plan (${ctx.price} PKR) is pending verification.`, 'info');
+  alert(`✅ Plan Payment Submitted!\n━━━━━━━━━━━━━━━━━━━━━━━━\nPlan: ${ctx.name}\nAmount: ${ctx.price} PKR\nStatus: PENDING VERIFICATION\n━━━━━━━━━━━━━━━━━━━━━━━━\nAdmin will verify shortly. Your plan will activate after approval.`);
+  showToast('Plan payment submitted!');
+  currentPlanContext = null;
 }
 
 /* ============================================================
@@ -2371,22 +2534,6 @@ function placeOrder(){
   $('orderInst').value = '';
   $('orderFile').value = '';
 }
-function choosePlan(name, price){
-  if (!CURRENT_USER){ showToast('Please sign in first', 'warn'); openAuthModal('signup'); return; }
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === CURRENT_USER.id);
-  if (idx < 0) return;
-  users[idx].planType = 'paid';
-  users[idx].planName = name;
-  users[idx].planPrice = price;
-  users[idx].planActivatedAt = Date.now();
-  saveUsers(users);
-  CURRENT_USER = users[idx];
-  setSession(CURRENT_USER);
-  refreshProfilePage();
-  alert(`💎 ${name} Plan Selected!\n\nAmount: ${price} PKR\n\nPlease contact support or make payment to activate your plan.\nEmail: shoaibjanax@gmail.com\nPhone: 03047391349`);
-  showToast(`${name} plan selected — contact support to activate`);
-}
 function unlockFreeTrial(){
   if (!CURRENT_USER){ showToast('Please sign in first', 'warn'); openAuthModal('signup'); return; }
   const users = getUsers();
@@ -2464,6 +2611,7 @@ function switchAdminTab(tab){
   if (tab === 'cms') loadCMSToForm();
   if (tab === 'paidusers') renderPaidUsers();
   if (tab === 'adusers') renderAdUsers();
+  if (tab === 'plans') renderAdminPlanPayments();
 }
 
 /* ============================================================
@@ -2491,6 +2639,7 @@ function loadAdminData(){
   renderAdminProgress(orders.filter(o => o.status === 'in-progress'));
   renderAdminCompleted(orders.filter(o => o.status === 'completed'));
   renderAdminPayments(orders);
+  renderAdminPlanPayments();
   const newUsers = users.filter(u => (Date.now() - u.createdAt) <= ONE_YEAR_MS);
   const oldUsers = users.filter(u => (Date.now() - u.createdAt) > ONE_YEAR_MS);
   $('newUsers').innerHTML = newUsers.length ? newUsers.map(renderAdminUser).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No new users</p>';
@@ -2536,9 +2685,238 @@ function renderAdminCompleted(list){
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
         <button class="btn sm gold" onclick="openDeliveryModal('${o.id}')"><svg class="icon icon-sm"><use href="#i-truck"/></svg> Deliver / Edit</button>
         <button class="btn sm gray" onclick="moveOrderStatus('${o.id}','in-progress')"><svg class="icon icon-sm"><use href="#i-arrow-left"/></svg> Back</button>
+        ${!o.paymentVerified ? `<button class="btn sm green" onclick="adminMarkOrderPaid('${o.id}')"><svg class="icon icon-sm"><use href="#i-credit-card"/></svg> Record Payment</button>` : ''}
       </div>
     </div>
   `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No completed orders</p>';
+}
+
+/* ============================================================
+   ADMIN — PLAN PAYMENTS
+   ============================================================ */
+function renderAdminPlanPayments(){
+  const box = $('adminPlanPayments');
+  if (!box) return;
+  const purchases = getPlanPurchases();
+  if (!purchases.length){
+    box.innerHTML = '<p style="color:var(--text-3);text-align:center;padding:16px">No plan payments yet.</p>';
+    return;
+  }
+  box.innerHTML = purchases.map(p => {
+    const isVerified = p.paymentVerified;
+    const proof = p.proof || {};
+    return `<div class="payment-review-card">
+      <div class="prc-header">
+        <div>
+          <h4>💎 ${escapeHtml(p.userName)} — ${escapeHtml(p.userEmail)}</h4>
+          <p>Plan: <strong>${escapeHtml(p.planName)}</strong> • ${escapeHtml(p.planPrice)} PKR</p>
+          <p style="font-size:.72rem;color:var(--text-3);margin-top:4px">Submitted: ${formatDate(p.createdAt)}</p>
+        </div>
+        <span class="badge ${isVerified ? 'completed' : 'pending'}">
+          ${isVerified ? '✓ Verified' : '⏳ Pending'}
+        </span>
+      </div>
+      <div class="prc-details">
+        <div class="prc-detail-item"><div class="label">Account Name</div><div class="value">${escapeHtml(proof.accountName || '—')}</div></div>
+        <div class="prc-detail-item"><div class="label">Holder Name</div><div class="value">${escapeHtml(proof.holderName || '—')}</div></div>
+        <div class="prc-detail-item"><div class="label">User Number</div><div class="value">${escapeHtml(proof.userNumber || '—')}</div></div>
+        <div class="prc-detail-item"><div class="label">Date</div><div class="value">${escapeHtml(proof.date || '—')}</div></div>
+        <div class="prc-detail-item"><div class="label">Time</div><div class="value">${escapeHtml(proof.time || '—')}</div></div>
+        <div class="prc-detail-item"><div class="label">TXN ID</div><div class="value">${escapeHtml(proof.txnId || '—')}</div></div>
+      </div>
+      ${proof.proofImage ? `<div style="margin:10px 0"><p style="font-size:.72rem;color:var(--text-3);margin-bottom:6px;font-weight:600">PAYMENT PROOF</p><img class="prc-proof" src="${proof.proofImage}" alt="" onclick="viewImageFull('${proof.proofImage}')"></div>` : ''}
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+        ${!isVerified ? `
+          <button class="btn sm green" onclick="adminVerifyPlanPayment('${p.id}')"><svg class="icon icon-sm"><use href="#i-check"/></svg> Verify & Activate Plan</button>
+          <button class="btn sm red" onclick="adminRejectPlanPayment('${p.id}')"><svg class="icon icon-sm"><use href="#i-close"/></svg> Reject</button>
+        ` : `<button class="btn sm gray" onclick="adminUnverifyPlanPayment('${p.id}')">Unverify</button>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function adminVerifyPlanPayment(purchaseId){
+  const purchases = getPlanPurchases();
+  const p = purchases.find(x => x.id === purchaseId);
+  if (!p) return;
+  p.paymentVerified = true;
+  p.status = 'verified';
+  p.verifiedAt = Date.now();
+  savePlanPurchases(purchases);
+
+  // Activate the plan on the user
+  const users = getUsers();
+  const u = users.find(x => x.email === p.userEmail);
+  if (u){
+    u.planType = 'paid';
+    u.planName = p.planName;
+    u.planPrice = p.planPrice;
+    u.planActivatedAt = Date.now();
+    saveUsers(users);
+    if (CURRENT_USER && CURRENT_USER.email === u.email){
+      CURRENT_USER = u;
+      setSession(u);
+    }
+  }
+  loadAdminData();
+  refreshProfilePage();
+  addNotification(p.userEmail, '💎 Plan Activated!', `Your ${p.planName} plan has been activated. Enjoy premium access!`, 'success');
+  showToast('Plan payment verified & activated!');
+}
+
+function adminRejectPlanPayment(purchaseId){
+  const reason = prompt('Rejection reason (user will see this):', 'Payment proof unclear');
+  if (!reason) return;
+  const purchases = getPlanPurchases();
+  const p = purchases.find(x => x.id === purchaseId);
+  if (!p) return;
+  p.paymentVerified = false;
+  p.status = 'rejected';
+  p.rejectionReason = reason;
+  savePlanPurchases(purchases);
+  loadAdminData();
+  addNotification(p.userEmail, '⚠ Plan Payment Rejected', reason, 'warn');
+  showToast('Plan payment rejected.');
+}
+
+function adminUnverifyPlanPayment(purchaseId){
+  if (!confirm('Unverify this plan payment? The user will lose their paid plan status.')) return;
+  const purchases = getPlanPurchases();
+  const p = purchases.find(x => x.id === purchaseId);
+  if (!p) return;
+  p.paymentVerified = false;
+  p.status = 'pending';
+  savePlanPurchases(purchases);
+  const users = getUsers();
+  const u = users.find(x => x.email === p.userEmail);
+  if (u){ u.planType = 'ad'; u.planName = ''; u.planPrice = ''; saveUsers(users); }
+  loadAdminData();
+  refreshProfilePage();
+  showToast('Plan payment unverified.');
+}
+
+/* ============================================================
+   ADMIN — DIRECT PAYMENT RECORD FOR ORDER
+   ============================================================ */
+function adminMarkOrderPaid(orderId){
+  if (!confirm('Record this payment manually? The order will be marked as PAID and the user will be able to download.')) return;
+  const orders = getOrders();
+  const o = orders.find(x => x.id === orderId);
+  if (!o) return;
+  o.paymentVerified = true;
+  o.paymentProof = o.paymentProof || {
+    accountName: 'ADMIN-RECORDED',
+    holderName: 'Admin',
+    userNumber: 'N/A',
+    date: new Date().toISOString().slice(0,10),
+    time: new Date().toTimeString().slice(0,5),
+    txnId: 'ADMIN-' + Date.now(),
+    service: o.service,
+    amount: formatPrice(o.total),
+    amountUSD: o.total,
+    proofImage: '',
+    submittedAt: Date.now(),
+    status: 'verified'
+  };
+  if (o.paymentProof) o.paymentProof.status = 'verified';
+  saveOrders(orders);
+  loadAdminData();
+  refreshProfilePage();
+  addNotification(o.email, '✓ Payment Verified', 'Payment for order ' + o.id + ' was recorded by admin. Download is now unlocked.', 'success');
+  showToast('Payment recorded. User notified.');
+}
+
+/* ============================================================
+   ADMIN — CREATE ORDER FOR USER
+   ============================================================ */
+function openAdminCreateOrderModal(){
+  const users = getUsers();
+  if (!users.length){
+    return showToast('No users registered yet', 'warn');
+  }
+  $('acoUserSelect').innerHTML = users.map(u =>
+    `<option value="${escapeHtml(u.email)}">${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`
+  ).join('');
+  $('acoServiceSelect').innerHTML = SERVICES.map(s =>
+    `<option value="${s.id}">${escapeHtml(s.title)} — $${s.price.toFixed(2)}/word</option>`
+  ).join('');
+  $('acoWords').value = 100;
+  $('acoPaymentType').value = 'free';
+  $('acoInstructions').value = '';
+  updateAcoTotal();
+  openModal('adminCreateOrderModal');
+}
+
+function updateAcoTotal(){
+  const svc = SERVICES.find(s => s.id === $('acoServiceSelect').value) || SERVICES[0];
+  const qty = Math.max(1, parseInt($('acoWords').value) || 1);
+  const total = qty * svc.price;
+  $('acoRate').textContent = '$' + svc.price.toFixed(2);
+  $('acoQty').textContent = qty;
+  $('acoTotal').textContent = '$' + total.toFixed(2);
+}
+
+function adminCreateOrder(){
+  const email = $('acoUserSelect').value;
+  const serviceId = $('acoServiceSelect').value;
+  const words = Math.max(1, parseInt($('acoWords').value) || 1);
+  const payType = $('acoPaymentType').value;
+  const instructions = $('acoInstructions').value.trim();
+
+  const user = getUsers().find(u => u.email === email);
+  if (!user) return showToast('User not found', 'error');
+  const svc = SERVICES.find(s => s.id === serviceId);
+  if (!svc) return showToast('Service not found', 'error');
+
+  const totalUSD = words * svc.price;
+  const paid = payType === 'free' || payType === 'admin-paid';
+
+  const order = {
+    id: 'ORD-' + Date.now(),
+    service: svc.title, icon: svc.icon,
+    words, total: totalUSD,
+    instructions: instructions || 'Created by admin',
+    status: paid ? 'completed' : 'pending',
+    paymentVerified: paid,
+    createdAt: Date.now(),
+    completedAt: paid ? Date.now() : null,
+    name: user.name,
+    email: user.email,
+    documentUrl: '', safeInstructions: '',
+    deliveryFiles: [], deliveryClientName: '',
+    currency: 'USD', currencySymbol: '$', localTotal: totalUSD,
+    location: user.location || null,
+    paymentProof: paid ? {
+      accountName: payType === 'free' ? 'FREE-ORDER' : 'ADMIN-RECORDED',
+      holderName: payType === 'free' ? 'Admin (Free)' : 'Admin',
+      userNumber: 'N/A',
+      date: new Date().toISOString().slice(0,10),
+      time: new Date().toTimeString().slice(0,5),
+      txnId: payType === 'free' ? 'FREE-' + Date.now() : 'ADMIN-' + Date.now(),
+      service: svc.title,
+      amount: '$' + totalUSD.toFixed(2),
+      amountUSD: totalUSD,
+      proofImage: '',
+      submittedAt: Date.now(),
+      status: 'verified'
+    } : null,
+    createdByAdmin: true
+  };
+
+  const orders = getOrders();
+  orders.unshift(order);
+  saveOrders(orders);
+
+  addNotification(user.email,
+    paid ? '📦 New Order Created (Paid)' : '📦 New Order Created',
+    `Admin created an order for you: ${svc.title} (${words} words). ${paid ? 'Payment verified ✓ — you can download.' : 'Payment required to download.'}`,
+    paid ? 'success' : 'info');
+
+  closeModal('adminCreateOrderModal');
+  loadAdminData();
+  refreshProfilePage();
+  alert(`✅ Order Created for ${user.name}!\n\nService: ${svc.title}\nWords: ${words}\nTotal: $${totalUSD.toFixed(2)}\nPayment: ${paid ? 'VERIFIED (paid/free)' : 'REQUIRED'}\n\nUser will see it in their profile.`);
+  showToast('Order created for ' + user.name);
 }
 
 /* ============================================================
@@ -2578,11 +2956,12 @@ function renderAdminPayments(orders){
           <div class="prc-detail-item"><div class="label">Amount</div><div class="value">${escapeHtml(proof.amount || formatPrice(o.total))}</div></div>
         </div>
         ${proof.proofImage ? `<div style="margin:10px 0"><p style="font-size:.72rem;color:var(--text-3);margin-bottom:6px;font-weight:600">PAYMENT PROOF</p><img class="prc-proof" src="${proof.proofImage}" alt="" onclick="viewImageFull('${proof.proofImage}')"></div>` : ''}
-      ` : '<p style="color:var(--text-3);font-size:.82rem;padding:10px;text-align:center;background:var(--off-white);border-radius:10px">User has not submitted payment proof yet.</p>'}
+      ` : '<p style="color:var(--text-3);font-size:.82rem;padding:10px;text-align:center;background:var(--off-white);border-radius:10px">User has not submitted payment proof yet. You can record payment manually.</p>'}
       <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
         ${hasProof && !isVerified ? `
           <button class="btn sm green" onclick="openAdminPaymentReview('${o.id}')"><svg class="icon icon-sm"><use href="#i-eye"/></svg> View & Verify</button>
         ` : ''}
+        ${!isVerified ? `<button class="btn sm gold" onclick="adminMarkOrderPaid('${o.id}')"><svg class="icon icon-sm"><use href="#i-credit-card"/></svg> Record Payment (Admin)</button>` : ''}
         ${isVerified ? `<button class="btn sm red" onclick="unverifyPayment('${o.id}')"><svg class="icon icon-sm"><use href="#i-close"/></svg> Unverify</button>` : ''}
       </div>
     </div>`;
@@ -2697,6 +3076,7 @@ function setUserPlanType(userId, type){
   if (type === 'paid'){ u.planName = u.planName || 'Admin Assigned'; u.planActivatedAt = Date.now(); }
   saveUsers(users);
   loadAdminData();
+  refreshProfilePage();
   showToast('User moved to ' + type + ' plan');
 }
 
@@ -2714,12 +3094,22 @@ function renderAdminUser(u){
       ${u.banned ? `<p style="font-size:.75rem;color:var(--ruby)"><strong>Ban reason:</strong> ${escapeHtml(u.banReason || '—')}</p>` : ''}
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
         ${u.verified ? `<button class="btn sm gray" onclick="toggleUserVerify('${u.id}',false)">Unverify</button>` : `<button class="btn sm green" onclick="toggleUserVerify('${u.id}',true)"><svg class="icon icon-sm"><use href="#i-check"/></svg> Verify</button>`}
+        <button class="btn sm gold" onclick="quickCreateOrderForUser('${u.email}')"><svg class="icon icon-sm"><use href="#i-user-plus"/></svg> Create Order</button>
         <button class="btn sm amber" onclick="warnUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-alert-triangle"/></svg> Warn</button>
         ${u.banned ? `<button class="btn sm green" onclick="unbanUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-check"/></svg> Unban</button>` : `<button class="btn sm red" onclick="banUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-slash"/></svg> Ban</button>`}
         <button class="btn sm red" onclick="deleteUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
       </div>
     </div>
   `;
+}
+
+/* Quick create order for a specific user */
+function quickCreateOrderForUser(email){
+  openAdminCreateOrderModal();
+  setTimeout(() => {
+    const sel = $('acoUserSelect');
+    if (sel) sel.value = email;
+  }, 50);
 }
 
 /* ============================================================
@@ -3168,7 +3558,7 @@ function handleIndBanner(input){ if (!input.files[0]) return; handleFileToDataUr
    SEED
    ============================================================ */
 function seedDemoData(){
-  if (localStorage.getItem('psh_seeded_v9')) return;
+  if (localStorage.getItem('psh_seeded_v10')) return;
   const now = Date.now();
   const demoUsers = [
     { id:'U1', name:'Ahmed Khan', email:'ahmed@example.com', phone:'+92 300 1111111', password:'demo123', country:'Pakistan', bio:'Business owner', verified:true, banned:false, warnings:[], createdAt: now - 30 * 86400000, location:{countryCode:'PK', state:'Punjab'}, planType:'paid', planName:'Advanced', planPrice:'2000', planActivatedAt: now - 25 * 86400000 },
@@ -3182,7 +3572,12 @@ function seedDemoData(){
     { id:'ORD-2005', service:'Proofreading & Editing', icon:'i-edit-3', words:5000, total:250, status:'completed', paymentVerified:false, name:'Sara Ali', email:'sara@example.com', instructions:'Thesis proofreading', createdAt: now - 604800000, completedAt: now - 259200000, documentUrl:'https://example.com/doc.pdf', safeInstructions:'Open PDF.', deliveryFiles:[], deliveryClientName:'Sara Ali', currency:'AED', location:{countryCode:'AE', state:'Dubai'}, paymentProof:null }
   ];
   saveOrders(demoOrders);
-  localStorage.setItem('psh_seeded_v9', '1');
+  // Demo plan purchases
+  const demoPlanPurchases = [
+    { id:'PLAN-1001', userEmail:'ahmed@example.com', userName:'Ahmed Khan', planName:'Advanced', planPrice:2000, proof:{accountName:'Ahmed Khan', holderName:'Ahmed Khan', userNumber:'03001111111', date:'2026-01-15', time:'14:30', txnId:'TXN12345', proofImage:'', submittedAt: now - 20*86400000, status:'verified'}, status:'verified', paymentVerified:true, createdAt: now - 20*86400000, verifiedAt: now - 19*86400000 }
+  ];
+  savePlanPurchases(demoPlanPurchases);
+  localStorage.setItem('psh_seeded_v10', '1');
 }
 
 /* ============================================================
@@ -3213,7 +3608,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initChat();
   updateAllPrices();
   renderNotifications();
-  console.log('%cShoaib .IQ v9 Ready','color:#c9a227;font-weight:900;font-size:14px');
+  console.log('%cShoaib .IQ v10 Ready','color:#c9a227;font-weight:900;font-size:14px');
   console.log('%cAdmin: Click the "." at end of copyright 5 times','color:#3b5bdb;font-weight:600');
   console.log('%cCredentials: Sho@#$123 / 123','color:#3b5bdb;font-weight:600');
 });
@@ -3250,6 +3645,16 @@ window.savePaymentSettings = savePaymentSettings;
 window.loadPaymentSettingsToForm = loadPaymentSettingsToForm;
 window.clearOfferBg = clearOfferBg;
 window.handleOfferBg = handleOfferBg;
+window.choosePlan = choosePlan;
+window.openPlanPaymentModal = openPlanPaymentModal;
+window.adminVerifyPlanPayment = adminVerifyPlanPayment;
+window.adminRejectPlanPayment = adminRejectPlanPayment;
+window.adminUnverifyPlanPayment = adminUnverifyPlanPayment;
+window.adminMarkOrderPaid = adminMarkOrderPaid;
+window.openAdminCreateOrderModal = openAdminCreateOrderModal;
+window.adminCreateOrder = adminCreateOrder;
+window.updateAcoTotal = updateAcoTotal;
+window.quickCreateOrderForUser = quickCreateOrderForUser;
 </script>
 </body>
 </html>
