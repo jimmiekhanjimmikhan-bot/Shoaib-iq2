@@ -1293,19 +1293,17 @@ main{width:100%;flex:1}
 </div>
 
 <div class="toast" id="toast"></div>
-<script>
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+<!-- ===================== FIREBASE (FIXED) ===================== -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+/* Firebase configuration */
 const firebaseConfig = {
   apiKey: "AIzaSyB5h-ltxhulwY3AHubPOg-GDzAn4TYCp2M",
   authDomain: "shoaib-iq.firebaseapp.com",
-  databaseURL: "https://shoaib-iq-default-rtdb.firebaseio.com/"
+  databaseURL: "https://shoaib-iq-default-rtdb.firebaseio.com",
   projectId: "shoaib-iq",
   storageBucket: "shoaib-iq.firebasestorage.app",
   messagingSenderId: "620967955154",
@@ -1313,10 +1311,18 @@ const firebaseConfig = {
   measurementId: "G-VRJE4LES7C"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+/* Initialize Firebase */
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const firebaseDB  = firebase.database();
+try { firebase.analytics(); } catch(e){}
+
+/* Expose globally for future use */
+window.firebaseApp = firebaseApp;
+window.firebaseDB  = firebaseDB;
+
+console.log('%cFirebase connected ✓','color:#059669;font-weight:700');
 </script>
+
 <script>
 /* ============================================================
    CONSTANTS
@@ -1388,6 +1394,7 @@ let tempPayProof = '';
 let adBannerClosed = false;
 let tempLocationChoice = null;
 let currentPlanContext = null;
+let pendingPlan = null; // ← NEW: remembers plan chosen while signed-out
 
 let SITE_DATA = {
   brandName:'Shoaib .IQ', brandTagline:'Premium Services', logoDataUrl:'',
@@ -1853,6 +1860,16 @@ function doSignup(){
   renderNotifications();
   updateAllPrices();
   showToast('Account created! Aap ab order kar sakte hain.');
+
+  /* NEW: If user had clicked a plan while signed-out, open payment page */
+  if (pendingPlan){
+    const p = pendingPlan;
+    pendingPlan = null;
+    setTimeout(() => {
+      currentPlanContext = { name: p.name, price: p.price };
+      openPlanPaymentModal(p.name, p.price);
+    }, 700);
+  }
 }
 function doLogin(){
   const email = $('loginEmail').value.trim().toLowerCase();
@@ -1882,6 +1899,16 @@ function doLogin(){
   renderNotifications();
   updateAllPrices();
   showToast('Welcome back, ' + user.name + '!');
+
+  /* NEW: If user had clicked a plan while signed-out, open payment page */
+  if (pendingPlan){
+    const p = pendingPlan;
+    pendingPlan = null;
+    setTimeout(() => {
+      currentPlanContext = { name: p.name, price: p.price };
+      openPlanPaymentModal(p.name, p.price);
+    }, 700);
+  }
 }
 function doLogout(){
   if (!confirm('Logout?')) return;
@@ -2081,11 +2108,12 @@ function requestRevision(id){
 }
 
 /* ============================================================
-   PLANS — PAYMENT FLOW (UPDATED)
+   PLANS — PAYMENT FLOW
    ============================================================ */
 function choosePlan(name, price){
   if (!CURRENT_USER){
     showToast('Please sign in first to choose a plan', 'warn');
+    pendingPlan = { name, price: Number(price) };  // ← remember plan
     openAuthModal('signup');
     return;
   }
@@ -2129,7 +2157,7 @@ function openPlanPaymentModal(name, price){
 }
 
 /* ============================================================
-   ORDER PAYMENT PROOF (existing flow)
+   ORDER PAYMENT PROOF
    ============================================================ */
 function openPaymentProofModal(orderId){
   const orders = getOrders();
@@ -2744,7 +2772,6 @@ function adminVerifyPlanPayment(purchaseId){
   p.verifiedAt = Date.now();
   savePlanPurchases(purchases);
 
-  // Activate the plan on the user
   const users = getUsers();
   const u = users.find(x => x.email === p.userEmail);
   if (u){
@@ -3572,7 +3599,6 @@ function seedDemoData(){
     { id:'ORD-2005', service:'Proofreading & Editing', icon:'i-edit-3', words:5000, total:250, status:'completed', paymentVerified:false, name:'Sara Ali', email:'sara@example.com', instructions:'Thesis proofreading', createdAt: now - 604800000, completedAt: now - 259200000, documentUrl:'https://example.com/doc.pdf', safeInstructions:'Open PDF.', deliveryFiles:[], deliveryClientName:'Sara Ali', currency:'AED', location:{countryCode:'AE', state:'Dubai'}, paymentProof:null }
   ];
   saveOrders(demoOrders);
-  // Demo plan purchases
   const demoPlanPurchases = [
     { id:'PLAN-1001', userEmail:'ahmed@example.com', userName:'Ahmed Khan', planName:'Advanced', planPrice:2000, proof:{accountName:'Ahmed Khan', holderName:'Ahmed Khan', userNumber:'03001111111', date:'2026-01-15', time:'14:30', txnId:'TXN12345', proofImage:'', submittedAt: now - 20*86400000, status:'verified'}, status:'verified', paymentVerified:true, createdAt: now - 20*86400000, verifiedAt: now - 19*86400000 }
   ];
