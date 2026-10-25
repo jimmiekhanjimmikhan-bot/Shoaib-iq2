@@ -10,22 +10,64 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
+  /* ── Base Colors ── */
   --navy:#080b16;--navy-2:#0f1425;--navy-3:#1a2138;--navy-4:#232c4a;
   --white:#fff;--off-white:#f8f9fc;--light-gray:#eef1f8;
+
+  /* ── Gold ── */
   --gold:#c9a227;--gold-2:#a8841c;--gold-3:#e6c866;--gold-glow:rgba(201,162,39,.35);
+
+  /* ── Accent Colors ── */
   --royal:#3b5bdb;--royal-2:#2c46b0;
   --emerald:#059669;--emerald-2:#047857;
   --ruby:#dc2626;--ruby-2:#b91c1c;
   --amber:#f59e0b;--amber-2:#d97706;
+
+  /* ── Text ── */
   --text:#0a0e1a;--text-2:#3d4459;--text-3:#6b7290;--text-inv:#fff;
-  --border:#e5e8f0;--border-2:#d4d9e6;
+
+  /* ── Borders (FIXED + Extended) ── */
+  --border:#e5e8f0;
+  --border-2:#d4d9e6;
+  --border-3:#b8c0d4;              /* NEW – stronger border */
+  --border-light:rgba(229,232,240,.6); /* NEW – subtle border */
+  --border-strong:#8f97b0;         /* NEW – strong border */
+  --border-inv:rgba(255,255,255,.12); /* NEW – on dark bg */
+  --border-inv-2:rgba(255,255,255,.24); /* NEW – on dark bg stronger */
+  --border-gold:rgba(201,162,39,.45);  /* NEW – gold tint */
+  --border-royal:rgba(59,91,219,.45);  /* NEW – royal tint */
+  --border-emerald:rgba(5,150,105,.45);/* NEW – emerald tint */
+  --border-ruby:rgba(220,38,38,.45);   /* NEW – ruby tint */
+  --border-focus:#3b5bdb;              /* NEW – focus ring color */
+
+  /* ── Border Widths & Styles ── */
+  --bw:1px;            /* NEW */
+  --bw-2:2px;          /* NEW */
+  --bw-3:3px;          /* NEW */
+  --border-style:solid;/* NEW */
+  --border-combo:var(--bw) var(--border-style) var(--border); /* NEW */
+
+  /* ── Shadows ── */
   --shadow-sm:0 1px 3px rgba(10,14,26,.06),0 1px 2px rgba(10,14,26,.04);
   --shadow:0 4px 16px rgba(10,14,26,.08),0 2px 6px rgba(10,14,26,.04);
   --shadow-md:0 10px 30px rgba(10,14,26,.12),0 4px 10px rgba(10,14,26,.06);
   --shadow-lg:0 24px 60px rgba(10,14,26,.18),0 8px 20px rgba(10,14,26,.08);
   --shadow-gold:0 8px 24px rgba(201,162,39,.35);
+
+  /* ── Radius ── */
   --r-sm:10px;--r:14px;--r-lg:24px;
+
+  /* ── Ease ── */
   --ease:cubic-bezier(.2,.9,.3,1.15);
+}
+
+/* ✅ Safety Reset — borders ko global disable MAT karo, sirf normalize karo */
+*,*::before,*::after{ box-sizing:border-box; }
+
+/* ✅ Focus ring consistent */
+:focus-visible{
+  outline:2px solid var(--border-focus);
+  outline-offset:2px;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -1294,7 +1336,7 @@ main{width:100%;flex:1}
 
 <div class="toast" id="toast"></div>
 
-<!-- ===================== FIREBASE (FIXED) ===================== -->
+<!-- ===================== FIREBASE ===================== -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
@@ -1311,15 +1353,12 @@ const firebaseConfig = {
   measurementId: "G-VRJE4LES7C"
 };
 
-/* Initialize Firebase */
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const firebaseDB  = firebase.database();
 try { firebase.analytics(); } catch(e){}
 
-/* Expose globally for future use */
 window.firebaseApp = firebaseApp;
 window.firebaseDB  = firebaseDB;
-
 console.log('%cFirebase connected ✓','color:#059669;font-weight:700');
 </script>
 
@@ -1394,7 +1433,7 @@ let tempPayProof = '';
 let adBannerClosed = false;
 let tempLocationChoice = null;
 let currentPlanContext = null;
-let pendingPlan = null; // ← NEW: remembers plan chosen while signed-out
+let pendingPlan = null;
 
 let SITE_DATA = {
   brandName:'Shoaib .IQ', brandTagline:'Premium Services', logoDataUrl:'',
@@ -1427,6 +1466,164 @@ let SITE_DATA = {
     instructions: 'Send payment and upload the screenshot. Payment will be verified within 24 hours.'
   }
 };
+
+/* ============================================================
+   FIREBASE DATA LAYER
+   ============================================================ */
+let DATA_READY = false;
+
+/* in-memory caches (the rest of the app uses these as "the source of truth" during a session) */
+let _users         = [];
+let _orders        = [];
+let _chats         = {};
+let _planPurchases = [];
+
+/* ---- SAFETY GUARD — data wipe se bachata hai ---- */
+function _guardSave(){
+  if (!DATA_READY){
+    console.error('[SAVE BLOCKED] Firebase data not loaded — save aborted to prevent data wipe');
+    showToast('⚠ DB load nahi hua. Page refresh karein. Save nahi hua.', 'error');
+    return false;
+  }
+  return true;
+}
+
+/* ---- USERS ---- */
+function getUsers(){ return _users; }
+function saveUsers(users){
+  if (!_guardSave()) return;
+  _users = users || [];
+  firebaseDB.ref('users').set(_users).catch(e => {
+    console.error('[saveUsers]', e);
+    showToast('Save failed — check Firebase rules', 'error');
+  });
+}
+
+/* ---- ORDERS ---- */
+function getOrders(){ return _orders; }
+function saveOrders(orders){
+  if (!_guardSave()) return;
+  _orders = orders || [];
+  firebaseDB.ref('orders').set(_orders).catch(e => {
+    console.error('[saveOrders]', e);
+    showToast('Save failed — check Firebase rules', 'error');
+  });
+}
+
+/* ---- CHATS ---- */
+function getChats(){ return _chats; }
+function saveChats(chats){
+  if (!_guardSave()) return;
+  _chats = chats || {};
+  firebaseDB.ref('chats').set(_chats).catch(e => {
+    console.error('[saveChats]', e);
+  });
+}
+
+/* ---- PLAN PURCHASES ---- */
+function getPlanPurchases(){ return _planPurchases; }
+function savePlanPurchases(list){
+  if (!_guardSave()) return;
+  _planPurchases = list || [];
+  firebaseDB.ref('planPurchases').set(_planPurchases).catch(e => {
+    console.error('[savePlanPurchases]', e);
+  });
+}
+
+/* ---- NOTIFICATIONS ---- */
+function saveNotifications(){
+  if (!_guardSave()) return;
+  firebaseDB.ref('notifications').set(NOTIFICATIONS).catch(e => {
+    console.error('[saveNotifications]', e);
+  });
+}
+
+/* ---- SITE DATA ---- */
+function saveSiteData(){
+  if (!_guardSave()) return;
+  firebaseDB.ref('siteData').set(SITE_DATA).catch(e => {
+    console.error('[saveSiteData]', e);
+    showToast('Save failed — check Firebase rules', 'error');
+  });
+}
+
+/* ---- SERVICES ---- */
+function saveServices(){
+  if (!_guardSave()) return;
+  firebaseDB.ref('services').set(SERVICES).catch(e => {
+    console.error('[saveServices]', e);
+  });
+}
+
+/* ---- SESSION / LOCATION (localStorage) ---- */
+function setSession(user){
+  if (user && user.email) localStorage.setItem('psh_session', user.email);
+  else localStorage.removeItem('psh_session');
+}
+function getSessionEmail(){ return localStorage.getItem('psh_session'); }
+
+function saveUserLocation(loc){
+  USER_LOCATION = loc;
+  if (loc) localStorage.setItem('psh_location', JSON.stringify(loc));
+  else localStorage.removeItem('psh_location');
+}
+
+/* ---- LOAD EVERYTHING FROM FIREBASE ---- */
+async function loadAllDataFromFirebase(){
+  const [usersSnap, ordersSnap, chatsSnap, notifSnap, planSnap, siteSnap, svcSnap] = await Promise.all([
+    firebaseDB.ref('users').once('value'),
+    firebaseDB.ref('orders').once('value'),
+    firebaseDB.ref('chats').once('value'),
+    firebaseDB.ref('notifications').once('value'),
+    firebaseDB.ref('planPurchases').once('value'),
+    firebaseDB.ref('siteData').once('value'),
+    firebaseDB.ref('services').once('value')
+  ]);
+
+  _users         = usersSnap.val()    || [];
+  _orders        = ordersSnap.val()   || [];
+  _chats         = chatsSnap.val()    || {};
+  _planPurchases = planSnap.val()     || [];
+
+  const loadedNotifs = notifSnap.val() || [];
+  NOTIFICATIONS.length = 0;
+  loadedNotifs.forEach(n => NOTIFICATIONS.push(n));
+
+  if (siteSnap.exists()){
+    const sd = siteSnap.val();
+    SITE_DATA = {
+      ...SITE_DATA,
+      ...sd,
+      paymentSettings: { ...SITE_DATA.paymentSettings, ...(sd.paymentSettings || {}) }
+    };
+  }
+  if (svcSnap.exists() && Array.isArray(svcSnap.val()) && svcSnap.val().length){
+    SERVICES = svcSnap.val();
+  }
+
+  DATA_READY = true;
+  console.log('%cFirebase data loaded ✓','color:#059669;font-weight:700',
+    { users:_users.length, orders:_orders.length, chats:Object.keys(_chats).length });
+}
+
+/* ---- RESTORE SESSION ---- */
+function restoreSession(){
+  /* restore location */
+  const locRaw = localStorage.getItem('psh_location');
+  if (locRaw){ try { USER_LOCATION = JSON.parse(locRaw); } catch(e){} }
+
+  /* restore user session */
+  const email = getSessionEmail();
+  if (!email) return;
+  const u = _users.find(x => x.email === email);
+  if (u && !u.banned){
+    CURRENT_USER = u;
+    if (u.location) { USER_LOCATION = u.location; saveUserLocation(u.location); }
+    console.log('%cSession restored: ' + u.email,'color:#3b5bdb');
+  } else {
+    setSession(null);
+  }
+}
 
 /* ============================================================
    UTILITIES
@@ -1463,38 +1660,6 @@ function formatPrice(usdAmount){
 }
 
 /* ============================================================
-   PERSISTENCE
-   ============================================================ */
-function saveSiteData(){ try { localStorage.setItem('psh_site_data', JSON.stringify(SITE_DATA)); } catch(e){} }
-function loadSiteData(){
-  try {
-    const s = localStorage.getItem('psh_site_data');
-    if (s) SITE_DATA = { ...SITE_DATA, ...JSON.parse(s) };
-    const svc = localStorage.getItem('psh_services');
-    if (svc) SERVICES = JSON.parse(svc);
-    const loc = localStorage.getItem('psh_user_location');
-    if (loc) USER_LOCATION = JSON.parse(loc);
-    const notifs = localStorage.getItem('psh_notifications');
-    if (notifs) NOTIFICATIONS = JSON.parse(notifs);
-  } catch(e){}
-}
-function saveServices(){ localStorage.setItem('psh_services', JSON.stringify(SERVICES)); }
-function saveUserLocation(loc){ USER_LOCATION = loc; if (loc) localStorage.setItem('psh_user_location', JSON.stringify(loc)); else localStorage.removeItem('psh_user_location'); }
-function getUsers(){ return JSON.parse(localStorage.getItem('psh_users') || '[]'); }
-function saveUsers(u){ localStorage.setItem('psh_users', JSON.stringify(u)); }
-function getOrders(){ return JSON.parse(localStorage.getItem('psh_orders_all') || '[]'); }
-function saveOrders(o){ localStorage.setItem('psh_orders_all', JSON.stringify(o)); }
-function getChats(){ return JSON.parse(localStorage.getItem('psh_chats') || '{}'); }
-function saveChats(c){ localStorage.setItem('psh_chats', JSON.stringify(c)); }
-function getSession(){ try { return JSON.parse(localStorage.getItem('psh_session')); } catch(e){ return null; } }
-function setSession(u){ if (u) localStorage.setItem('psh_session', JSON.stringify(u)); else localStorage.removeItem('psh_session'); }
-function saveNotifications(){ localStorage.setItem('psh_notifications', JSON.stringify(NOTIFICATIONS)); }
-
-/* Plan purchases persistence */
-function getPlanPurchases(){ return JSON.parse(localStorage.getItem('psh_plan_purchases') || '[]'); }
-function savePlanPurchases(p){ localStorage.setItem('psh_plan_purchases', JSON.stringify(p)); }
-
-/* ============================================================
    NOTIFICATIONS
    ============================================================ */
 function addNotification(userEmail, title, message, type = 'info'){
@@ -1511,7 +1676,7 @@ function getUserNotifications(){
 function renderNotifications(){
   const stack = $('notificationStack');
   const notifs = getUserNotifications().filter(n => !n.read);
-  if (!notifs.length){ stack.innerHTML = ''; return; }
+  if (!notifs.length){ stack.innerHTML = ''; updateNotifCount(); return; }
   stack.innerHTML = notifs.map(n => {
     const iconMap = { success:'i-check', info:'i-info', warn:'i-alert-triangle' };
     const clsMap = { success:'success', info:'info', warn:'warn' };
@@ -1681,7 +1846,7 @@ function serviceCardHTML(svc){
       <h3>${escapeHtml(svc.title)}</h3>
       <p>${escapeHtml(svc.desc)}</p>
       <div class="service-meta">
-        <span class="service-price" data-usd="${svc.price}">$<span class="price-local">${svc.price.toFixed(2)}</span><small>/word</small></span>
+        <span class="service-price" data-usd="${svc.price}">$<span class="price-local">${Number(svc.price).toFixed(2)}</span><small>/word</small></span>
         <span class="service-rating"><svg class="icon icon-sm icon-fill"><use href="#i-star"/></svg> ${svc.rating}</span>
       </div>
       <button class="btn gold sm" onclick="event.stopPropagation();handleServiceClick('${svc.id}')">Order Now <svg class="icon icon-sm"><use href="#i-arrow-right"/></svg></button>
@@ -1828,6 +1993,7 @@ function switchAuthTab(tab){
   $('authErr').textContent = '';
 }
 function openAuthModal(mode = 'login'){ switchAuthTab(mode); openModal('authModal'); }
+
 function doSignup(){
   const name = $('suName').value.trim();
   const email = $('suEmail').value.trim().toLowerCase();
@@ -1861,7 +2027,6 @@ function doSignup(){
   updateAllPrices();
   showToast('Account created! Aap ab order kar sakte hain.');
 
-  /* NEW: If user had clicked a plan while signed-out, open payment page */
   if (pendingPlan){
     const p = pendingPlan;
     pendingPlan = null;
@@ -1871,6 +2036,7 @@ function doSignup(){
     }, 700);
   }
 }
+
 function doLogin(){
   const email = $('loginEmail').value.trim().toLowerCase();
   const pass = $('loginPass').value;
@@ -1900,7 +2066,6 @@ function doLogin(){
   updateAllPrices();
   showToast('Welcome back, ' + user.name + '!');
 
-  /* NEW: If user had clicked a plan while signed-out, open payment page */
   if (pendingPlan){
     const p = pendingPlan;
     pendingPlan = null;
@@ -2113,7 +2278,7 @@ function requestRevision(id){
 function choosePlan(name, price){
   if (!CURRENT_USER){
     showToast('Please sign in first to choose a plan', 'warn');
-    pendingPlan = { name, price: Number(price) };  // ← remember plan
+    pendingPlan = { name, price: Number(price) };
     openAuthModal('signup');
     return;
   }
@@ -2363,6 +2528,7 @@ function saveEditProfile(){
    LIVE CHAT
    ============================================================ */
 let chatInitialized = false;
+let chatInitializedKey = null;
 function getChatKey(){ return CURRENT_USER ? CURRENT_USER.email : 'guest_' + (localStorage.getItem('psh_device_id') || 'unknown'); }
 function appendMessage(msg, from, autoScroll = true){
   const box = $('chatMessages');
@@ -2454,13 +2620,14 @@ function updateChatUserDetails(){
   }
 }
 function initChat(){
-  if (chatInitialized) { updateChatUserDetails(); return; }
+  const key = getChatKey();
+  if (chatInitialized && chatInitializedKey === key) { updateChatUserDetails(); return; }
   chatInitialized = true;
+  chatInitializedKey = key;
   $('chatSendBtn').addEventListener('click', sendUserMessage);
   $('chatInput').addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendUserMessage(); }
   });
-  const key = getChatKey();
   const chats = getChats();
   const box = $('chatMessages');
   box.innerHTML = '';
@@ -2498,7 +2665,7 @@ function handleServiceClick(serviceId){
 }
 function initOrderPage(){
   const sel = $('orderServiceSelect');
-  sel.innerHTML = SERVICES.map(s => `<option value="${s.id}">${escapeHtml(s.title)} — $${s.price.toFixed(2)}/word</option>`).join('');
+  sel.innerHTML = SERVICES.map(s => `<option value="${s.id}">${escapeHtml(s.title)} — $${Number(s.price).toFixed(2)}/word</option>`).join('');
   updateOrderForm();
 }
 function updateOrderForm(){ calculateTotal(); }
@@ -2506,6 +2673,7 @@ function calculateTotal(){
   const sel = $('orderServiceSelect');
   if (!sel) return;
   const svc = SERVICES.find(s => s.id === sel.value) || SERVICES[0];
+  if (!svc) return;
   const words = Math.max(1, parseInt($('orderWords').value || 0) || 1);
   const totalUSD = words * svc.price;
   const c = getCurrencyInfo();
@@ -2865,7 +3033,7 @@ function openAdminCreateOrderModal(){
     `<option value="${escapeHtml(u.email)}">${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`
   ).join('');
   $('acoServiceSelect').innerHTML = SERVICES.map(s =>
-    `<option value="${s.id}">${escapeHtml(s.title)} — $${s.price.toFixed(2)}/word</option>`
+    `<option value="${s.id}">${escapeHtml(s.title)} — $${Number(s.price).toFixed(2)}/word</option>`
   ).join('');
   $('acoWords').value = 100;
   $('acoPaymentType').value = 'free';
@@ -2878,7 +3046,7 @@ function updateAcoTotal(){
   const svc = SERVICES.find(s => s.id === $('acoServiceSelect').value) || SERVICES[0];
   const qty = Math.max(1, parseInt($('acoWords').value) || 1);
   const total = qty * svc.price;
-  $('acoRate').textContent = '$' + svc.price.toFixed(2);
+  $('acoRate').textContent = '$' + Number(svc.price).toFixed(2);
   $('acoQty').textContent = qty;
   $('acoTotal').textContent = '$' + total.toFixed(2);
 }
@@ -3130,7 +3298,6 @@ function renderAdminUser(u){
   `;
 }
 
-/* Quick create order for a specific user */
 function quickCreateOrderForUser(email){
   openAdminCreateOrderModal();
   setTimeout(() => {
@@ -3148,7 +3315,7 @@ function renderAdminServices(){
     <div class="service-manager-item">
       <div class="smi-icon"><svg class="icon icon-md"><use href="#${s.icon}"/></svg></div>
       <div class="smi-info"><h4>${escapeHtml(s.title)}</h4><p>${escapeHtml(s.desc)}</p></div>
-      <div class="smi-price">$${s.price.toFixed(2)}/word</div>
+      <div class="smi-price">$${Number(s.price).toFixed(2)}/word</div>
       <div class="smi-actions">
         <button class="btn sm outline-dark" onclick="openEditServiceModal('${s.id}')"><svg class="icon icon-sm"><use href="#i-edit"/></svg></button>
         <button class="btn sm red" onclick="deleteService('${s.id}')"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
@@ -3582,67 +3749,50 @@ function handleIndLogo(input){ if (!input.files[0]) return; handleFileToDataUrl(
 function handleIndBanner(input){ if (!input.files[0]) return; handleFileToDataUrl(input.files[0], d => { SITE_DATA.indBannerDataUrl = d; updatePreview('indBannerPreview', d); }, 5); }
 
 /* ============================================================
-   SEED
-   ============================================================ */
-function seedDemoData(){
-  if (localStorage.getItem('psh_seeded_v10')) return;
-  const now = Date.now();
-  const demoUsers = [
-    { id:'U1', name:'Ahmed Khan', email:'ahmed@example.com', phone:'+92 300 1111111', password:'demo123', country:'Pakistan', bio:'Business owner', verified:true, banned:false, warnings:[], createdAt: now - 30 * 86400000, location:{countryCode:'PK', state:'Punjab'}, planType:'paid', planName:'Advanced', planPrice:'2000', planActivatedAt: now - 25 * 86400000 },
-    { id:'U2', name:'Sara Ali', email:'sara@example.com', phone:'+92 300 2222222', password:'demo123', country:'UAE', bio:'Marketing lead', verified:false, banned:false, warnings:[], createdAt: now - 90 * 86400000, location:{countryCode:'AE', state:'Dubai'}, planType:'ad', adTrialUntil: now + 5 * 86400000 },
-    { id:'U3', name:'Bilal Ahmed', email:'bilal@example.com', phone:'+92 300 3333333', password:'demo123', country:'UK', bio:'', verified:true, banned:false, warnings:[], createdAt: now - 200 * 86400000, location:{countryCode:'GB', state:'England'}, planType:'paid', planName:'Premium', planPrice:'4000', planActivatedAt: now - 180 * 86400000 }
-  ];
-  saveUsers(demoUsers);
-  const demoOrders = [
-    { id:'ORD-2001', service:'Translation Services', icon:'i-globe', words:2500, total:200, status:'pending', paymentVerified:false, name:'Ahmed Khan', email:'ahmed@example.com', instructions:'Business letter English to Urdu', createdAt: now - 3600000, completedAt:null, documentUrl:'', safeInstructions:'', deliveryFiles:[], deliveryClientName:'', currency:'PKR', location:{countryCode:'PK', state:'Punjab'}, paymentProof:null },
-    { id:'ORD-2004', service:'Logo & Brand Design', icon:'i-palette', words:1, total:500, status:'completed', paymentVerified:true, name:'Ahmed Khan', email:'ahmed@example.com', instructions:'Tech startup logo', createdAt: now - 172800000, completedAt: now - 86400000, documentUrl:'https://example.com/logo.zip', safeInstructions:'Unzip and use SVG for print.', deliveryFiles:[], deliveryClientName:'Ahmed Khan', currency:'PKR', location:{countryCode:'PK', state:'Punjab'}, paymentProof:null },
-    { id:'ORD-2005', service:'Proofreading & Editing', icon:'i-edit-3', words:5000, total:250, status:'completed', paymentVerified:false, name:'Sara Ali', email:'sara@example.com', instructions:'Thesis proofreading', createdAt: now - 604800000, completedAt: now - 259200000, documentUrl:'https://example.com/doc.pdf', safeInstructions:'Open PDF.', deliveryFiles:[], deliveryClientName:'Sara Ali', currency:'AED', location:{countryCode:'AE', state:'Dubai'}, paymentProof:null }
-  ];
-  saveOrders(demoOrders);
-  const demoPlanPurchases = [
-    { id:'PLAN-1001', userEmail:'ahmed@example.com', userName:'Ahmed Khan', planName:'Advanced', planPrice:2000, proof:{accountName:'Ahmed Khan', holderName:'Ahmed Khan', userNumber:'03001111111', date:'2026-01-15', time:'14:30', txnId:'TXN12345', proofImage:'', submittedAt: now - 20*86400000, status:'verified'}, status:'verified', paymentVerified:true, createdAt: now - 20*86400000, verifiedAt: now - 19*86400000 }
-  ];
-  savePlanPurchases(demoPlanPurchases);
-  localStorage.setItem('psh_seeded_v10', '1');
-}
-
-/* ============================================================
    INIT
    ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-  seedDemoData();
-  loadSiteData();
-  applySiteData();
-  const session = getSession();
-  if (session){
-    const users = getUsers();
-    const user = users.find(u => u.id === session.id);
-    if (user){
-      if (user.banned) showBanAlert(user.banReason);
-      else {
-        CURRENT_USER = user;
-        if (user.location) { USER_LOCATION = user.location; saveUserLocation(user.location); }
-      }
-    }
-  }
-  renderServices();
-  renderPlans();
-  renderReviews();
-  renderFAQ();
-  renderCareers();
-  refreshProfilePage();
-  initChat();
-  updateAllPrices();
-  renderNotifications();
-  console.log('%cShoaib .IQ v10 Ready','color:#c9a227;font-weight:900;font-size:14px');
+document.addEventListener('DOMContentLoaded', async () => {
+  console.log('%cShoaib .IQ starting...','color:#c9a227;font-weight:900');
   console.log('%cAdmin: Click the "." at end of copyright 5 times','color:#3b5bdb;font-weight:600');
   console.log('%cCredentials: Sho@#$123 / 123','color:#3b5bdb;font-weight:600');
+
+  try {
+    await loadAllDataFromFirebase();
+    restoreSession();
+
+    /* Apply data to UI */
+    applySiteData();
+    renderServices();
+    renderPlans();
+    renderReviews();
+    renderFAQ();
+    renderCareers();
+    refreshProfilePage();
+    renderNotifications();
+    updateAllPrices();
+    if (CURRENT_USER) updateChatUserDetails();
+
+    console.log('%c✓ App fully initialized','color:#059669;font-weight:700');
+    if (CURRENT_USER) showToast('Welcome back, ' + CURRENT_USER.name + '!');
+  } catch (err) {
+    console.error('Init error:', err);
+    showToast('Failed to load data — check your Firebase database rules', 'error');
+    /* Fall back to defaults so page still works */
+    applySiteData();
+    renderServices();
+    renderPlans();
+    renderReviews();
+    renderFAQ();
+    renderCareers();
+    refreshProfilePage();
+  }
 });
 
 document.querySelectorAll('.modal-bg').forEach(bg => {
   bg.addEventListener('click', e => { if (e.target === bg) closeModal(bg.id); });
 });
 
+/* expose to window for inline onclick */
 window.openAuthModal = openAuthModal;
 window.showPage = showPage;
 window.menuGo = menuGo;
