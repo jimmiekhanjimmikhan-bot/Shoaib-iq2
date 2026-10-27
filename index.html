@@ -3,73 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Shoaib .IQ — Premium Digital Services">
 <title>Shoaib .IQ — Premium Digital Services</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  /* ── Base Colors ── */
   --navy:#080b16;--navy-2:#0f1425;--navy-3:#1a2138;--navy-4:#232c4a;
   --white:#fff;--off-white:#f8f9fc;--light-gray:#eef1f8;
-
-  /* ── Gold ── */
   --gold:#c9a227;--gold-2:#a8841c;--gold-3:#e6c866;--gold-glow:rgba(201,162,39,.35);
-
-  /* ── Accent Colors ── */
   --royal:#3b5bdb;--royal-2:#2c46b0;
   --emerald:#059669;--emerald-2:#047857;
   --ruby:#dc2626;--ruby-2:#b91c1c;
   --amber:#f59e0b;--amber-2:#d97706;
-
-  /* ── Text ── */
   --text:#0a0e1a;--text-2:#3d4459;--text-3:#6b7290;--text-inv:#fff;
-
-  /* ── Borders (FIXED + Extended) ── */
-  --border:#e5e8f0;
-  --border-2:#d4d9e6;
-  --border-3:#b8c0d4;              /* NEW – stronger border */
-  --border-light:rgba(229,232,240,.6); /* NEW – subtle border */
-  --border-strong:#8f97b0;         /* NEW – strong border */
-  --border-inv:rgba(255,255,255,.12); /* NEW – on dark bg */
-  --border-inv-2:rgba(255,255,255,.24); /* NEW – on dark bg stronger */
-  --border-gold:rgba(201,162,39,.45);  /* NEW – gold tint */
-  --border-royal:rgba(59,91,219,.45);  /* NEW – royal tint */
-  --border-emerald:rgba(5,150,105,.45);/* NEW – emerald tint */
-  --border-ruby:rgba(220,38,38,.45);   /* NEW – ruby tint */
-  --border-focus:#3b5bdb;              /* NEW – focus ring color */
-
-  /* ── Border Widths & Styles ── */
-  --bw:1px;            /* NEW */
-  --bw-2:2px;          /* NEW */
-  --bw-3:3px;          /* NEW */
-  --border-style:solid;/* NEW */
-  --border-combo:var(--bw) var(--border-style) var(--border); /* NEW */
-
-  /* ── Shadows ── */
+  --border:#e5e8f0;--border-2:#d4d9e6;
   --shadow-sm:0 1px 3px rgba(10,14,26,.06),0 1px 2px rgba(10,14,26,.04);
   --shadow:0 4px 16px rgba(10,14,26,.08),0 2px 6px rgba(10,14,26,.04);
   --shadow-md:0 10px 30px rgba(10,14,26,.12),0 4px 10px rgba(10,14,26,.06);
   --shadow-lg:0 24px 60px rgba(10,14,26,.18),0 8px 20px rgba(10,14,26,.08);
   --shadow-gold:0 8px 24px rgba(201,162,39,.35);
-
-  /* ── Radius ── */
   --r-sm:10px;--r:14px;--r-lg:24px;
-
-  /* ── Ease ── */
   --ease:cubic-bezier(.2,.9,.3,1.15);
 }
-
-/* ✅ Safety Reset — borders ko global disable MAT karo, sirf normalize karo */
-*,*::before,*::after{ box-sizing:border-box; }
-
-/* ✅ Focus ring consistent */
-:focus-visible{
-  outline:2px solid var(--border-focus);
-  outline-offset:2px;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--royal);outline-offset:2px}
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--off-white);color:var(--text);line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{max-width:100%;display:block}
@@ -83,11 +41,8 @@ textarea{resize:vertical;min-height:76px;font-family:inherit}
 ::-webkit-scrollbar-track{background:var(--light-gray)}
 ::-webkit-scrollbar-thumb{background:#c8cee0;border-radius:10px;border:2px solid var(--light-gray)}
 .icon{width:1em;height:1em;display:inline-block;vertical-align:-0.125em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.icon-sm{width:15px;height:15px}
-.icon-md{width:18px;height:18px}
-.icon-lg{width:22px;height:22px}
-.icon-xl{width:30px;height:30px}
-.icon-2xl{width:38px;height:38px}
+.icon-sm{width:15px;height:15px}.icon-md{width:18px;height:18px}.icon-lg{width:22px;height:22px}
+.icon-xl{width:30px;height:30px}.icon-2xl{width:38px;height:38px}
 .icon-fill{fill:currentColor;stroke:none}
 
 .site-header{position:sticky;top:0;z-index:900;background:rgba(255,255,255,.85);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);padding:11px 20px;display:flex;align-items:center;justify-content:space-between}
@@ -308,9 +263,6 @@ main{width:100%;flex:1}
 .footer-brand .socials button:hover{background:var(--gold);color:var(--navy);transform:translateY(-3px)}
 .footer-divider{height:1px;background:rgba(255,255,255,.08);margin:26px auto;max-width:1100px}
 .copyright{font-size:.78rem;color:#6b7290;position:relative;display:inline-flex;align-items:center;gap:2px;flex-wrap:wrap;justify-content:center}
-.copyright .hidden-dot{cursor:default;user-select:none;display:inline-block;padding:8px 6px;margin:-8px -6px;color:inherit;font-size:inherit;line-height:1;transition:color .2s;position:relative}
-.copyright .hidden-dot.pulse{animation:dotPulse .3s ease}
-@keyframes dotPulse{0%{color:var(--gold);transform:scale(1.4)}100%{color:inherit;transform:scale(1)}}
 
 .modal-bg{position:fixed;inset:0;background:rgba(10,14,26,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1500;padding:16px;overflow-y:auto}
 .modal-bg.active{display:flex;animation:fadeIn .2s}
@@ -329,8 +281,6 @@ main{width:100%;flex:1}
 .tab:hover{color:var(--navy);background:var(--off-white)}
 .tab.active{color:var(--navy);background:var(--off-white)}
 .tab.active::after{content:'';position:absolute;bottom:-2px;left:8px;right:8px;height:2.5px;background:linear-gradient(90deg,var(--gold),var(--royal));border-radius:2px}
-.tab-content{display:none}
-.tab-content.active{display:block;animation:fadeIn .3s}
 
 .item{border:1.5px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;background:#fff;transition:.2s}
 .item:hover{border-color:var(--border-2);box-shadow:var(--shadow-sm)}
@@ -346,29 +296,6 @@ main{width:100%;flex:1}
 .badge.gray{background:#f1f5f9;color:#475569}
 .badge.gold{background:#fef9c3;color:#854d0e}
 .badge.paid{background:#a7f3d0;color:#065f46}
-
-.admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:18px}
-.admin-stat{background:linear-gradient(135deg,var(--off-white),var(--light-gray));border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center}
-.admin-stat .n{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--navy);line-height:1}
-.admin-stat .l{font-size:.64rem;color:var(--text-3);text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-top:4px}
-
-.admin-chat-layout{display:grid;grid-template-columns:280px 1fr;gap:16px;height:540px}
-.admin-chat-users{background:var(--off-white);border:1.5px solid var(--border);border-radius:12px;overflow-y:auto;padding:8px}
-.admin-chat-user{padding:11px;border-radius:10px;cursor:pointer;margin-bottom:6px;transition:.2s;border:1.5px solid transparent}
-.admin-chat-user:hover{background:#fff}
-.admin-chat-user.active{background:#fff;border-color:var(--gold);box-shadow:var(--shadow-sm)}
-.admin-chat-user .acu-name{font-weight:700;color:var(--navy);font-size:.85rem;display:flex;align-items:center;justify-content:space-between;gap:6px}
-.admin-chat-user .acu-last{font-size:.73rem;color:var(--text-3);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.admin-chat-window{display:flex;flex-direction:column;background:#fff;border:1.5px solid var(--border);border-radius:12px;overflow:hidden}
-.acw-header{padding:12px 16px;background:linear-gradient(135deg,var(--navy),var(--navy-3));color:#fff;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.acw-header .acw-actions{display:flex;gap:6px}
-.acw-header .acw-actions button{padding:5px 9px;border-radius:8px;font-size:.68rem;font-weight:700;background:rgba(255,255,255,.15);color:#fff;transition:.2s}
-.acw-messages{flex:1;overflow-y:auto;padding:14px;background:var(--off-white)}
-.acw-input{display:flex;gap:8px;padding:10px;background:#fff;border-top:1.5px solid var(--border);align-items:center}
-.acw-input input{flex:1;border-radius:22px;padding:9px 14px}
-.acw-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--text-3);text-align:center;padding:20px}
-.admin-chat-plus{width:36px;height:36px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--royal),var(--royal-2));color:#fff;display:flex;align-items:center;justify-content:center;transition:.2s}
-.admin-chat-plus:hover{transform:scale(1.08) rotate(90deg)}
 
 .delivery-file-row{display:flex;align-items:center;gap:10px;padding:11px;background:var(--off-white);border:1.5px dashed var(--border-2);border-radius:12px;margin-bottom:10px}
 .delivery-file-row .df-info{flex:1;min-width:0}
@@ -422,21 +349,6 @@ main{width:100%;flex:1}
 .state-select-wrap{margin-top:14px}
 .currency-badge{display:inline-flex;align-items:center;gap:6px;padding:3px 11px;border-radius:20px;font-size:.68rem;font-weight:700;background:var(--light-gray);color:var(--navy);margin-left:8px}
 
-.service-manager-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:10px;background:#fff;transition:.2s}
-.service-manager-item:hover{border-color:var(--border-2);box-shadow:var(--shadow-sm)}
-.service-manager-item .smi-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--navy-3));color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.service-manager-item .smi-info{flex:1;min-width:0}
-.service-manager-item .smi-info h4{font-size:.87rem;color:var(--navy);font-weight:700;margin-bottom:2px}
-.service-manager-item .smi-info p{font-size:.75rem;color:var(--text-3)}
-.service-manager-item .smi-price{font-weight:800;color:var(--emerald);font-size:.9rem;flex-shrink:0}
-.service-manager-item .smi-actions{display:flex;gap:6px;flex-shrink:0}
-
-.payment-method-item{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:10px;background:#fff}
-.payment-method-item .pmi-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--royal),var(--royal-2));color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.payment-method-item .pmi-info{flex:1}
-.payment-method-item .pmi-info h4{font-size:.87rem;color:var(--navy);font-weight:700;margin-bottom:2px}
-.payment-method-item .pmi-info p{font-size:.75rem;color:var(--text-3)}
-
 .chat-user-details{display:flex;align-items:center;gap:12px;padding:9px 14px;background:linear-gradient(135deg,#f0f9ff,#e0f2fe);border-bottom:1px solid #bae6fd;font-size:.76rem;color:var(--text-2);flex-wrap:wrap}
 .chat-user-details .cud-item{display:flex;align-items:center;gap:5px}
 .chat-user-details .cud-item svg{color:var(--royal);flex-shrink:0}
@@ -464,31 +376,14 @@ main{width:100%;flex:1}
 .payment-proof-upload .pp-title{font-weight:700;color:var(--navy);font-size:.87rem;margin-bottom:4px}
 .payment-proof-upload .pp-hint{font-size:.74rem;color:var(--text-3)}
 
-.payment-review-card{background:#fff;border:2px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;transition:.2s}
-.payment-review-card:hover{border-color:var(--gold);box-shadow:var(--shadow-sm)}
-.payment-review-card .prc-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px;flex-wrap:wrap}
-.payment-review-card .prc-header h4{font-size:.9rem;color:var(--navy);font-weight:800;margin-bottom:4px}
-.payment-review-card .prc-header p{font-size:.78rem;color:var(--text-3)}
-.payment-review-card .prc-proof{max-width:200px;max-height:150px;object-fit:cover;border-radius:10px;border:1.5px solid var(--border);cursor:pointer;transition:.2s}
-.payment-review-card .prc-proof:hover{transform:scale(1.05);box-shadow:var(--shadow-md)}
-.payment-review-card .prc-details{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin:12px 0;padding:12px;background:var(--off-white);border-radius:10px}
-.payment-review-card .prc-detail-item{font-size:.78rem}
-.payment-review-card .prc-detail-item .label{color:var(--text-3);font-weight:600;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
-.payment-review-card .prc-detail-item .value{color:var(--navy);font-weight:700}
-
 .btn-download-disabled{background:linear-gradient(135deg,#9ca3af,#6b7280)!important;opacity:.6;cursor:not-allowed;pointer-events:none}
 .notif-bell{position:relative}
 .notif-bell .notif-count{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--ruby);color:#fff;font-size:.62rem;font-weight:800;display:flex;align-items:center;justify-content:center;padding:0 5px;border:2px solid #fff;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(220,38,38,.5)}50%{box-shadow:0 0 0 6px rgba(220,38,38,0)}}
 
-/* Plan payment modal styles */
 .plan-pay-summary{background:linear-gradient(135deg,#fefce8,#fef9c3);border:1.5px solid #fde047;border-radius:14px;padding:18px;margin:14px 0}
 .plan-pay-summary h4{font-family:'Playfair Display',serif;font-size:1rem;color:#854d0e;font-weight:800;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .plan-pay-summary .pp-row{display:flex;justify-content:space-between;font-size:.85rem;padding:8px 0;border-bottom:1px dashed #fde047}
 .plan-pay-summary .pp-row:last-child{border-bottom:none;font-weight:800;font-size:1.05rem;color:#854d0e;padding-top:12px;margin-top:6px;border-top:2px solid #fde047}
-
-/* Admin create order modal */
-.admin-create-info{background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;border-radius:12px;padding:14px;margin-bottom:14px;font-size:.82rem;color:var(--text-2);line-height:1.6}
 
 @media (max-width:768px){
   .page{padding:14px}
@@ -503,9 +398,6 @@ main{width:100%;flex:1}
   .footer-grid{grid-template-columns:1fr;text-align:center}
   .footer-col button{text-align:center}
   .modal{padding:20px 16px}
-  .admin-chat-layout{grid-template-columns:1fr;height:auto}
-  .admin-chat-users{max-height:180px}
-  .admin-chat-window{height:440px}
   .notification-stack{top:66px;right:10px;left:10px;max-width:none}
   .ad-banner{padding:14px 16px;gap:12px}
   .ad-banner .ad-icon{width:36px;height:36px;font-size:1.1rem}
@@ -898,7 +790,7 @@ main{width:100%;flex:1}
     <p id="footerBrandContact">shoaibjanax@gmail.com • 03047391349</p>
   </div>
   <div class="footer-divider"></div>
-  <div class="copyright"><span>&copy; 2026 Shoaib .IQ. All rights reserved</span><span class="hidden-dot" id="secretDot" title="">.</span></div>
+  <div class="copyright"><span>&copy; 2026 Shoaib .IQ. All rights reserved</span></div>
 </footer>
 
 <!-- AUTH MODAL -->
@@ -1030,299 +922,6 @@ main{width:100%;flex:1}
   </div>
 </div>
 
-<!-- ADMIN VIEW PAYMENT MODAL -->
-<div class="modal-bg" id="adminViewPaymentModal">
-  <div class="modal medium">
-    <button class="close-x" onclick="closeModal('adminViewPaymentModal')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
-    <h2>Review Payment</h2>
-    <p class="modal-sub">Check user's submitted payment details and approve/reject</p>
-    <div id="adminPayReviewContent"></div>
-    <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap">
-      <button class="btn green" onclick="approvePaymentFromModal()" id="adminApproveBtn"><svg class="icon icon-sm"><use href="#i-check"/></svg> Approve Payment</button>
-      <button class="btn red" onclick="rejectPaymentFromModal()" id="adminRejectBtn"><svg class="icon icon-sm"><use href="#i-close"/></svg> Reject</button>
-    </div>
-  </div>
-</div>
-
-<!-- ADMIN CREATE ORDER MODAL -->
-<div class="modal-bg" id="adminCreateOrderModal">
-  <div class="modal medium">
-    <button class="close-x" onclick="closeModal('adminCreateOrderModal')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
-    <h2>Create Order for User</h2>
-    <p class="modal-sub">Send an order directly to any user's profile — with or without payment</p>
-    <div class="admin-create-info">
-      <strong>💡 Note:</strong> Select a user, service, and quantity. Choose whether the order is <strong>Free</strong> (payment auto-verified) or <strong>Paid</strong> (user must pay, or you can record payment yourself).
-    </div>
-    <label>Select User *</label>
-    <select id="acoUserSelect"></select>
-    <label>Select Service *</label>
-    <select id="acoServiceSelect" onchange="updateAcoTotal()"></select>
-    <label>Word Count / Quantity *</label>
-    <input id="acoWords" type="number" min="1" value="100" oninput="updateAcoTotal()">
-    <label>Payment Type *</label>
-    <select id="acoPaymentType">
-      <option value="free">Free — No payment required (auto-verified)</option>
-      <option value="paid">Paid — User must pay</option>
-      <option value="admin-paid">Admin Records Payment — Mark as paid immediately</option>
-    </select>
-    <label>Special Instructions</label>
-    <textarea id="acoInstructions" rows="2" placeholder="Any notes for the user…"></textarea>
-    <div class="order-summary" style="margin-top:16px">
-      <div class="row"><span>Rate per word</span><span id="acoRate">$0.10</span></div>
-      <div class="row"><span>Quantity</span><span id="acoQty">100</span></div>
-      <div class="row total"><span>Total Amount</span><span id="acoTotal">$10.00</span></div>
-    </div>
-    <button class="btn green block" onclick="adminCreateOrder()" style="margin-top:16px">
-      <svg class="icon icon-md"><use href="#i-user-plus"/></svg> Create Order for User
-    </button>
-  </div>
-</div>
-
-<!-- ADMIN LOGIN -->
-<div class="modal-bg" id="adminLoginModal">
-  <div class="modal small">
-    <button class="close-x" onclick="closeModal('adminLoginModal')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
-    <h2>Admin Access</h2>
-    <p class="modal-sub">Restricted area — authorized personnel only</p>
-    <label>Username</label><input id="admUser" placeholder="Admin username">
-    <label>Password</label><input id="admPass" type="password" placeholder="••••••••" onkeypress="if(event.key==='Enter')doAdminLogin()">
-    <button class="btn block" onclick="doAdminLogin()" style="margin-top:16px"><svg class="icon icon-md"><use href="#i-lock"/></svg> Authenticate</button>
-    <p id="admErr" style="color:var(--ruby);font-size:.82rem;margin-top:12px"></p>
-  </div>
-</div>
-
-<!-- ADMIN PANEL -->
-<div class="modal-bg" id="adminPanel">
-  <div class="modal large">
-    <button class="close-x" onclick="closeModal('adminPanel')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
-    <h2>Admin Control Panel</h2>
-    <p class="modal-sub">Full control over orders, users, chat, services, offers, and content</p>
-    <div class="admin-stats" id="adminStats"></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
-      <button class="btn green" onclick="openAdminCreateOrderModal()"><svg class="icon icon-md"><use href="#i-user-plus"/></svg> Create Order for User</button>
-    </div>
-    <div class="tabs">
-      <button class="tab active" data-tab="pending"   onclick="switchAdminTab('pending')"><svg class="icon icon-sm"><use href="#i-clock"/></svg> Pending</button>
-      <button class="tab" data-tab="progress"  onclick="switchAdminTab('progress')"><svg class="icon icon-sm"><use href="#i-refresh"/></svg> In-Progress</button>
-      <button class="tab" data-tab="completed" onclick="switchAdminTab('completed')"><svg class="icon icon-sm"><use href="#i-check"/></svg> Completed</button>
-      <button class="tab" data-tab="payments"  onclick="switchAdminTab('payments')"><svg class="icon icon-sm"><use href="#i-credit-card"/></svg> Payments</button>
-      <button class="tab" data-tab="plans"     onclick="switchAdminTab('plans')"><svg class="icon icon-sm"><use href="#i-crown"/></svg> Plan Payments</button>
-      <button class="tab" data-tab="newusers"  onclick="switchAdminTab('newusers')"><svg class="icon icon-sm"><use href="#i-user"/></svg> New Users</button>
-      <button class="tab" data-tab="oldusers"  onclick="switchAdminTab('oldusers')"><svg class="icon icon-sm"><use href="#i-users"/></svg> Old Users</button>
-      <button class="tab" data-tab="paidusers" onclick="switchAdminTab('paidusers')"><svg class="icon icon-sm"><use href="#i-crown"/></svg> Paid Plan Users</button>
-      <button class="tab" data-tab="adusers"   onclick="switchAdminTab('adusers')"><svg class="icon icon-sm"><use href="#i-gift"/></svg> Ad / Free Users</button>
-      <button class="tab" data-tab="adminchat" onclick="switchAdminTab('adminchat')"><svg class="icon icon-sm"><use href="#i-chat"/></svg> Live Chat</button>
-      <button class="tab" data-tab="services"  onclick="switchAdminTab('services')"><svg class="icon icon-sm"><use href="#i-package"/></svg> Services</button>
-      <button class="tab" data-tab="offers"    onclick="switchAdminTab('offers')"><svg class="icon icon-sm"><use href="#i-zap"/></svg> Offers / Ad</button>
-      <button class="tab" data-tab="paysettings" onclick="switchAdminTab('paysettings')"><svg class="icon icon-sm"><use href="#i-dollar-sign"/></svg> Payment Settings</button>
-      <button class="tab" data-tab="cms"       onclick="switchAdminTab('cms')"><svg class="icon icon-sm"><use href="#i-settings"/></svg> CMS</button>
-    </div>
-    <div class="tab-content active" id="tab-pending"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Pending Orders</h3><div id="adminPending"></div></div>
-    <div class="tab-content" id="tab-progress"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">In-Progress Orders</h3><div id="adminProgress"></div></div>
-    <div class="tab-content" id="tab-completed"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Completed Orders</h3><div id="adminCompleted"></div></div>
-    <div class="tab-content" id="tab-payments"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Payment Verification</h3><div id="adminPayments"></div></div>
-    <div class="tab-content" id="tab-plans"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Plan Payment Verification</h3><div id="adminPlanPayments"></div></div>
-    <div class="tab-content" id="tab-newusers"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">New Users (under 1 year)</h3><div id="newUsers"></div></div>
-    <div class="tab-content" id="tab-oldusers"><h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Old Users (1 year or more)</h3><div id="oldUsers"></div></div>
-    <div class="tab-content" id="tab-paidusers">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:6px;font-weight:800">💎 Paid Plan Users</h3>
-      <p style="color:var(--text-3);font-size:.82rem;margin-bottom:16px">Users jinhon ne paid subscription liya hai.</p>
-      <div id="paidUsersList"></div>
-    </div>
-    <div class="tab-content" id="tab-adusers">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:6px;font-weight:800">🎁 Ad / Free Users</h3>
-      <p style="color:var(--text-3);font-size:.82rem;margin-bottom:16px">Users jo ads dekh kar free plan use kar rahe hain.</p>
-      <div id="adUsersList"></div>
-    </div>
-    <div class="tab-content" id="tab-adminchat">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Live Chat — User Messages</h3>
-      <div class="admin-chat-layout">
-        <div class="admin-chat-users" id="adminChatUsers"></div>
-        <div class="admin-chat-window">
-          <div class="acw-header" id="acwHeader" style="display:none">
-            <strong id="acwName">User</strong>
-            <div class="acw-actions" id="acwActions"></div>
-          </div>
-          <div class="chat-user-details" id="acwUserDetails" style="display:none"></div>
-          <div class="acw-messages" id="acwMessages"></div>
-          <div class="acw-input" id="acwInput" style="display:none">
-            <button class="admin-chat-plus" onclick="document.getElementById('adminChatFileInput').click()" title="Attach file">
-              <svg class="icon icon-lg"><use href="#i-plus"/></svg>
-            </button>
-            <input type="file" id="adminChatFileInput" style="display:none" onchange="handleAdminChatFileUpload(this)">
-            <input id="acwInputField" placeholder="Type your reply…" onkeypress="if(event.key==='Enter')adminSendReply()">
-            <button class="btn gold sm" onclick="adminSendReply()"><svg class="icon icon-sm"><use href="#i-send"/></svg></button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="tab-content" id="tab-services">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Manage Services</h3>
-      <button class="btn green sm" onclick="openAddServiceModal()" style="margin-bottom:16px"><svg class="icon icon-sm"><use href="#i-plus"/></svg> Add New Service</button>
-      <div id="adminServiceList"></div>
-    </div>
-
-    <div class="tab-content" id="tab-offers">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:6px;font-weight:800">Offer / Ad Banner Management</h3>
-      <p style="color:var(--text-3);font-size:.82rem;margin-bottom:16px">Home page ke top par jo offer banner show hota hai, usay yahan se control karein. Background image bhi laga sakte hain.</p>
-      <label>Banner Enabled?</label>
-      <select id="cmsOfferEnabled">
-        <option value="yes">Yes — Show banner on home page</option>
-        <option value="no">No — Hide banner</option>
-      </select>
-      <label>Banner Icon (any emoji) *</label>
-      <input id="cmsOfferIcon" placeholder="📢" maxlength="4">
-      <label>Offer Title *</label>
-      <input id="cmsOfferTitle">
-      <label>Offer Description * (use {CODE} for promo code)</label>
-      <input id="cmsOfferDesc">
-      <label>Promo Code *</label>
-      <input id="cmsOfferCode">
-      <label>CTA Button Text *</label>
-      <input id="cmsOfferCta">
-      <h4 style="font-size:.92rem;margin:18px 0 8px;color:var(--royal);font-weight:700">Banner Background Image (optional)</h4>
-      <div class="drop-zone" onclick="document.getElementById('offerBgInput').click()">
-        <div class="dz-icon"><svg class="icon icon-xl"><use href="#i-image"/></svg></div>
-        <div class="dz-title">Drop background image or click to upload</div>
-        <div class="dz-hint">PNG, JPG • Max 5MB</div>
-        <img class="img-preview" id="offerBgPreview" alt="">
-      </div>
-      <input type="file" id="offerBgInput" accept="image/*" style="display:none" onchange="handleOfferBg(this)">
-      <button class="btn red sm" onclick="clearOfferBg()" style="margin-bottom:14px">Remove Background Image</button>
-      <button class="btn green block" onclick="saveOfferSettings()" style="margin-top:14px"><svg class="icon icon-md"><use href="#i-check"/></svg> Save Offer Settings</button>
-    </div>
-
-    <div class="tab-content" id="tab-paysettings">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:6px;font-weight:800">Payment Settings (Admin Account Details)</h3>
-      <p style="color:var(--text-3);font-size:.82rem;margin-bottom:16px">Ye details users ko dikhengi jab wo payment karne jayenge.</p>
-      <label>Bank Name *</label>
-      <input id="psBankName" placeholder="e.g. Meezan Bank">
-      <label>Account Title / Name *</label>
-      <input id="psAccountName" placeholder="e.g. Shoaib Ahmed">
-      <label>Account Number / IBAN *</label>
-      <input id="psAccountNumber" placeholder="e.g. PK00MEZN0000000000000000">
-      <label>JazzCash Number</label>
-      <input id="psJazzCash" placeholder="03047391349">
-      <label>EasyPaisa Number</label>
-      <input id="psEasyPaisa" placeholder="03047391349">
-      <label>Extra Instructions (optional)</label>
-      <textarea id="psInstructions" rows="2" placeholder="e.g. Send screenshot after payment"></textarea>
-      <button class="btn green block" onclick="savePaymentSettings()" style="margin-top:20px"><svg class="icon icon-md"><use href="#i-check"/></svg> Save Payment Settings</button>
-    </div>
-
-    <div class="tab-content" id="tab-cms">
-      <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:14px;font-weight:800">Content Management System</h3>
-      <h4 style="font-size:.92rem;margin:18px 0 10px;color:var(--royal);font-weight:700">Company Brand</h4>
-      <label>Brand Name</label><input id="cmsBrandName">
-      <label>Brand Tagline</label><input id="cmsBrandTagline">
-      <label>Company Logo</label>
-      <div class="drop-zone" onclick="document.getElementById('logoInput').click()">
-        <div class="dz-icon"><svg class="icon icon-xl"><use href="#i-image"/></svg></div>
-        <div class="dz-title">Drop logo or click to upload</div>
-        <div class="dz-hint">PNG, JPG • Max 2MB</div>
-        <img class="img-preview" id="logoPreview" alt="">
-      </div>
-      <input type="file" id="logoInput" accept="image/*" style="display:none" onchange="handleLogo(this)">
-      <h4 style="font-size:.92rem;margin:22px 0 10px;color:var(--royal);font-weight:700">Hero Section</h4>
-      <label>Hero Badge</label><input id="cmsHeroBadge">
-      <label>Hero Title (HTML allowed)</label><textarea id="cmsHeroTitle" rows="2"></textarea>
-      <label>Hero Subtitle</label><textarea id="cmsHeroSub" rows="2"></textarea>
-      <label>Hero Background</label>
-      <div class="drop-zone" onclick="document.getElementById('heroBgInput').click()">
-        <div class="dz-icon"><svg class="icon icon-xl"><use href="#i-image"/></svg></div>
-        <div class="dz-title">Drop background or click to upload</div>
-        <div class="dz-hint">PNG, JPG • Max 5MB</div>
-        <img class="img-preview" id="heroBgPreview" alt="">
-      </div>
-      <input type="file" id="heroBgInput" accept="image/*" style="display:none" onchange="handleHeroBg(this)">
-      <h4 style="font-size:.92rem;margin:22px 0 10px;color:var(--royal);font-weight:700">Footer</h4>
-      <label>Footer Brand Name</label><input id="cmsFooterName">
-      <label>Footer Description</label><input id="cmsFooterDesc">
-      <label>Footer Contact</label><input id="cmsFooterContact">
-      <h4 style="font-size:.92rem;margin:22px 0 10px;color:var(--royal);font-weight:700">Footer Custom Links</h4>
-      <p style="font-size:.78rem;color:var(--text-3);margin-bottom:8px">Format: "Label | URL" (ek line per link). Khali chordein agar nahi chahiye.</p>
-      <textarea id="cmsFooterLinks" rows="4" placeholder="Blog | https://example.com/blog&#10;YouTube | https://youtube.com/@shoaibiq"></textarea>
-      <h4 style="font-size:.92rem;margin:22px 0 10px;color:var(--royal);font-weight:700">Industrial Profile</h4>
-      <label>Company Name</label><input id="cmsIndName">
-      <label>Company Tagline</label><input id="cmsIndTagline">
-      <label>Company Description</label><textarea id="cmsIndDesc" rows="3"></textarea>
-      <label>Registration (one per line "Label: Value")</label>
-      <textarea id="cmsIndReg" rows="4"></textarea>
-      <label>Company Logo (Industrial)</label>
-      <div class="drop-zone" onclick="document.getElementById('indLogoInput').click()">
-        <div class="dz-icon"><svg class="icon icon-xl"><use href="#i-image"/></svg></div>
-        <div class="dz-title">Drop logo or click to upload</div>
-        <div class="dz-hint">PNG, JPG • Max 3MB</div>
-        <img class="img-preview" id="indLogoPreview" alt="">
-      </div>
-      <input type="file" id="indLogoInput" accept="image/*" style="display:none" onchange="handleIndLogo(this)">
-      <label>Company Banner</label>
-      <div class="drop-zone" onclick="document.getElementById('indBannerInput').click()">
-        <div class="dz-icon"><svg class="icon icon-xl"><use href="#i-image"/></svg></div>
-        <div class="dz-title">Drop banner or click to upload</div>
-        <div class="dz-hint">PNG, JPG • Max 5MB</div>
-        <img class="img-preview" id="indBannerPreview" alt="">
-      </div>
-      <input type="file" id="indBannerInput" accept="image/*" style="display:none" onchange="handleIndBanner(this)">
-      <button class="btn green block" onclick="saveCMS()" style="margin-top:22px"><svg class="icon icon-md"><use href="#i-check"/></svg> Save All Changes</button>
-    </div>
-  </div>
-</div>
-
-<!-- ADD/EDIT SERVICE MODAL -->
-<div class="modal-bg" id="serviceModal">
-  <div class="modal small">
-    <button class="close-x" onclick="closeModal('serviceModal')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
-    <h2 id="serviceModalTitle">Add New Service</h2>
-    <p class="modal-sub">Fill in the service details</p>
-    <input type="hidden" id="svcEditId">
-    <label>Service Name *</label><input id="svcName">
-    <label>Description *</label><textarea id="svcDesc" rows="2"></textarea>
-    <label>Price per word (USD) *</label><input id="svcPrice" type="number" step="0.01" min="0.01" value="0.10">
-    <label>Icon</label>
-    <select id="svcIcon">
-      <option value="i-globe">Globe</option>
-      <option value="i-mic">Microphone</option>
-      <option value="i-pen-tool">Pen Tool</option>
-      <option value="i-edit-3">Edit</option>
-      <option value="i-bar-chart">Bar Chart</option>
-      <option value="i-palette">Palette</option>
-      <option value="i-file-text">File Text</option>
-      <option value="i-image">Image</option>
-      <option value="i-settings">Settings</option>
-      <option value="i-users">Users</option>
-    </select>
-    <label>Rating (e.g., 4.9)</label><input id="svcRating" type="number" step="0.1" min="1" max="5" value="4.9">
-    <button class="btn green block" onclick="saveService()" style="margin-top:20px"><svg class="icon icon-md"><use href="#i-check"/></svg> Save Service</button>
-  </div>
-</div>
-
-<!-- DELIVERY FORM MODAL -->
-<div class="modal-bg" id="deliveryModal">
-  <div class="modal medium">
-    <button class="close-x" onclick="closeModal('deliveryModal')"><svg class="icon icon-md"><use href="#i-close"/></svg></button>
-    <h2>Deliver Order</h2>
-    <p class="modal-sub">Client ko deliver karne ke liye details bharein</p>
-    <input type="hidden" id="deliveryOrderId">
-    <label>Client Name *</label>
-    <input id="deliveryClientName">
-    <label>Document Link (online URL)</label>
-    <input id="deliveryLink" placeholder="https://drive.google.com/…">
-    <label style="margin-top:18px">Attach Files (optional)</label>
-    <div id="deliveryFileList"></div>
-    <button type="button" class="plus-upload-btn" onclick="document.getElementById('deliveryFileInput').click()">
-      <svg class="icon icon-lg"><use href="#i-plus"/></svg> Add File from Gallery
-    </button>
-    <input type="file" id="deliveryFileInput" multiple style="display:none" onchange="handleDeliveryFiles(this)">
-    <label style="margin-top:18px">Safe Use Instructions</label>
-    <textarea id="deliverySafe" rows="2"></textarea>
-    <button class="btn green block" onclick="confirmDelivery()" style="margin-top:20px">
-      <svg class="icon icon-md"><use href="#i-truck"/></svg> Confirm Delivery
-    </button>
-  </div>
-</div>
-
 <!-- BAN ALERT -->
 <div class="ban-alert" id="banAlert">
   <div class="ban-alert-content">
@@ -1408,12 +1007,7 @@ const PLANS = [
   { name:'Premium',  price:'4000',  features:['All Services','24/7 WhatsApp Support','1-Day Delivery','Unlimited Revisions','Dedicated Manager'], featured:false }
 ];
 
-const ADMIN_USER = 'Sho@#$123';
-const ADMIN_PASS = '123';
-const SECRET_CLICKS = 5;
-const SECRET_WINDOW = 2500;
 const RETURN_WINDOW_MS = 3 * 24 * 60 * 60 * 1000;
-const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
 
 const COUNTRIES = [
   { code:'US', name:'United States', flag:'🇺🇸', currency:'USD', symbol:'$', rate:1, states:['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'] },
@@ -1472,13 +1066,11 @@ let SITE_DATA = {
    ============================================================ */
 let DATA_READY = false;
 
-/* in-memory caches (the rest of the app uses these as "the source of truth" during a session) */
 let _users         = [];
 let _orders        = [];
 let _chats         = {};
 let _planPurchases = [];
 
-/* ---- SAFETY GUARD — data wipe se bachata hai ---- */
 function _guardSave(){
   if (!DATA_READY){
     console.error('[SAVE BLOCKED] Firebase data not loaded — save aborted to prevent data wipe');
@@ -1488,18 +1080,21 @@ function _guardSave(){
   return true;
 }
 
-/* ---- USERS ---- */
 function getUsers(){ return _users; }
 function saveUsers(users){
   if (!_guardSave()) return;
   _users = users || [];
-  firebaseDB.ref('users').set(_users).catch(e => {
+  const updates = {};
+  _users.forEach(u => {
+    if (u && u.id) updates['users/' + u.id] = u;
+  });
+  if (Object.keys(updates).length === 0) return;
+  firebaseDB.ref().update(updates).catch(e => {
     console.error('[saveUsers]', e);
     showToast('Save failed — check Firebase rules', 'error');
   });
 }
 
-/* ---- ORDERS ---- */
 function getOrders(){ return _orders; }
 function saveOrders(orders){
   if (!_guardSave()) return;
@@ -1510,7 +1105,6 @@ function saveOrders(orders){
   });
 }
 
-/* ---- CHATS ---- */
 function getChats(){ return _chats; }
 function saveChats(chats){
   if (!_guardSave()) return;
@@ -1520,7 +1114,6 @@ function saveChats(chats){
   });
 }
 
-/* ---- PLAN PURCHASES ---- */
 function getPlanPurchases(){ return _planPurchases; }
 function savePlanPurchases(list){
   if (!_guardSave()) return;
@@ -1530,7 +1123,6 @@ function savePlanPurchases(list){
   });
 }
 
-/* ---- NOTIFICATIONS ---- */
 function saveNotifications(){
   if (!_guardSave()) return;
   firebaseDB.ref('notifications').set(NOTIFICATIONS).catch(e => {
@@ -1538,7 +1130,6 @@ function saveNotifications(){
   });
 }
 
-/* ---- SITE DATA ---- */
 function saveSiteData(){
   if (!_guardSave()) return;
   firebaseDB.ref('siteData').set(SITE_DATA).catch(e => {
@@ -1547,7 +1138,6 @@ function saveSiteData(){
   });
 }
 
-/* ---- SERVICES ---- */
 function saveServices(){
   if (!_guardSave()) return;
   firebaseDB.ref('services').set(SERVICES).catch(e => {
@@ -1555,7 +1145,6 @@ function saveServices(){
   });
 }
 
-/* ---- SESSION / LOCATION (localStorage) ---- */
 function setSession(user){
   if (user && user.email) localStorage.setItem('psh_session', user.email);
   else localStorage.removeItem('psh_session');
@@ -1568,7 +1157,6 @@ function saveUserLocation(loc){
   else localStorage.removeItem('psh_location');
 }
 
-/* ---- LOAD EVERYTHING FROM FIREBASE ---- */
 async function loadAllDataFromFirebase(){
   const [usersSnap, ordersSnap, chatsSnap, notifSnap, planSnap, siteSnap, svcSnap] = await Promise.all([
     firebaseDB.ref('users').once('value'),
@@ -1580,7 +1168,10 @@ async function loadAllDataFromFirebase(){
     firebaseDB.ref('services').once('value')
   ]);
 
-  _users         = usersSnap.val()    || [];
+  const usersVal = usersSnap.val();
+_users = Array.isArray(usersVal) ? usersVal
+       : (usersVal && typeof usersVal === 'object') ? Object.values(usersVal)
+       : [];
   _orders        = ordersSnap.val()   || [];
   _chats         = chatsSnap.val()    || {};
   _planPurchases = planSnap.val()     || [];
@@ -1606,13 +1197,10 @@ async function loadAllDataFromFirebase(){
     { users:_users.length, orders:_orders.length, chats:Object.keys(_chats).length });
 }
 
-/* ---- RESTORE SESSION ---- */
 function restoreSession(){
-  /* restore location */
   const locRaw = localStorage.getItem('psh_location');
   if (locRaw){ try { USER_LOCATION = JSON.parse(locRaw); } catch(e){} }
 
-  /* restore user session */
   const email = getSessionEmail();
   if (!email) return;
   const u = _users.find(x => x.email === email);
@@ -2759,1008 +2347,16 @@ function sendContact(){
 }
 
 /* ============================================================
-   SECRET ADMIN
-   ============================================================ */
-let clickBuffer = [];
-const secretDot = $('secretDot');
-secretDot.addEventListener('click', (e) => {
-  e.stopPropagation();
-  const t = Date.now();
-  clickBuffer = clickBuffer.filter(ts => t - ts < SECRET_WINDOW);
-  clickBuffer.push(t);
-  secretDot.classList.add('pulse');
-  setTimeout(() => secretDot.classList.remove('pulse'), 300);
-  if (clickBuffer.length >= SECRET_CLICKS){
-    clickBuffer = [];
-    openModal('adminLoginModal');
-  }
-});
-
-/* ============================================================
-   ADMIN LOGIN
-   ============================================================ */
-function doAdminLogin(){
-  const u = $('admUser').value.trim();
-  const p = $('admPass').value;
-  if (u === ADMIN_USER && p === ADMIN_PASS){
-    $('admErr').textContent = '';
-    $('admUser').value = ''; $('admPass').value = '';
-    closeModal('adminLoginModal');
-    openModal('adminPanel');
-    loadAdminData();
-    showToast('Admin logged in');
-  } else {
-    $('admErr').textContent = 'Invalid credentials';
-  }
-}
-function switchAdminTab(tab){
-  document.querySelectorAll('#adminPanel .tab').forEach(x => x.classList.remove('active'));
-  const btn = document.querySelector(`#adminPanel .tab[data-tab="${tab}"]`);
-  if (btn) btn.classList.add('active');
-  document.querySelectorAll('#adminPanel .tab-content').forEach(c => c.classList.remove('active'));
-  const el = $('tab-' + tab);
-  if (el) el.classList.add('active');
-  if (tab === 'adminchat') renderAdminChat();
-  if (tab === 'services') renderAdminServices();
-  if (tab === 'offers') loadOfferToForm();
-  if (tab === 'paysettings') loadPaymentSettingsToForm();
-  if (tab === 'cms') loadCMSToForm();
-  if (tab === 'paidusers') renderPaidUsers();
-  if (tab === 'adusers') renderAdUsers();
-  if (tab === 'plans') renderAdminPlanPayments();
-}
-
-/* ============================================================
-   ADMIN DATA LOAD
-   ============================================================ */
-function loadAdminData(){
-  const orders = getOrders();
-  const users = getUsers();
-  const pending = orders.filter(o => o.status === 'pending').length;
-  const progress = orders.filter(o => o.status === 'in-progress').length;
-  const completed = orders.filter(o => o.status === 'completed').length;
-  const verified = orders.filter(o => o.paymentVerified).length;
-  const newU = users.filter(u => (Date.now() - u.createdAt) <= ONE_YEAR_MS).length;
-  const oldU = users.filter(u => (Date.now() - u.createdAt) > ONE_YEAR_MS).length;
-  $('adminStats').innerHTML = `
-    <div class="admin-stat"><div class="n">${orders.length}</div><div class="l">Total Orders</div></div>
-    <div class="admin-stat"><div class="n">${pending}</div><div class="l">Pending</div></div>
-    <div class="admin-stat"><div class="n">${progress}</div><div class="l">Progress</div></div>
-    <div class="admin-stat"><div class="n">${completed}</div><div class="l">Done</div></div>
-    <div class="admin-stat"><div class="n">${verified}</div><div class="l">Paid</div></div>
-    <div class="admin-stat"><div class="n">${newU}</div><div class="l">New</div></div>
-    <div class="admin-stat"><div class="n">${oldU}</div><div class="l">Old</div></div>
-  `;
-  renderAdminPending(orders.filter(o => o.status === 'pending'));
-  renderAdminProgress(orders.filter(o => o.status === 'in-progress'));
-  renderAdminCompleted(orders.filter(o => o.status === 'completed'));
-  renderAdminPayments(orders);
-  renderAdminPlanPayments();
-  const newUsers = users.filter(u => (Date.now() - u.createdAt) <= ONE_YEAR_MS);
-  const oldUsers = users.filter(u => (Date.now() - u.createdAt) > ONE_YEAR_MS);
-  $('newUsers').innerHTML = newUsers.length ? newUsers.map(renderAdminUser).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No new users</p>';
-  $('oldUsers').innerHTML = oldUsers.length ? oldUsers.map(renderAdminUser).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No old users</p>';
-  renderPaidUsers();
-  renderAdUsers();
-}
-
-function renderAdminPending(list){
-  $('adminPending').innerHTML = list.length ? list.map(o => `
-    <div class="item">
-      <h4>${escapeHtml(o.name)} — ${escapeHtml(o.email)}</h4>
-      <p><svg class="icon icon-sm" style="vertical-align:-3px"><use href="#${o.icon || 'i-cart'}"/></svg> ${escapeHtml(o.service)} | ${o.words} words | ${formatPrice(o.total)}</p>
-      <p>${escapeHtml(o.instructions || '—')}</p>
-      <p style="font-size:.72rem;color:var(--text-3)">${formatDate(o.createdAt)}</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn sm green" onclick="moveOrderStatus('${o.id}','in-progress')"><svg class="icon icon-sm"><use href="#i-arrow-right"/></svg> Start</button>
-        <button class="btn sm red" onclick="deleteOrder('${o.id}')"><svg class="icon icon-sm"><use href="#i-trash"/></svg> Delete</button>
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No pending orders</p>';
-}
-function renderAdminProgress(list){
-  $('adminProgress').innerHTML = list.length ? list.map(o => `
-    <div class="item">
-      <h4>${escapeHtml(o.name)} — ${escapeHtml(o.email)}</h4>
-      <p><svg class="icon icon-sm" style="vertical-align:-3px"><use href="#${o.icon || 'i-cart'}"/></svg> ${escapeHtml(o.service)} | ${formatPrice(o.total)}</p>
-      <p>${escapeHtml(o.instructions || '—')}</p>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn sm green" onclick="openDeliveryModal('${o.id}')"><svg class="icon icon-sm"><use href="#i-truck"/></svg> Mark Complete & Deliver</button>
-        <button class="btn sm gray" onclick="moveOrderStatus('${o.id}','pending')"><svg class="icon icon-sm"><use href="#i-arrow-left"/></svg> Back</button>
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No in-progress orders</p>';
-}
-function renderAdminCompleted(list){
-  $('adminCompleted').innerHTML = list.length ? list.map(o => `
-    <div class="item">
-      <h4>${escapeHtml(o.name)} — ${escapeHtml(o.email)}</h4>
-      <p><svg class="icon icon-sm" style="vertical-align:-3px"><use href="#${o.icon || 'i-cart'}"/></svg> ${escapeHtml(o.service)} | ${formatPrice(o.total)}</p>
-      ${o.deliveryClientName ? `<p style="color:var(--royal);font-weight:600">Client: ${escapeHtml(o.deliveryClientName)}</p>` : ''}
-      ${o.paymentVerified ? '<span class="badge completed">✓ Paid</span>' : (o.paymentProof ? '<span class="badge pending">⏳ Payment Pending</span>' : '<span class="badge danger">⚠ Payment Required</span>')}
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn sm gold" onclick="openDeliveryModal('${o.id}')"><svg class="icon icon-sm"><use href="#i-truck"/></svg> Deliver / Edit</button>
-        <button class="btn sm gray" onclick="moveOrderStatus('${o.id}','in-progress')"><svg class="icon icon-sm"><use href="#i-arrow-left"/></svg> Back</button>
-        ${!o.paymentVerified ? `<button class="btn sm green" onclick="adminMarkOrderPaid('${o.id}')"><svg class="icon icon-sm"><use href="#i-credit-card"/></svg> Record Payment</button>` : ''}
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No completed orders</p>';
-}
-
-/* ============================================================
-   ADMIN — PLAN PAYMENTS
-   ============================================================ */
-function renderAdminPlanPayments(){
-  const box = $('adminPlanPayments');
-  if (!box) return;
-  const purchases = getPlanPurchases();
-  if (!purchases.length){
-    box.innerHTML = '<p style="color:var(--text-3);text-align:center;padding:16px">No plan payments yet.</p>';
-    return;
-  }
-  box.innerHTML = purchases.map(p => {
-    const isVerified = p.paymentVerified;
-    const proof = p.proof || {};
-    return `<div class="payment-review-card">
-      <div class="prc-header">
-        <div>
-          <h4>💎 ${escapeHtml(p.userName)} — ${escapeHtml(p.userEmail)}</h4>
-          <p>Plan: <strong>${escapeHtml(p.planName)}</strong> • ${escapeHtml(p.planPrice)} PKR</p>
-          <p style="font-size:.72rem;color:var(--text-3);margin-top:4px">Submitted: ${formatDate(p.createdAt)}</p>
-        </div>
-        <span class="badge ${isVerified ? 'completed' : 'pending'}">
-          ${isVerified ? '✓ Verified' : '⏳ Pending'}
-        </span>
-      </div>
-      <div class="prc-details">
-        <div class="prc-detail-item"><div class="label">Account Name</div><div class="value">${escapeHtml(proof.accountName || '—')}</div></div>
-        <div class="prc-detail-item"><div class="label">Holder Name</div><div class="value">${escapeHtml(proof.holderName || '—')}</div></div>
-        <div class="prc-detail-item"><div class="label">User Number</div><div class="value">${escapeHtml(proof.userNumber || '—')}</div></div>
-        <div class="prc-detail-item"><div class="label">Date</div><div class="value">${escapeHtml(proof.date || '—')}</div></div>
-        <div class="prc-detail-item"><div class="label">Time</div><div class="value">${escapeHtml(proof.time || '—')}</div></div>
-        <div class="prc-detail-item"><div class="label">TXN ID</div><div class="value">${escapeHtml(proof.txnId || '—')}</div></div>
-      </div>
-      ${proof.proofImage ? `<div style="margin:10px 0"><p style="font-size:.72rem;color:var(--text-3);margin-bottom:6px;font-weight:600">PAYMENT PROOF</p><img class="prc-proof" src="${proof.proofImage}" alt="" onclick="viewImageFull('${proof.proofImage}')"></div>` : ''}
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-        ${!isVerified ? `
-          <button class="btn sm green" onclick="adminVerifyPlanPayment('${p.id}')"><svg class="icon icon-sm"><use href="#i-check"/></svg> Verify & Activate Plan</button>
-          <button class="btn sm red" onclick="adminRejectPlanPayment('${p.id}')"><svg class="icon icon-sm"><use href="#i-close"/></svg> Reject</button>
-        ` : `<button class="btn sm gray" onclick="adminUnverifyPlanPayment('${p.id}')">Unverify</button>`}
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function adminVerifyPlanPayment(purchaseId){
-  const purchases = getPlanPurchases();
-  const p = purchases.find(x => x.id === purchaseId);
-  if (!p) return;
-  p.paymentVerified = true;
-  p.status = 'verified';
-  p.verifiedAt = Date.now();
-  savePlanPurchases(purchases);
-
-  const users = getUsers();
-  const u = users.find(x => x.email === p.userEmail);
-  if (u){
-    u.planType = 'paid';
-    u.planName = p.planName;
-    u.planPrice = p.planPrice;
-    u.planActivatedAt = Date.now();
-    saveUsers(users);
-    if (CURRENT_USER && CURRENT_USER.email === u.email){
-      CURRENT_USER = u;
-      setSession(u);
-    }
-  }
-  loadAdminData();
-  refreshProfilePage();
-  addNotification(p.userEmail, '💎 Plan Activated!', `Your ${p.planName} plan has been activated. Enjoy premium access!`, 'success');
-  showToast('Plan payment verified & activated!');
-}
-
-function adminRejectPlanPayment(purchaseId){
-  const reason = prompt('Rejection reason (user will see this):', 'Payment proof unclear');
-  if (!reason) return;
-  const purchases = getPlanPurchases();
-  const p = purchases.find(x => x.id === purchaseId);
-  if (!p) return;
-  p.paymentVerified = false;
-  p.status = 'rejected';
-  p.rejectionReason = reason;
-  savePlanPurchases(purchases);
-  loadAdminData();
-  addNotification(p.userEmail, '⚠ Plan Payment Rejected', reason, 'warn');
-  showToast('Plan payment rejected.');
-}
-
-function adminUnverifyPlanPayment(purchaseId){
-  if (!confirm('Unverify this plan payment? The user will lose their paid plan status.')) return;
-  const purchases = getPlanPurchases();
-  const p = purchases.find(x => x.id === purchaseId);
-  if (!p) return;
-  p.paymentVerified = false;
-  p.status = 'pending';
-  savePlanPurchases(purchases);
-  const users = getUsers();
-  const u = users.find(x => x.email === p.userEmail);
-  if (u){ u.planType = 'ad'; u.planName = ''; u.planPrice = ''; saveUsers(users); }
-  loadAdminData();
-  refreshProfilePage();
-  showToast('Plan payment unverified.');
-}
-
-/* ============================================================
-   ADMIN — DIRECT PAYMENT RECORD FOR ORDER
-   ============================================================ */
-function adminMarkOrderPaid(orderId){
-  if (!confirm('Record this payment manually? The order will be marked as PAID and the user will be able to download.')) return;
-  const orders = getOrders();
-  const o = orders.find(x => x.id === orderId);
-  if (!o) return;
-  o.paymentVerified = true;
-  o.paymentProof = o.paymentProof || {
-    accountName: 'ADMIN-RECORDED',
-    holderName: 'Admin',
-    userNumber: 'N/A',
-    date: new Date().toISOString().slice(0,10),
-    time: new Date().toTimeString().slice(0,5),
-    txnId: 'ADMIN-' + Date.now(),
-    service: o.service,
-    amount: formatPrice(o.total),
-    amountUSD: o.total,
-    proofImage: '',
-    submittedAt: Date.now(),
-    status: 'verified'
-  };
-  if (o.paymentProof) o.paymentProof.status = 'verified';
-  saveOrders(orders);
-  loadAdminData();
-  refreshProfilePage();
-  addNotification(o.email, '✓ Payment Verified', 'Payment for order ' + o.id + ' was recorded by admin. Download is now unlocked.', 'success');
-  showToast('Payment recorded. User notified.');
-}
-
-/* ============================================================
-   ADMIN — CREATE ORDER FOR USER
-   ============================================================ */
-function openAdminCreateOrderModal(){
-  const users = getUsers();
-  if (!users.length){
-    return showToast('No users registered yet', 'warn');
-  }
-  $('acoUserSelect').innerHTML = users.map(u =>
-    `<option value="${escapeHtml(u.email)}">${escapeHtml(u.name)} (${escapeHtml(u.email)})</option>`
-  ).join('');
-  $('acoServiceSelect').innerHTML = SERVICES.map(s =>
-    `<option value="${s.id}">${escapeHtml(s.title)} — $${Number(s.price).toFixed(2)}/word</option>`
-  ).join('');
-  $('acoWords').value = 100;
-  $('acoPaymentType').value = 'free';
-  $('acoInstructions').value = '';
-  updateAcoTotal();
-  openModal('adminCreateOrderModal');
-}
-
-function updateAcoTotal(){
-  const svc = SERVICES.find(s => s.id === $('acoServiceSelect').value) || SERVICES[0];
-  const qty = Math.max(1, parseInt($('acoWords').value) || 1);
-  const total = qty * svc.price;
-  $('acoRate').textContent = '$' + Number(svc.price).toFixed(2);
-  $('acoQty').textContent = qty;
-  $('acoTotal').textContent = '$' + total.toFixed(2);
-}
-
-function adminCreateOrder(){
-  const email = $('acoUserSelect').value;
-  const serviceId = $('acoServiceSelect').value;
-  const words = Math.max(1, parseInt($('acoWords').value) || 1);
-  const payType = $('acoPaymentType').value;
-  const instructions = $('acoInstructions').value.trim();
-
-  const user = getUsers().find(u => u.email === email);
-  if (!user) return showToast('User not found', 'error');
-  const svc = SERVICES.find(s => s.id === serviceId);
-  if (!svc) return showToast('Service not found', 'error');
-
-  const totalUSD = words * svc.price;
-  const paid = payType === 'free' || payType === 'admin-paid';
-
-  const order = {
-    id: 'ORD-' + Date.now(),
-    service: svc.title, icon: svc.icon,
-    words, total: totalUSD,
-    instructions: instructions || 'Created by admin',
-    status: paid ? 'completed' : 'pending',
-    paymentVerified: paid,
-    createdAt: Date.now(),
-    completedAt: paid ? Date.now() : null,
-    name: user.name,
-    email: user.email,
-    documentUrl: '', safeInstructions: '',
-    deliveryFiles: [], deliveryClientName: '',
-    currency: 'USD', currencySymbol: '$', localTotal: totalUSD,
-    location: user.location || null,
-    paymentProof: paid ? {
-      accountName: payType === 'free' ? 'FREE-ORDER' : 'ADMIN-RECORDED',
-      holderName: payType === 'free' ? 'Admin (Free)' : 'Admin',
-      userNumber: 'N/A',
-      date: new Date().toISOString().slice(0,10),
-      time: new Date().toTimeString().slice(0,5),
-      txnId: payType === 'free' ? 'FREE-' + Date.now() : 'ADMIN-' + Date.now(),
-      service: svc.title,
-      amount: '$' + totalUSD.toFixed(2),
-      amountUSD: totalUSD,
-      proofImage: '',
-      submittedAt: Date.now(),
-      status: 'verified'
-    } : null,
-    createdByAdmin: true
-  };
-
-  const orders = getOrders();
-  orders.unshift(order);
-  saveOrders(orders);
-
-  addNotification(user.email,
-    paid ? '📦 New Order Created (Paid)' : '📦 New Order Created',
-    `Admin created an order for you: ${svc.title} (${words} words). ${paid ? 'Payment verified ✓ — you can download.' : 'Payment required to download.'}`,
-    paid ? 'success' : 'info');
-
-  closeModal('adminCreateOrderModal');
-  loadAdminData();
-  refreshProfilePage();
-  alert(`✅ Order Created for ${user.name}!\n\nService: ${svc.title}\nWords: ${words}\nTotal: $${totalUSD.toFixed(2)}\nPayment: ${paid ? 'VERIFIED (paid/free)' : 'REQUIRED'}\n\nUser will see it in their profile.`);
-  showToast('Order created for ' + user.name);
-}
-
-/* ============================================================
-   ADMIN PAYMENTS — VIEW USER DETAILS
-   ============================================================ */
-let currentAdminReviewOrderId = null;
-function renderAdminPayments(orders){
-  const box = $('adminPayments');
-  const relevant = orders.filter(o => o.status === 'completed' || o.paymentProof);
-  if (!relevant.length){
-    box.innerHTML = '<p style="color:var(--text-3);text-align:center;padding:16px">No payment records yet.</p>';
-    return;
-  }
-  box.innerHTML = relevant.map(o => {
-    const hasProof = !!o.paymentProof;
-    const isVerified = o.paymentVerified;
-    const proof = o.paymentProof || {};
-    return `<div class="payment-review-card">
-      <div class="prc-header">
-        <div>
-          <h4>${escapeHtml(o.name)} — ${escapeHtml(o.email)}</h4>
-          <p>Order ${escapeHtml(o.id)} • ${escapeHtml(o.service)} • ${formatPrice(o.total)}</p>
-          <p style="font-size:.72rem;color:var(--text-3);margin-top:4px">Completed: ${formatDate(o.completedAt)}</p>
-        </div>
-        <span class="badge ${isVerified ? 'completed' : hasProof ? 'pending' : 'danger'}">
-          ${isVerified ? '✓ Verified' : hasProof ? '⏳ Pending Review' : '⚠ No Proof'}
-        </span>
-      </div>
-      ${hasProof ? `
-        <div class="prc-details">
-          <div class="prc-detail-item"><div class="label">Account Name</div><div class="value">${escapeHtml(proof.accountName || '—')}</div></div>
-          <div class="prc-detail-item"><div class="label">Holder Name</div><div class="value">${escapeHtml(proof.holderName || '—')}</div></div>
-          <div class="prc-detail-item"><div class="label">User Number</div><div class="value">${escapeHtml(proof.userNumber || '—')}</div></div>
-          <div class="prc-detail-item"><div class="label">Date</div><div class="value">${escapeHtml(proof.date || '—')}</div></div>
-          <div class="prc-detail-item"><div class="label">Time</div><div class="value">${escapeHtml(proof.time || '—')}</div></div>
-          <div class="prc-detail-item"><div class="label">TXN ID</div><div class="value">${escapeHtml(proof.txnId || '—')}</div></div>
-          <div class="prc-detail-item"><div class="label">Amount</div><div class="value">${escapeHtml(proof.amount || formatPrice(o.total))}</div></div>
-        </div>
-        ${proof.proofImage ? `<div style="margin:10px 0"><p style="font-size:.72rem;color:var(--text-3);margin-bottom:6px;font-weight:600">PAYMENT PROOF</p><img class="prc-proof" src="${proof.proofImage}" alt="" onclick="viewImageFull('${proof.proofImage}')"></div>` : ''}
-      ` : '<p style="color:var(--text-3);font-size:.82rem;padding:10px;text-align:center;background:var(--off-white);border-radius:10px">User has not submitted payment proof yet. You can record payment manually.</p>'}
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
-        ${hasProof && !isVerified ? `
-          <button class="btn sm green" onclick="openAdminPaymentReview('${o.id}')"><svg class="icon icon-sm"><use href="#i-eye"/></svg> View & Verify</button>
-        ` : ''}
-        ${!isVerified ? `<button class="btn sm gold" onclick="adminMarkOrderPaid('${o.id}')"><svg class="icon icon-sm"><use href="#i-credit-card"/></svg> Record Payment (Admin)</button>` : ''}
-        ${isVerified ? `<button class="btn sm red" onclick="unverifyPayment('${o.id}')"><svg class="icon icon-sm"><use href="#i-close"/></svg> Unverify</button>` : ''}
-      </div>
-    </div>`;
-  }).join('');
-}
-function viewImageFull(dataUrl){
-  const w = window.open('');
-  w.document.write(`<html><head><title>Payment Proof</title></head><body style="margin:0;background:#000;display:flex;align-items:center;justify-content:center;min-height:100vh"><img src="${dataUrl}" style="max-width:100%;max-height:100vh"></body></html>`);
-}
-
-function openAdminPaymentReview(orderId){
-  const orders = getOrders();
-  const o = orders.find(x => x.id === orderId);
-  if (!o || !o.paymentProof) return;
-  currentAdminReviewOrderId = orderId;
-  const proof = o.paymentProof;
-  $('adminPayReviewContent').innerHTML = `
-    <div class="item" style="margin-bottom:14px">
-      <h4>User: ${escapeHtml(o.name)}</h4>
-      <p><strong>Email:</strong> ${escapeHtml(o.email)}</p>
-      <p><strong>Order ID:</strong> ${escapeHtml(o.id)}</p>
-      <p><strong>Service:</strong> ${escapeHtml(o.service)}</p>
-      <p><strong>Amount:</strong> ${formatPrice(o.total)}</p>
-    </div>
-    <div class="prc-details" style="margin-bottom:14px">
-      <div class="prc-detail-item"><div class="label">User's Account Name</div><div class="value">${escapeHtml(proof.accountName || '—')}</div></div>
-      <div class="prc-detail-item"><div class="label">Holder Name</div><div class="value">${escapeHtml(proof.holderName || '—')}</div></div>
-      <div class="prc-detail-item"><div class="label">User Number / IBAN</div><div class="value">${escapeHtml(proof.userNumber || '—')}</div></div>
-      <div class="prc-detail-item"><div class="label">Date</div><div class="value">${escapeHtml(proof.date || '—')}</div></div>
-      <div class="prc-detail-item"><div class="label">Time</div><div class="value">${escapeHtml(proof.time || '—')}</div></div>
-      <div class="prc-detail-item"><div class="label">TXN ID</div><div class="value">${escapeHtml(proof.txnId || '—')}</div></div>
-    </div>
-    ${proof.proofImage ? `<p style="font-size:.75rem;color:var(--text-3);margin-bottom:6px;font-weight:600">PAYMENT PROOF SCREENSHOT</p><img src="${proof.proofImage}" style="max-width:100%;max-height:300px;border-radius:12px;border:2px solid var(--border);cursor:pointer" onclick="viewImageFull('${proof.proofImage}')">` : ''}
-  `;
-  $('adminApproveBtn').style.display = 'inline-flex';
-  $('adminRejectBtn').style.display = 'inline-flex';
-  openModal('adminViewPaymentModal');
-}
-function approvePaymentFromModal(){
-  if (!currentAdminReviewOrderId) return;
-  const orders = getOrders();
-  const o = orders.find(x => x.id === currentAdminReviewOrderId);
-  if (!o || !o.paymentProof) return;
-  o.paymentVerified = true;
-  o.paymentProof.status = 'verified';
-  o.paymentProof.verifiedAt = Date.now();
-  saveOrders(orders);
-  closeModal('adminViewPaymentModal');
-  loadAdminData();
-  refreshProfilePage();
-  addNotification(o.email, '✓ Payment Verified!', 'Your payment for order ' + o.id + ' has been verified. Download is now unlocked.', 'success');
-  alert('✅ Payment Approved!\nUser can now download the file.');
-  showToast('Payment verified! User notified.');
-  currentAdminReviewOrderId = null;
-}
-function rejectPaymentFromModal(){
-  const reason = prompt('Reason for rejection (user will see this):', 'Payment proof unclear or invalid');
-  if (!reason) return;
-  const orders = getOrders();
-  const o = orders.find(x => x.id === currentAdminReviewOrderId);
-  if (!o || !o.paymentProof) return;
-  o.paymentVerified = false;
-  o.paymentProof.status = 'rejected';
-  o.paymentProof.rejectionReason = reason;
-  saveOrders(orders);
-  closeModal('adminViewPaymentModal');
-  loadAdminData();
-  refreshProfilePage();
-  addNotification(o.email, '⚠ Payment Rejected', 'Your payment for order ' + o.id + ' was rejected. Reason: ' + reason, 'warn');
-  alert('❌ Payment Rejected!\nUser will be notified.');
-  showToast('Payment rejected. User notified.');
-  currentAdminReviewOrderId = null;
-}
-
-function renderPaidUsers(){
-  const box = $('paidUsersList');
-  if (!box) return;
-  const users = getUsers().filter(u => u.planType === 'paid');
-  box.innerHTML = users.length ? users.map(u => `
-    <div class="item" style="border-left:4px solid var(--emerald)">
-      <h4>💎 ${escapeHtml(u.name)} <span class="badge paid">Paid</span></h4>
-      <p>${escapeHtml(u.email)}</p>
-      <p style="font-size:.75rem;color:var(--text-3)">Plan: ${escapeHtml(u.planName || 'Paid Plan')} • ${escapeHtml(u.planPrice || '—')} PKR</p>
-      <p style="font-size:.72rem;color:var(--text-3)">Activated: ${formatDate(u.planActivatedAt)}</p>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn sm amber" onclick="setUserPlanType('${u.id}','ad')">Move to Ad Plan</button>
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No paid plan users yet.</p>';
-}
-function renderAdUsers(){
-  const box = $('adUsersList');
-  if (!box) return;
-  const users = getUsers().filter(u => u.planType !== 'paid');
-  box.innerHTML = users.length ? users.map(u => `
-    <div class="item" style="border-left:4px solid var(--amber)">
-      <h4>🎁 ${escapeHtml(u.name)} <span class="badge gray">Ad / Free</span></h4>
-      <p>${escapeHtml(u.email)}</p>
-      <p style="font-size:.75rem;color:var(--text-3)">Plan: Ad-based / Free</p>
-      ${u.adTrialUntil ? `<p style="font-size:.72rem;color:var(--text-3)">Trial until: ${formatDate(u.adTrialUntil)}</p>` : ''}
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn sm green" onclick="setUserPlanType('${u.id}','paid')">Mark as Paid</button>
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No ad/free users.</p>';
-}
-function setUserPlanType(userId, type){
-  const users = getUsers();
-  const u = users.find(x => x.id === userId);
-  if (!u) return;
-  u.planType = type;
-  if (type === 'paid'){ u.planName = u.planName || 'Admin Assigned'; u.planActivatedAt = Date.now(); }
-  saveUsers(users);
-  loadAdminData();
-  refreshProfilePage();
-  showToast('User moved to ' + type + ' plan');
-}
-
-function renderAdminUser(u){
-  const months = Math.floor((Date.now() - u.createdAt) / (30 * 24 * 60 * 60 * 1000));
-  const label = months >= 12 ? `${(months/12).toFixed(1)} yrs` : `${months} mo`;
-  const { pct } = getProfileCompletion(u);
-  const planTag = u.planType === 'paid' ? '<span class="badge paid">Paid</span>' : '<span class="badge gray">Ad</span>';
-  return `
-    <div class="item">
-      <h4>${escapeHtml(u.name)} ${u.verified ? '<span class="badge verified">Verified</span>' : '<span class="badge gray">Unverified</span>'} ${u.banned ? '<span class="badge banned">Banned</span>' : ''} ${planTag}</h4>
-      <p>${escapeHtml(u.email)}</p>
-      <p style="font-size:.72rem;color:var(--text-3)">Member for ${label} • Profile ${pct}%</p>
-      ${u.location ? `<p style="font-size:.72rem;color:var(--text-3)"><svg class="icon icon-sm" style="vertical-align:-3px"><use href="#i-map"/></svg> ${escapeHtml(u.location.countryCode)} ${u.location.state ? '— ' + escapeHtml(u.location.state) : ''}</p>` : ''}
-      ${u.banned ? `<p style="font-size:.75rem;color:var(--ruby)"><strong>Ban reason:</strong> ${escapeHtml(u.banReason || '—')}</p>` : ''}
-      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px">
-        ${u.verified ? `<button class="btn sm gray" onclick="toggleUserVerify('${u.id}',false)">Unverify</button>` : `<button class="btn sm green" onclick="toggleUserVerify('${u.id}',true)"><svg class="icon icon-sm"><use href="#i-check"/></svg> Verify</button>`}
-        <button class="btn sm gold" onclick="quickCreateOrderForUser('${u.email}')"><svg class="icon icon-sm"><use href="#i-user-plus"/></svg> Create Order</button>
-        <button class="btn sm amber" onclick="warnUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-alert-triangle"/></svg> Warn</button>
-        ${u.banned ? `<button class="btn sm green" onclick="unbanUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-check"/></svg> Unban</button>` : `<button class="btn sm red" onclick="banUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-slash"/></svg> Ban</button>`}
-        <button class="btn sm red" onclick="deleteUser('${u.id}')"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
-      </div>
-    </div>
-  `;
-}
-
-function quickCreateOrderForUser(email){
-  openAdminCreateOrderModal();
-  setTimeout(() => {
-    const sel = $('acoUserSelect');
-    if (sel) sel.value = email;
-  }, 50);
-}
-
-/* ============================================================
-   ADMIN SERVICES
-   ============================================================ */
-function renderAdminServices(){
-  const box = $('adminServiceList');
-  box.innerHTML = SERVICES.length ? SERVICES.map(s => `
-    <div class="service-manager-item">
-      <div class="smi-icon"><svg class="icon icon-md"><use href="#${s.icon}"/></svg></div>
-      <div class="smi-info"><h4>${escapeHtml(s.title)}</h4><p>${escapeHtml(s.desc)}</p></div>
-      <div class="smi-price">$${Number(s.price).toFixed(2)}/word</div>
-      <div class="smi-actions">
-        <button class="btn sm outline-dark" onclick="openEditServiceModal('${s.id}')"><svg class="icon icon-sm"><use href="#i-edit"/></svg></button>
-        <button class="btn sm red" onclick="deleteService('${s.id}')"><svg class="icon icon-sm"><use href="#i-trash"/></svg></button>
-      </div>
-    </div>
-  `).join('') : '<p style="color:var(--text-3);text-align:center;padding:16px">No services yet.</p>';
-}
-function openAddServiceModal(){
-  $('serviceModalTitle').textContent = 'Add New Service';
-  $('svcEditId').value = '';
-  $('svcName').value = '';
-  $('svcDesc').value = '';
-  $('svcPrice').value = '0.10';
-  $('svcIcon').value = 'i-globe';
-  $('svcRating').value = '4.9';
-  openModal('serviceModal');
-}
-function openEditServiceModal(id){
-  const s = SERVICES.find(x => x.id === id);
-  if (!s) return;
-  $('serviceModalTitle').textContent = 'Edit Service';
-  $('svcEditId').value = id;
-  $('svcName').value = s.title;
-  $('svcDesc').value = s.desc;
-  $('svcPrice').value = s.price;
-  $('svcIcon').value = s.icon;
-  $('svcRating').value = s.rating;
-  openModal('serviceModal');
-}
-function saveService(){
-  const id = $('svcEditId').value;
-  const name = $('svcName').value.trim();
-  const desc = $('svcDesc').value.trim();
-  const price = parseFloat($('svcPrice').value) || 0.10;
-  const icon = $('svcIcon').value;
-  const rating = $('svcRating').value || '4.9';
-  if (!name || !desc) return showToast('Name and description required', 'error');
-  if (id){
-    const idx = SERVICES.findIndex(x => x.id === id);
-    if (idx >= 0) SERVICES[idx] = { ...SERVICES[idx], title:name, desc, price, icon, rating };
-    showToast('Service updated');
-  } else {
-    SERVICES.push({ id: 'svc_' + Date.now(), title:name, desc, price, icon, rating });
-    showToast('Service added');
-  }
-  saveServices();
-  renderAdminServices();
-  renderServices();
-  closeModal('serviceModal');
-}
-function deleteService(id){
-  if (!confirm('Delete this service?')) return;
-  SERVICES = SERVICES.filter(x => x.id !== id);
-  saveServices();
-  renderAdminServices();
-  renderServices();
-  showToast('Service deleted');
-}
-
-/* ============================================================
-   ADMIN OFFERS
-   ============================================================ */
-function loadOfferToForm(){
-  $('cmsOfferEnabled').value = SITE_DATA.offerEnabled ? 'yes' : 'no';
-  $('cmsOfferIcon').value = SITE_DATA.offerIcon || '📢';
-  $('cmsOfferTitle').value = SITE_DATA.offerTitle || '';
-  $('cmsOfferDesc').value = SITE_DATA.offerDesc || '';
-  $('cmsOfferCode').value = SITE_DATA.offerCode || '';
-  $('cmsOfferCta').value = SITE_DATA.offerCta || '';
-  updatePreview('offerBgPreview', SITE_DATA.offerBgDataUrl);
-}
-function saveOfferSettings(){
-  SITE_DATA.offerEnabled = $('cmsOfferEnabled').value === 'yes';
-  SITE_DATA.offerIcon = $('cmsOfferIcon').value.trim() || '📢';
-  SITE_DATA.offerTitle = $('cmsOfferTitle').value.trim() || 'Special Offer!';
-  SITE_DATA.offerDesc = $('cmsOfferDesc').value.trim() || 'Use code {CODE} at checkout.';
-  SITE_DATA.offerCode = $('cmsOfferCode').value.trim() || '';
-  SITE_DATA.offerCta = $('cmsOfferCta').value.trim() || 'Order Now →';
-  adBannerClosed = false;
-  saveSiteData();
-  applyOfferBanner();
-  showToast('Offer / Ad banner updated ✓');
-}
-function handleOfferBg(input){
-  if (!input.files[0]) return;
-  handleFileToDataUrl(input.files[0], d => { SITE_DATA.offerBgDataUrl = d; updatePreview('offerBgPreview', d); saveSiteData(); applyOfferBanner(); }, 5);
-}
-function clearOfferBg(){
-  SITE_DATA.offerBgDataUrl = '';
-  $('offerBgPreview').removeAttribute('src');
-  $('offerBgPreview').classList.remove('visible');
-  saveSiteData();
-  applyOfferBanner();
-  showToast('Background removed');
-}
-
-/* ============================================================
-   ADMIN PAYMENT SETTINGS
-   ============================================================ */
-function loadPaymentSettingsToForm(){
-  const ps = SITE_DATA.paymentSettings || {};
-  $('psBankName').value = ps.bankName || '';
-  $('psAccountName').value = ps.accountName || '';
-  $('psAccountNumber').value = ps.accountNumber || '';
-  $('psJazzCash').value = ps.jazzCash || '';
-  $('psEasyPaisa').value = ps.easyPaisa || '';
-  $('psInstructions').value = ps.instructions || '';
-}
-function savePaymentSettings(){
-  SITE_DATA.paymentSettings = {
-    bankName: $('psBankName').value.trim(),
-    accountName: $('psAccountName').value.trim(),
-    accountNumber: $('psAccountNumber').value.trim(),
-    jazzCash: $('psJazzCash').value.trim(),
-    easyPaisa: $('psEasyPaisa').value.trim(),
-    instructions: $('psInstructions').value.trim()
-  };
-  saveSiteData();
-  showToast('Payment settings saved ✓');
-}
-
-/* ============================================================
-   ADMIN ACTIONS
-   ============================================================ */
-function moveOrderStatus(id, status){
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  o.status = status;
-  if (status === 'completed'){
-    o.completedAt = Date.now();
-    addNotification(o.email, '🎉 Order Completed!', 'Your order ' + o.id + ' has been completed! Please pay to unlock download.', 'success');
-  }
-  saveOrders(orders);
-  loadAdminData();
-  refreshProfilePage();
-  showToast('Order updated');
-}
-function unverifyPayment(id){
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  o.paymentVerified = false;
-  if (o.paymentProof) o.paymentProof.status = 'pending';
-  saveOrders(orders);
-  loadAdminData();
-  refreshProfilePage();
-  showToast('Payment unverified');
-}
-function deleteOrder(id){
-  if (!confirm('Delete this order?')) return;
-  saveOrders(getOrders().filter(x => x.id !== id));
-  loadAdminData();
-  refreshProfilePage();
-  showToast('Order deleted');
-}
-function toggleUserVerify(id, verified){
-  const users = getUsers();
-  const u = users.find(x => x.id === id);
-  if (!u) return;
-  u.verified = verified;
-  saveUsers(users);
-  loadAdminData();
-  showToast(verified ? 'User verified' : 'User unverified');
-}
-function deleteUser(id){
-  if (!confirm('Delete this user?')) return;
-  saveUsers(getUsers().filter(x => x.id !== id));
-  loadAdminData();
-  showToast('User deleted');
-}
-function warnUser(id){
-  const reason = prompt('Warning message for user:');
-  if (!reason) return;
-  const users = getUsers();
-  const u = users.find(x => x.id === id);
-  if (!u) return;
-  if (!u.warnings) u.warnings = [];
-  u.warnings.push({ text: reason, ts: Date.now(), seen: false });
-  saveUsers(users);
-  loadAdminData();
-  addNotification(u.email, '⚠ Warning Issued', reason, 'warn');
-  showToast('Warning sent');
-}
-function banUser(id){
-  const reason = prompt('Ban reason:');
-  if (!reason) return;
-  const users = getUsers();
-  const u = users.find(x => x.id === id);
-  if (!u) return;
-  u.banned = true;
-  u.banReason = reason;
-  saveUsers(users);
-  loadAdminData();
-  showToast('User banned');
-}
-function unbanUser(id){
-  const users = getUsers();
-  const u = users.find(x => x.id === id);
-  if (!u) return;
-  u.banned = false;
-  u.banReason = '';
-  saveUsers(users);
-  loadAdminData();
-  showToast('User unbanned');
-}
-
-/* ============================================================
-   DELIVERY FORM
-   ============================================================ */
-let tempDeliveryFiles = [];
-function openDeliveryModal(orderId){
-  const orders = getOrders();
-  const o = orders.find(x => x.id === orderId);
-  if (!o) return;
-  $('deliveryOrderId').value = orderId;
-  $('deliveryClientName').value = o.deliveryClientName || o.name || '';
-  $('deliveryLink').value = o.documentUrl || '';
-  $('deliverySafe').value = o.safeInstructions || '';
-  tempDeliveryFiles = (o.deliveryFiles || []).slice();
-  renderDeliveryFiles();
-  openModal('deliveryModal');
-}
-function handleDeliveryFiles(input){
-  const files = Array.from(input.files || []);
-  if (!files.length) return;
-  let remaining = files.length;
-  files.forEach(file => {
-    if (file.size > 10 * 1024 * 1024){
-      showToast('File too large: ' + file.name, 'error');
-      remaining--;
-      if (remaining === 0) input.value = '';
-      return;
-    }
-    const r = new FileReader();
-    r.onload = e => {
-      tempDeliveryFiles.push({ name: file.name, size: file.size, type: file.type, dataUrl: e.target.result });
-      renderDeliveryFiles();
-      remaining--;
-      if (remaining === 0) input.value = '';
-    };
-    r.readAsDataURL(file);
-  });
-  showToast(files.length + ' file(s) added');
-}
-function renderDeliveryFiles(){
-  const box = $('deliveryFileList');
-  if (!tempDeliveryFiles.length){
-    box.innerHTML = '<p style="color:var(--text-3);font-size:.78rem;padding:10px;text-align:center;background:var(--off-white);border-radius:10px">No files attached yet</p>';
-    return;
-  }
-  box.innerHTML = tempDeliveryFiles.map((f, i) => `
-    <div class="delivery-file-row">
-      <svg class="icon icon-lg" style="color:var(--royal);flex-shrink:0"><use href="#${f.type && f.type.startsWith('image/') ? 'i-image' : 'i-file-text'}"/></svg>
-      <div class="df-info">
-        <div class="df-name">${escapeHtml(f.name)}</div>
-        <div class="df-meta">${formatBytes(f.size)}</div>
-      </div>
-      <button class="df-remove" onclick="removeDeliveryFile(${i})"><svg class="icon icon-sm"><use href="#i-close"/></svg></button>
-    </div>
-  `).join('');
-}
-function removeDeliveryFile(i){ tempDeliveryFiles.splice(i, 1); renderDeliveryFiles(); }
-function confirmDelivery(){
-  const id = $('deliveryOrderId').value;
-  const clientName = $('deliveryClientName').value.trim();
-  const link = $('deliveryLink').value.trim();
-  const safe = $('deliverySafe').value.trim();
-  if (!clientName) return showToast('Client name required', 'error');
-  const orders = getOrders();
-  const o = orders.find(x => x.id === id);
-  if (!o) return;
-  o.status = 'completed';
-  o.completedAt = Date.now();
-  o.deliveryClientName = clientName;
-  o.documentUrl = link;
-  o.safeInstructions = safe;
-  o.deliveryFiles = tempDeliveryFiles.slice();
-  saveOrders(orders);
-  closeModal('deliveryModal');
-  loadAdminData();
-  refreshProfilePage();
-  addNotification(o.email, '🎉 Order Completed!', 'Your order ' + o.id + ' has been completed! Please pay to unlock download.', 'success');
-  alert('✅ Order Delivered!\nUser ko notification chali gayi.\nAb user payment karke download unlock kar sakta hai.');
-  showToast('Order delivered to ' + clientName + '!');
-}
-
-/* ============================================================
-   ADMIN LIVE CHAT
-   ============================================================ */
-let activeChatKey = null;
-function renderAdminChat(){
-  const chats = getChats();
-  const keys = Object.keys(chats);
-  const usersBox = $('adminChatUsers');
-  if (!keys.length){
-    usersBox.innerHTML = '<p style="color:var(--text-3);padding:20px;text-align:center;font-size:.78rem">No conversations yet</p>';
-    $('acwMessages').innerHTML = '<div class="acw-empty"><svg class="icon icon-2xl"><use href="#i-chat"/></svg><p>No chat selected</p></div>';
-    $('acwHeader').style.display = 'none';
-    $('acwInput').style.display = 'none';
-    $('acwUserDetails').style.display = 'none';
-    return;
-  }
-  keys.sort((a, b) => (chats[b].lastActive || 0) - (chats[a].lastActive || 0));
-  usersBox.innerHTML = keys.map(k => {
-    const c = chats[k];
-    const last = c.messages[c.messages.length - 1];
-    const lastText = last ? (last.text || (last.file ? '📎 ' + last.file.name : '')) : 'No messages';
-    const isOnline = (Date.now() - (c.lastActive || 0)) < 5 * 60 * 1000;
-    const onlineDot = isOnline
-      ? '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#4ade80;margin-right:4px"></span>'
-      : '<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#9ca3af;margin-right:4px"></span>';
-    const locStr = c.location ? (c.location.countryCode + (c.location.state ? ', ' + c.location.state : '')) : '';
-    return `<div class="admin-chat-user ${k === activeChatKey ? 'active' : ''}" onclick="selectAdminChat('${k}')">
-      <div class="acu-name"><span>${onlineDot}${escapeHtml(c.name || 'Guest')}</span>${c.unread ? `<span class="badge danger" style="font-size:.58rem;padding:2px 6px">${c.unread}</span>` : ''}</div>
-      <div class="acu-last">${escapeHtml(lastText.slice(0, 40))}</div>
-      <div style="font-size:.64rem;color:var(--text-3);margin-top:2px">${locStr ? '📍 ' + escapeHtml(locStr) + ' • ' : ''}${escapeHtml(c.currency || 'USD')}</div>
-    </div>`;
-  }).join('');
-  if (!activeChatKey || !chats[activeChatKey]) activeChatKey = keys[0];
-  renderActiveChat();
-}
-function selectAdminChat(key){
-  activeChatKey = key;
-  const chats = getChats();
-  if (chats[key]){ chats[key].unread = 0; saveChats(chats); }
-  renderAdminChat();
-}
-function renderActiveChat(){
-  if (!activeChatKey) return;
-  const chats = getChats();
-  const c = chats[activeChatKey];
-  if (!c) return;
-  $('acwHeader').style.display = 'flex';
-  $('acwInput').style.display = 'flex';
-  $('acwName').textContent = c.name + ' (' + c.email + ')';
-  const user = getUsers().find(u => u.email === c.email);
-  $('acwActions').innerHTML = user ? `
-    <button class="warn" onclick="adminWarnFromChat('${user.id}')"><svg class="icon icon-sm"><use href="#i-alert-triangle"/></svg> Warn</button>
-    <button class="ban" onclick="adminBanFromChat('${user.id}')"><svg class="icon icon-sm"><use href="#i-slash"/></svg> Ban</button>
-  ` : '';
-  const details = $('acwUserDetails');
-  const isOnline = (Date.now() - (c.lastActive || 0)) < 5 * 60 * 1000;
-  details.style.display = 'flex';
-  details.innerHTML = `
-    <div class="cud-item"><span class="${isOnline ? 'online-dot' : 'offline-dot'}"></span> ${isOnline ? 'Online' : 'Offline'}</div>
-    <div class="cud-item"><svg class="icon icon-sm"><use href="#i-user"/></svg> ${user ? (user.verified ? 'Verified' : 'Unverified') : 'Guest'}</div>
-  `;
-  $('acwMessages').innerHTML = c.messages.map(m => {
-    let content = '';
-    if (m.text) content += escapeHtml(m.text);
-    if (m.file) content += `<a class="msg-file" href="${m.file.dataUrl}" download="${escapeHtml(m.file.name)}"><svg class="icon icon-sm"><use href="#i-file-text"/></svg> ${escapeHtml(m.file.name)}</a>`;
-    return `<div class="chat-msg ${m.from === 'user' ? 'user' : 'support'}">${content}<span class="msg-time">${formatTime(m.ts)}</span></div>`;
-  }).join('') || '<div class="acw-empty">No messages</div>';
-  $('acwMessages').scrollTop = $('acwMessages').scrollHeight;
-}
-function adminSendReply(){
-  const input = $('acwInputField');
-  const text = input.value.trim();
-  if (!text || !activeChatKey) return;
-  const chats = getChats();
-  chats[activeChatKey].messages.push({ text, from: 'support', ts: Date.now() });
-  chats[activeChatKey].lastActive = Date.now();
-  saveChats(chats);
-  input.value = '';
-  renderActiveChat();
-}
-function handleAdminChatFileUpload(input){
-  const file = input.files[0];
-  if (!file || !activeChatKey) return;
-  if (file.size > 10 * 1024 * 1024) return showToast('File too large (max 10MB)', 'error');
-  const r = new FileReader();
-  r.onload = e => {
-    const chats = getChats();
-    chats[activeChatKey].messages.push({ file: { name: file.name, size: file.size, type: file.type, dataUrl: e.target.result }, from: 'support', ts: Date.now() });
-    chats[activeChatKey].lastActive = Date.now();
-    saveChats(chats);
-    renderActiveChat();
-    showToast('File sent: ' + file.name);
-  };
-  r.readAsDataURL(file);
-  input.value = '';
-}
-window.handleAdminChatFileUpload = handleAdminChatFileUpload;
-function adminWarnFromChat(userId){ warnUser(userId); }
-function adminBanFromChat(userId){ banUser(userId); }
-
-/* ============================================================
-   CMS
-   ============================================================ */
-function loadCMSToForm(){
-  $('cmsBrandName').value = SITE_DATA.brandName;
-  $('cmsBrandTagline').value = SITE_DATA.brandTagline;
-  $('cmsHeroBadge').value = SITE_DATA.heroBadge;
-  $('cmsHeroTitle').value = SITE_DATA.heroTitle;
-  $('cmsHeroSub').value = SITE_DATA.heroSub;
-  $('cmsFooterName').value = SITE_DATA.footerName;
-  $('cmsFooterDesc').value = SITE_DATA.footerDesc;
-  $('cmsFooterContact').value = SITE_DATA.footerContact;
-  $('cmsFooterLinks').value = SITE_DATA.footerLinks || '';
-  $('cmsIndName').value = SITE_DATA.indName;
-  $('cmsIndTagline').value = SITE_DATA.indTagline;
-  $('cmsIndDesc').value = SITE_DATA.indDesc;
-  $('cmsIndReg').value = SITE_DATA.indReg;
-  updatePreview('logoPreview', SITE_DATA.logoDataUrl);
-  updatePreview('heroBgPreview', SITE_DATA.heroBgDataUrl);
-  updatePreview('indLogoPreview', SITE_DATA.indLogoDataUrl);
-  updatePreview('indBannerPreview', SITE_DATA.indBannerDataUrl);
-}
-function saveCMS(){
-  SITE_DATA.brandName = $('cmsBrandName').value.trim() || SITE_DATA.brandName;
-  SITE_DATA.brandTagline = $('cmsBrandTagline').value.trim() || SITE_DATA.brandTagline;
-  SITE_DATA.heroBadge = $('cmsHeroBadge').value.trim() || SITE_DATA.heroBadge;
-  SITE_DATA.heroTitle = $('cmsHeroTitle').value.trim() || SITE_DATA.heroTitle;
-  SITE_DATA.heroSub = $('cmsHeroSub').value.trim() || SITE_DATA.heroSub;
-  SITE_DATA.footerName = $('cmsFooterName').value.trim() || SITE_DATA.footerName;
-  SITE_DATA.footerDesc = $('cmsFooterDesc').value.trim() || SITE_DATA.footerDesc;
-  SITE_DATA.footerContact = $('cmsFooterContact').value.trim() || SITE_DATA.footerContact;
-  SITE_DATA.footerLinks = $('cmsFooterLinks').value.trim();
-  SITE_DATA.indName = $('cmsIndName').value.trim() || SITE_DATA.indName;
-  SITE_DATA.indTagline = $('cmsIndTagline').value.trim() || SITE_DATA.indTagline;
-  SITE_DATA.indDesc = $('cmsIndDesc').value.trim() || SITE_DATA.indDesc;
-  SITE_DATA.indReg = $('cmsIndReg').value.trim() || SITE_DATA.indReg;
-  saveSiteData();
-  applySiteData();
-  showToast('All CMS changes saved');
-}
-function handleLogo(input){ if (!input.files[0]) return; handleFileToDataUrl(input.files[0], d => { SITE_DATA.logoDataUrl = d; updatePreview('logoPreview', d); }, 2); }
-function handleHeroBg(input){ if (!input.files[0]) return; handleFileToDataUrl(input.files[0], d => { SITE_DATA.heroBgDataUrl = d; updatePreview('heroBgPreview', d); }, 5); }
-function handleIndLogo(input){ if (!input.files[0]) return; handleFileToDataUrl(input.files[0], d => { SITE_DATA.indLogoDataUrl = d; updatePreview('indLogoPreview', d); }, 3); }
-function handleIndBanner(input){ if (!input.files[0]) return; handleFileToDataUrl(input.files[0], d => { SITE_DATA.indBannerDataUrl = d; updatePreview('indBannerPreview', d); }, 5); }
-
-/* ============================================================
    INIT
    ============================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
-  console.log('%cShoaib .IQ starting...','color:#c9a227;font-weight:900');
-  console.log('%cAdmin: Click the "." at end of copyright 5 times','color:#3b5bdb;font-weight:600');
-  console.log('%cCredentials: Sho@#$123 / 123','color:#3b5bdb;font-weight:600');
+  console.log('%cShoaib .IQ (User Panel) starting...','color:#c9a227;font-weight:900');
+  console.log('%cAdmin panel has been removed from this file.','color:#3b5bdb;font-weight:600');
 
   try {
     await loadAllDataFromFirebase();
     restoreSession();
 
-    /* Apply data to UI */
     applySiteData();
     renderServices();
     renderPlans();
@@ -3777,7 +2373,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   } catch (err) {
     console.error('Init error:', err);
     showToast('Failed to load data — check your Firebase database rules', 'error');
-    /* Fall back to defaults so page still works */
     applySiteData();
     renderServices();
     renderPlans();
@@ -3797,40 +2392,39 @@ window.openAuthModal = openAuthModal;
 window.showPage = showPage;
 window.menuGo = menuGo;
 window.openLocationModal = openLocationModal;
-window.openAddServiceModal = openAddServiceModal;
-window.openEditServiceModal = openEditServiceModal;
-window.deleteService = deleteService;
 window.selectCountry = selectCountry;
 window.updateStateChoice = updateStateChoice;
 window.openPaymentProofModal = openPaymentProofModal;
 window.handlePaymentProof = handlePaymentProof;
 window.submitPaymentProof = submitPaymentProof;
-window.openAdminPaymentReview = openAdminPaymentReview;
-window.approvePaymentFromModal = approvePaymentFromModal;
-window.rejectPaymentFromModal = rejectPaymentFromModal;
-window.viewImageFull = viewImageFull;
 window.dismissNotification = dismissNotification;
 window.toggleNotifications = toggleNotifications;
 window.closeAdBanner = closeAdBanner;
-window.saveOfferSettings = saveOfferSettings;
-window.loadOfferToForm = loadOfferToForm;
 window.shareProfile = shareProfile;
-window.setUserPlanType = setUserPlanType;
 window.handleOrderClick = handleOrderClick;
-window.savePaymentSettings = savePaymentSettings;
-window.loadPaymentSettingsToForm = loadPaymentSettingsToForm;
-window.clearOfferBg = clearOfferBg;
-window.handleOfferBg = handleOfferBg;
 window.choosePlan = choosePlan;
 window.openPlanPaymentModal = openPlanPaymentModal;
-window.adminVerifyPlanPayment = adminVerifyPlanPayment;
-window.adminRejectPlanPayment = adminRejectPlanPayment;
-window.adminUnverifyPlanPayment = adminUnverifyPlanPayment;
-window.adminMarkOrderPaid = adminMarkOrderPaid;
-window.openAdminCreateOrderModal = openAdminCreateOrderModal;
-window.adminCreateOrder = adminCreateOrder;
-window.updateAcoTotal = updateAcoTotal;
-window.quickCreateOrderForUser = quickCreateOrderForUser;
+window.openEditProfile = openEditProfile;
+window.saveEditProfile = saveEditProfile;
+window.handleEpDp = handleEpDp;
+window.handleEpBanner = handleEpBanner;
+window.handleEpCv = handleEpCv;
+window.handleEpPort = handleEpPort;
+window.doLogin = doLogin;
+window.doSignup = doSignup;
+window.doLogout = doLogout;
+window.switchAuthTab = switchAuthTab;
+window.toggleFAQ = toggleFAQ;
+window.sendContact = sendContact;
+window.placeOrder = placeOrder;
+window.calculateTotal = calculateTotal;
+window.updateOrderForm = updateOrderForm;
+window.handleServiceClick = handleServiceClick;
+window.requestRevision = requestRevision;
+window.unlockFreeTrial = unlockFreeTrial;
+window.closeMenu = closeMenu;
+window.confirmLocation = confirmLocation;
+window.sendUserMessage = sendUserMessage;
 </script>
 </body>
 </html>
