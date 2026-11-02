@@ -246,35 +246,52 @@ select.cur{width:auto;flex:none}.nav .btn{white-space:nowrap}.nav{min-width:0}
 <div class="msgs" id="msgs" aria-live="polite"></div>
 <div class="cf"><label class="ib" for="fi" title="Attach file"><svg class="i"><use href="#clip"/></svg></label><input type="file" id="fi" hidden><input id="ci" placeholder="Type your message…" aria-label="Message" autocomplete="off"><button class="ib" id="csend" aria-label="Send" style="background:var(--gg);color:#1a1405"><svg class="i"><use href="#send"/></svg></button></div></aside>
 <div class="toast" id="ts" role="status"></div>
-<script>// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyB5h-ltxhulwY3AHubPOg-GDzAn4TYCp2M",
-  authDomain: "shoaib-iq.firebaseapp.com",
-  databaseURL: "https://shoaib-iq-default-rtdb.firebaseio.com/",
-  projectId: "shoaib-iq",
-  storageBucket: "shoaib-iq.firebasestorage.app",
-  messagingSenderId: "620967955154",
-  appId: "1:620967955154:web:bb4c2ed41e41b1872c7b0b",
-  measurementId: "G-VRJE4LES7C"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-/* ===== shoaib.iq front-end (no backend). Storage = localStorage.
+/* ===== Firebase Realtime Database storage (replaces localStorage) =====
+   Sara data DB ke 'siq/<key>' path par JSON string ki tarah save hota hai.
+   Sirf login session aur currency (is device ki setting) browser mein rehti hai. */
+const firebaseConfig={apiKey:"AIzaSyB5h-ltxhulwY3AHubPOg-GDzAn4TYCp2M",authDomain:"shoaib-iq.firebaseapp.com",databaseURL:"https://shoaib-iq-default-rtdb.firebaseio.com",projectId:"shoaib-iq",storageBucket:"shoaib-iq.firebasestorage.app",messagingSenderId:"620967955154",appId:"1:620967955154:web:bb4c2ed41e41b1872c7b0b",measurementId:"G-VRJE4LES7C"};
+firebase.initializeApp(firebaseConfig);
+const DB=firebase.database().ref('siq');
+const DEVICE_KEYS=['siq_sess','siq_cur'];
+const CACHE={};
+const LS={
+ get(k,d){
+  if(DEVICE_KEYS.includes(k)){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+  const s=CACHE[k];if(s===undefined||s===null)return d;
+  try{const v=JSON.parse(s);return v===null?d:v}catch(e){return d}
+ },
+ set(k,v){
+  if(DEVICE_KEYS.includes(k)){try{if(v===null)localStorage.removeItem(k);else localStorage.setItem(k,JSON.stringify(v));return true}catch(e){return false}}
+  try{const s=JSON.stringify(v);CACHE[k]=s;DB.child(k).set(s).catch(e=>{try{toast('Database save failed: '+e.message)}catch(_){}});return true}
+  catch(e){try{toast('Could not save data')}catch(_){}return false}
+ },
+ del(k){delete CACHE[k];DB.child(k).remove().catch(()=>{})},
+ keys(){return Object.keys(CACHE)}
+};
+const FBREADY=new Promise(res=>{
+ let done=false;
+ const fail=m=>{if(done)return;done=true;document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;inset:0;z-index:99999;background:#0b0b0f;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font:16px/1.6 system-ui,sans-serif"><div><h2 style="margin-bottom:10px">Database connect nahi ho paya</h2><p style="opacity:.75;max-width:460px">'+String(m).replace(/</g,'&lt;')+'</p><p style="opacity:.6;margin-top:10px;font-size:14px">Internet check karein aur Firebase Realtime Database ke Rules mein read/write allow karein, phir page reload karein.</p></div></div>');res(false)};
+ const t=setTimeout(()=>fail('Connection timeout.'),15000);
+ DB.once('value').then(snap=>{
+  if(done)return;done=true;clearTimeout(t);
+  Object.assign(CACHE,snap.val()||{});
+  const upd=s=>{const k=s.key,v=s.val();if(CACHE[k]===v)return;CACHE[k]=v;window.dispatchEvent(new CustomEvent('siq-change',{detail:{key:k}}))};
+  DB.on('child_added',upd);DB.on('child_changed',upd);
+  DB.on('child_removed',s=>{delete CACHE[s.key];window.dispatchEvent(new CustomEvent('siq-change',{detail:{key:s.key}}))});
+  res(true);
+ }).catch(e=>{clearTimeout(t);fail(e&&e.message||e)});
+});
+</script>
+
+<script type="text/plain" id="app-src">
+/* ===== shoaib.iq front-end. Storage = Firebase Realtime Database.
    INTEGRATION POINTS: Auth (signUp/logIn/reset), saveOrders, pays, chat → replace with your API/Firebase later. ===== */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
-const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('Could not save — browser storage is full or blocked');return false}}};
 function toast(t){const e=$('#ts');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3000)}
 let users=LS.get('siq_users',{}),orders=LS.get('siq_orders',[]),pays=LS.get('siq_pays',[]),sess=LS.get('siq_sess',null),cur=LS.get('siq_cur','USD'),afterAuth=null,nc=0,unread=0,acked=false;
 if(sess&&!users[sess])sess=null;
@@ -404,7 +421,7 @@ const BL=()=>LS.get('siq_blacklist',[]),dg=s=>String(s||'').replace(/\D/g,'');
 const blocked=(em,ph)=>BL().find(x=>x.email===em||(ph&&x.phone&&dg(x.phone)===dg(ph)));
 const banInfo=u=>u&&u.ban&&(!u.ban.until||Date.now()<u.ban.until)?u.ban:null;
 function ov(h){let o=$('#mdo');if(!o){o=document.createElement('div');o.id='mdo';o.style.cssText='position:fixed;inset:0;z-index:999;background:rgba(0,0,0,.85);display:grid;place-items:center;padding:20px';document.body.appendChild(o)}o.innerHTML='<div class="glass" style="max-width:440px;padding:30px;text-align:center;background:var(--bg2)">'+h+'</div>';return o}
-function guard(){users=LS.get('siq_users',{});const u=sess&&users[sess];if(!u)return;const bl=blocked(sess,u.phone),b=bl||banInfo(u);
+function guard(){users=LS.get('siq_users',{});const u=sess&&users[sess];if(!u){if(sess){sess=null;LS.set('siq_sess',null);renderAuth()}return}const bl=blocked(sess,u.phone),b=bl||banInfo(u);
  if(b){sess=null;LS.set('siq_sess',null);renderAuth();show('home');closeAll();const o=ov('<h2 style="margin-bottom:10px">Account '+(bl?'blacklisted':'suspended')+'</h2><p style="color:var(--mu);margin-bottom:18px">'+esc(b.reason||'Policy violation')+(b.until?'<br>Until '+dt(b.until):'')+'</p><button class="btn b2" id="mdx">Close</button>');o.querySelector('#mdx').onclick=()=>o.remove();return}
  const i=(u.warns||[]).findIndex(w=>!w.ack);if(i>-1&&!$('#mdo')){const o=ov('<h2 style="margin-bottom:10px">⚠ Warning from admin</h2><p style="margin-bottom:18px">'+esc(u.warns[i].msg)+'</p><button class="btn b1" id="mdx">I understand</button>');o.querySelector('#mdx').onclick=()=>{users=LS.get('siq_users',{});const w=users[sess]&&users[sess].warns;if(w&&w[i])w[i].ack=Date.now();LS.set('siq_users',users);o.remove()}}}
 function loadChat(){const g={text:'Hi 👋 Share your project details and our team will reply here.',at:Date.now(),me:false};ms.innerHTML='';bubble(g);LS.get('siq_chat',[]).filter(m=>m.email===sess).forEach(bubble)}
@@ -417,8 +434,11 @@ function brand(){const b=LS.get('siq_brand',null)||{},ok=v=>typeof v==='string'&
  if(hi){if(hi.dataset.s!==hr){hi.dataset.s=hr;if(hr)hi.src=hr;else hi.removeAttribute('src')}hi.hidden=!hr;st.classList.toggle('hasimg',!!hr)}
  let f=$('#favi');if(lg){if(!f){f=document.createElement('link');f.id='favi';f.rel='icon';document.head.appendChild(f)}if(f.getAttribute('href')!==lg)f.href=lg}else if(f)f.remove()}
 function sync(){guard();syncChat();ann();brand()}
-addEventListener('storage',e=>{if(e.key==='siq_services'){const n=LS.get('siq_services',null);if(n){SV.length=0;SV.push(...n);renderSV();calc()}}sync()});
+addEventListener('siq-change',e=>{const k=e.detail.key;if(k==='siq_services'){const n=LS.get('siq_services',null);if(n){SV.length=0;SV.push(...n);renderSV();calc()}}if(k==='siq_orders')orders=LS.get('siq_orders',[]);if(k==='siq_pays')pays=LS.get('siq_pays',[]);if(k==='siq_users')users=LS.get('siq_users',{});if((k==='siq_orders'||k==='siq_pays')&&sess&&!$('#acct').hidden)renderAcct();sync()});
 setInterval(sync,2500);sync();
 
+</script>
+<script>
+FBREADY.then(ok=>{if(!ok)return;const s=document.createElement('script');s.textContent=document.getElementById('app-src').textContent;document.body.appendChild(s)});
 </script>
 </body></html>
