@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PuritiK— Digital solutions&Industrial Programs | Premium Digital Services</title>
+<title>ShoaibScale.Online — Digital solutions | Premium Digital Services</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#080b16;--bg2:#0f1425;--bg3:#171d33;--gold:#c9a227;--gold2:#e8d08a;--tx:#eef0f7;--mu:#9aa2bd;--ln:rgba(201,162,39,.2);--ok:#34d399;--r:18px;--gg:linear-gradient(120deg,#a8841c,#e8d08a 45%,#c9a227)}
@@ -17,8 +17,8 @@ svg.i{width:1.15em;height:1.15em;fill:none;stroke:currentColor;stroke-width:2;st
 .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;transition:.25s}
 .b1{background:var(--gg);color:#1a1405;box-shadow:0 8px 24px rgba(201,162,39,.3)}.b1:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(201,162,39,.45)}
 .b2{border:1px solid var(--ln);background:rgba(255,255,255,.04)}.b2:hover{border-color:var(--gold)}
+.b2[disabled]{opacity:.45;cursor:not-allowed}
 .sh{max-width:620px;margin-bottom:38px}.sh h2{font-size:clamp(28px,4vw,42px);margin-bottom:10px}.sh p{color:var(--mu)}
-/* header */
 header{position:sticky;top:0;z-index:50;background:rgba(8,11,22,.7);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--ln)}
 .nav{display:flex;align-items:center;gap:18px;height:68px}.logo{display:flex;align-items:center;gap:10px;font:700 21px 'Playfair Display',serif}
 .lm{width:34px;height:34px;flex:none}.lt{display:flex;flex-direction:column;line-height:1.1}.lt small{font:500 10.5px Inter,sans-serif;color:var(--gold2);letter-spacing:.14em;margin-top:3px}.nav nav{display:flex;gap:26px;margin-left:auto;color:var(--mu);font-weight:500}.nav nav a:hover{color:var(--gold2)}
@@ -28,7 +28,6 @@ header{position:sticky;top:0;z-index:50;background:rgba(8,11,22,.7);backdrop-fil
 .burger{display:none}.drawer{overflow:auto;position:fixed;inset:0 0 0 auto;width:min(320px,86vw);background:var(--bg2);z-index:70;transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.9,.3,1);padding:24px;border-left:1px solid var(--ln);display:flex;flex-direction:column;gap:6px}
 .drawer.on{transform:none}.drawer a{padding:14px 10px;border-bottom:1px solid var(--ln);font-weight:500}.scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:60;opacity:0;pointer-events:none;transition:.3s}.scrim.on{opacity:1;pointer-events:auto}
 select.cur{background:var(--bg3);color:var(--tx);border:1px solid var(--ln);border-radius:999px;padding:8px 12px;font:inherit}
-/* hero */
 .hero{padding:90px 0 70px}.hg{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center}
 .hero h1{font-size:clamp(38px,6vw,68px);margin-bottom:18px}.hero p.l{color:var(--mu);font-size:18px;max-width:540px;margin-bottom:28px}
 .acts{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px}.av{display:flex;align-items:center;gap:14px;color:var(--mu);font-size:14px}
@@ -38,7 +37,6 @@ select.cur{background:var(--bg3);color:var(--tx);border:1px solid var(--ln);bord
 .stage .glass:nth-child(1){top:6%;left:4%}.stage .glass:nth-child(2){top:36%;right:0;animation-delay:-2s}.stage .glass:nth-child(3){bottom:20%;left:10%;animation-delay:-4s}.stage .glass:nth-child(4){bottom:0;right:8%;animation-delay:-1s}
 .ico{width:44px;height:44px;border-radius:12px;background:rgba(201,162,39,.14);color:var(--gold2);display:grid;place-items:center}
 @keyframes fl{50%{transform:translateY(-14px)}}
-/* services */
 .grid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
 .card{position:relative;padding:26px;border-radius:var(--r);background:var(--bg2);transition:transform .35s,box-shadow .35s;isolation:isolate}
 .card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:conic-gradient(from var(--a,0deg),transparent 60%,var(--gold),transparent);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:spin 5s linear infinite;opacity:.55;z-index:-1}
@@ -47,7 +45,6 @@ select.cur{background:var(--bg3);color:var(--tx);border:1px solid var(--ln);bord
 .rt{color:var(--gold);font-size:13px;margin:10px 0;display:flex;align-items:center;gap:6px}.rt span{color:var(--mu)}
 .pr{display:flex;align-items:center;justify-content:space-between;margin-top:14px}.pr b{font:700 26px 'Playfair Display'}.pr small{display:block;color:var(--mu);font:12px Inter}
 .case h3{margin:14px 0 2px}.cl{color:var(--gold2);font-size:13px;margin-bottom:10px}.case p{min-height:72px}.case ul{list-style:none;border-top:1px solid var(--ln);margin-top:12px;padding-top:12px;display:grid;gap:6px;font-size:13.5px}.case li svg{color:var(--ok)}
-/* chat */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
 .chat{display:flex;flex-direction:column;height:520px;overflow:hidden}.ch{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--ln)}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(52,211,153,.6);animation:pu 2s infinite}@keyframes pu{70%{box-shadow:0 0 0 9px transparent}}
@@ -58,33 +55,23 @@ select.cur{background:var(--bg3);color:var(--tx);border:1px solid var(--ln);bord
 .typ{align-self:flex-start;color:var(--mu);font-size:12px}.cf{display:flex;gap:8px;padding:12px;border-top:1px solid var(--ln)}
 input,select,textarea{font:inherit;color:var(--tx);background:var(--bg);border:1px solid var(--ln);border-radius:12px;padding:11px 14px;width:100%}input:focus,textarea:focus,select:focus{border-color:var(--gold);outline:0}
 .ib{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;border:1px solid var(--ln)}
-.info{padding:22px}.info dl{display:grid;grid-template-columns:auto 1fr;gap:10px 18px;margin-top:14px}.info dt{color:var(--mu)}.info dd{text-align:right;font-weight:500}
-/* dashboard */
 .pb{height:9px;background:var(--bg3);border-radius:9px;overflow:hidden;margin:10px 0}.pb i{display:block;height:100%;background:var(--gg);border-radius:9px;transition:width 1s}
 .ord{padding:18px;margin-top:14px}.ord .top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.tag{font-size:12px;padding:3px 10px;border-radius:99px;background:rgba(201,162,39,.15);color:var(--gold2)}.tag.ok{background:rgba(52,211,153,.15);color:var(--ok)}
 .cd{display:flex;gap:8px;margin-top:12px}.cd div{flex:1;text-align:center;background:var(--bg);border-radius:10px;padding:8px 0;font:700 20px 'Playfair Display'}.cd small{display:block;font:11px Inter;color:var(--mu)}
 .cd.x div{opacity:.4}
-/* calc & forms */
 .calc{padding:28px}.opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}.opts label{display:flex;gap:10px;align-items:center;padding:12px;border:1px solid var(--ln);border-radius:12px;cursor:pointer;font-size:14px}.opts input{width:auto;accent-color:var(--gold)}
 input[type=range]{padding:0;accent-color:var(--gold)}.tot{font:700 44px 'Playfair Display';margin-top:8px}
 .fl{display:flex;flex-direction:column;gap:12px}.fl label{font-size:13px;color:var(--mu)}
-/* reviews */
-.car{overflow:hidden}.trk{display:flex;transition:transform .6s cubic-bezier(.2,.9,.3,1)}.rv{flex:0 0 100%;padding:30px;text-align:center}.rv p{font:600 clamp(18px,2.4vw,24px) 'Playfair Display',serif;max-width:720px;margin:14px auto}
-.dots{display:flex;justify-content:center;gap:8px;margin-top:16px}.dots button{width:9px;height:9px;border-radius:50%;background:var(--bg3)}.dots .on{background:var(--gold);width:26px;border-radius:9px;transition:.3s}
 details{border-bottom:1px solid var(--ln);padding:18px 4px}summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between}summary::after{content:"+";color:var(--gold);font-size:22px;line-height:1;transition:.3s}details[open] summary::after{transform:rotate(45deg)}details p{color:var(--mu);margin-top:10px}
 .comp{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}.comp div{padding:22px}.comp h3{font:600 16px Inter;margin:10px 0 4px}.comp p{color:var(--mu);font-size:13px}
-/* modal/toast */
 .mod.wide .glass{width:min(720px,100%)}.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.mh h3{font-size:24px}.bd{color:var(--mu)}
 .tabs{display:flex;background:var(--bg);border-radius:99px;padding:4px;margin-bottom:14px}.tabs button{flex:1;padding:9px;border-radius:99px;color:var(--mu);font-weight:600;transition:.25s}.tabs .on{background:var(--gg);color:#1a1405}
 .er{color:#f87171;font-size:13px;min-height:0}.er:empty{display:none}.tc h4{color:var(--tx);margin:16px 0 4px;font:600 16px Inter}.tc p{margin:0}
-.su{display:none}.reg .su{display:block}
-
 .mod{position:fixed;inset:0;z-index:90;display:none;place-items:center;background:rgba(0,0,0,.65);padding:16px}.mod.on{display:grid}.mod .glass{background:var(--bg2);width:min(460px,100%);padding:26px;max-height:92vh;overflow:auto;animation:pop .35s}
 .toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,120px);background:var(--bg2);border:1px solid var(--gold);padding:12px 20px;border-radius:99px;z-index:99;transition:.4s}.toast.on{transform:translate(-50%,0)}
 footer{border-top:1px solid var(--ln);padding:36px 0;color:var(--mu);font-size:13px}
 @media(max-width:860px){.hg,.two{grid-template-columns:1fr}.stage{height:300px}.nav nav,.nav .hd{display:none}.burger{display:grid}.opts{grid-template-columns:1fr}section{padding:60px 0}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
 [hidden]{display:none!important}.burger{position:relative}.ud,.nb{background:#ef4444;border-radius:99px}.ud{position:absolute;top:2px;right:2px;width:10px;height:10px}.nb{font-size:11px;padding:1px 7px;margin-left:6px}
 body:not([data-auth]) .o-in,body[data-auth] .o-out{display:none!important}.mi{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--gg);color:#1a1405;font-size:12px;margin-right:6px}
 section[id],#myorders{scroll-margin-top:76px}.stage .glass b{font-size:19px}.hero .stage .glass small{font-size:12.5px}
@@ -101,21 +88,42 @@ input[type=radio],input[type=checkbox]{width:auto;margin:0;accent-color:var(--go
 .bdg{font-size:12px;padding:3px 11px;border-radius:99px;border:1px solid currentColor;background:rgba(255,255,255,.04);white-space:nowrap}.st-new{color:#60a5fa}.st-processing{color:var(--gold2)}.st-awaiting-payment{color:#fb923c}.st-delivered{color:var(--ok)}.st-completed{color:#2dd4bf}.st-revision-requested{color:#c084fc}
 .hi{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--ln);font-size:14px;flex-wrap:wrap}
 @media(max-width:860px){.cg,.stats{grid-template-columns:1fr 1fr}.cg{grid-template-columns:1fr}.r2{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}}
-
-/* ---- admin-controlled branding (logo + hero image) ---- */
 .logo img.lmg{height:38px;width:auto;max-width:160px;object-fit:contain;flex:none;border-radius:8px}
 .stage .glass{z-index:1}
 .stage .heroimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:var(--r);border:1px solid var(--ln);box-shadow:0 18px 50px rgba(0,0,0,.35);z-index:0}
 .stage.hasimg::after{content:"";position:absolute;inset:0;border-radius:var(--r);background:linear-gradient(180deg,rgba(8,11,22,.05),rgba(8,11,22,.55));z-index:0;pointer-events:none}
-/* header fit: currency select was stretching to 100% and wrapping the auth buttons */
 select.cur{width:auto;flex:none}.nav .btn{white-space:nowrap}.nav{min-width:0}
 @media(min-width:861px){#ha{display:flex;gap:8px}}
+.dlv{margin-top:12px;padding:14px;border:1px solid var(--ln);border-radius:14px;background:rgba(201,162,39,.06)}
+.dlv .dh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}.dlv .dh small{color:var(--mu)}
+.dn{background:var(--bg);border-radius:10px;padding:10px 12px;white-space:pre-wrap;font-size:14px;margin-bottom:10px;word-break:break-word}
+.dn span{display:block;color:var(--gold2);font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.dfs{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start}
+.fth{width:132px;display:flex;flex-direction:column;gap:5px;font-size:12px}.fth a.im{display:block;height:96px;border-radius:10px;overflow:hidden;border:1px solid var(--ln)}.fth img{width:100%;height:100%;object-fit:cover;display:block}
+.fdl{color:var(--gold2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fchip{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--ln);border-radius:999px;font-size:13px;background:rgba(255,255,255,.04);max-width:100%;word-break:break-all}.fchip:hover{border-color:var(--gold)}
+.lbx{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px;cursor:zoom-out}.lbx img{max-width:94vw;max-height:80vh;border-radius:10px}
+.mod.pv .glass{width:min(1180px,100%);padding:22px}
+.pv-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;height:min(72vh,680px)}
+.pv-col{display:flex;flex-direction:column;min-height:0}
+.pv-col>b{font-size:12.5px;color:var(--gold2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-weight:600}
+.pv-col textarea{flex:1;resize:none;font-family:'Fira Code',ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.55;background:#0a0d1a;color:#d6dcf0;border-radius:12px;border:1px solid var(--ln);padding:14px;min-height:0;tab-size:2}
+.pv-col iframe{flex:1;border:1px solid var(--ln);border-radius:12px;background:#fff;min-height:0;width:100%}
+.pv-foot{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.pv-lock{color:var(--gold2);font-size:13px;display:flex;align-items:center;gap:8px;padding:10px 14px;border:1px dashed var(--ln);border-radius:12px;background:rgba(201,162,39,.06);flex:1;min-width:200px}
+.pv-lock svg{color:var(--gold)}
+@media(max-width:860px){.pv-grid{grid-template-columns:1fr;height:auto}.pv-col textarea{min-height:200px}.pv-col iframe{min-height:320px}}
+.ord-actions{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.ord-actions .lock-hint{font-size:12px;color:var(--mu);align-self:center}
+/* 🔒 payment-locked delivery notice */
+.paylock{border-color:var(--gold)!important;background:rgba(201,162,39,.1)!important}
+.paylock .dh b{color:var(--gold2);display:flex;align-items:center;gap:6px}
+.paylock svg.i{color:var(--gold)}
 </style></head><body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0112 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 003.4 0"/></symbol>
 <symbol id="menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
 <symbol id="x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
-<symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l3 6.9 7.5.7-5.7 5 1.7 7.4L12 18l-6.5 4 1.7-7.4-5.7-5 7.5-.7z"/></symbol>
 <symbol id="clip" viewBox="0 0 24 24"><path d="M21 12.5l-8.5 8.5a5.5 5.5 0 01-8-8L13 4.5a3.7 3.7 0 015.3 5.3l-8.5 8.5a1.8 1.8 0 01-2.6-2.6L15 7.5"/></symbol>
 <symbol id="send" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></symbol>
 <symbol id="shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></symbol>
@@ -128,7 +136,10 @@ select.cur{width:auto;flex:none}.nav .btn{white-space:nowrap}.nav{min-width:0}
 <symbol id="globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></symbol>
 <symbol id="lock" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></symbol>
 <symbol id="up" viewBox="0 0 24 24"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></symbol>
-<symbol id="eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="eyeoff" viewBox="0 0 24 24"><path d="M17.9 17.9A10.9 10.9 0 0112 20C5 20 1 12 1 12a18 18 0 015.1-5.9M9.9 4.2A10.9 10.9 0 0112 4c7 0 11 8 11 8a18 18 0 01-2.2 3.2M1 1l22 22"/></symbol></defs></svg>
+<symbol id="dl" viewBox="0 0 24 24"><path d="M12 4v12M6 10l6 6 6-6M4 20h16"/></symbol>
+<symbol id="eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="eyeoff" viewBox="0 0 24 24"><path d="M17.9 17.9A10.9 10.9 0 0112 20C5 20 1 12 1 12a18 18 0 015.1-5.9M9.9 4.2A10.9 10.9 0 0112 4c7 0 11 8 11 8a18 18 0 01-2.2 3.2M1 1l22 22"/></symbol>
+<symbol id="play" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M8 5v14l11-7z"/></symbol></defs></svg>
 
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-label="Menu"><button class="ib" id="cls" aria-label="Close menu"><svg class="i"><use href="#x"/></svg></button>
@@ -137,18 +148,8 @@ select.cur{width:auto;flex:none}.nav .btn{white-space:nowrap}.nav{min-width:0}
 <button class="btn b2 o-in" style="margin-top:14px;justify-content:center" data-logout>Log out</button></aside>
 
 <header><div class="w nav">
-<a href="#" class="logo"><svg class="lm" viewBox="0 0 40 40"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8841c"/><stop offset=".5" stop-color="#e8d08a"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs><rect width="40" height="40" rx="11" fill="#0f1425" stroke="url(#lg)"/><text x="20" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-weight="700" font-size="24" fill="url(#lg)">s</text></svg><img class="lmg" id="logoimg" alt="PuritiK logo" hidden><span class="lt"><b>
-
-
-
-
-
-
-
-
-
-</b><small>Industrial Programs</small></span></a>
-<nav><a href="#" data-go="home">Home</a><a href="#services">Services</a><a href="#projects">Projects</a><a href="#calculator">Pricing</a><a href="#" data-open="about">About</a><a href="#" data-open="contact">Contact</a></nav>
+<a href="#" class="logo"><svg class="lm" viewBox="0 0 40 40"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a8841c"/><stop offset=".5" stop-color="#e8d08a"/><stop offset="1" stop-color="#c9a227"/></linearGradient></defs><rect width="40" height="40" rx="11" fill="#0f1425" stroke="url(#lg)"/><text x="20" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-weight="700" font-size="24" fill="url(#lg)">S</text></svg><img class="lmg" id="logoimg" alt="ShoaibScale.Online logo" hidden><span class="lt"><b data-t="brand.name">ShoaibScale.Online</b><small data-t="brand.tag">Digital solutions &amp; Industrial Programs</small></span></a>
+<nav><a href="#" data-go="home" data-t="nav.home">Home</a><a href="#services" data-t="nav.services">Services</a><a href="#projects" data-t="nav.projects">Projects</a><a href="#calculator" data-t="nav.pricing">Pricing</a><a href="#" data-open="about" data-t="nav.about">About</a><a href="#" data-open="contact" data-t="nav.contact">Contact</a></nav>
 <select class="cur hd" id="cur" aria-label="Currency"><option>USD</option><option>PKR</option><option>EUR</option><option>AED</option></select>
 <button class="bell" id="bell" aria-label="Notifications"><svg class="i"><use href="#bell"/></svg><b id="nc" hidden>0</b></button>
 <span class="hd" id="ha"><button class="btn b2" data-open="auth" data-tab="login">Log in</button><button class="btn b1" data-open="auth" data-tab="signup">Sign up</button></span><button class="btn b2 hd" id="hu" data-go="profile" hidden></button>
@@ -157,45 +158,44 @@ select.cur{width:auto;flex:none}.nav .btn{white-space:nowrap}.nav{min-width:0}
 
 <main id="home">
 <section class="hero"><div class="w hg"><div>
-<h1>Work done at the standard of <span class="gt">world-class agencies</span>, delivered like a marketplace.</h1>
-<p class="l">Vetted specialists, escrow-protected payments and a strict revision window — so every project ships on time and exactly to brief.</p>
-<div class="acts"><button class="btn b1" data-order>Order Now <svg class="i"><use href="#bolt"/></svg></button><a class="btn b2" href="#services">Browse services</a></div>
-
+<h1><span data-t="hero.h1a">Work done at the standard of</span> <span class="gt" data-t="hero.h1b">world-class agencies</span><span data-t="hero.h1c">, delivered like a marketplace.</span></h1>
+<p class="l" data-t="hero.p">Vetted specialists, escrow-protected payments and a strict revision window — so every project ships on time and exactly to brief.</p>
+<div class="acts"><button class="btn b1" data-order><span data-t="hero.cta1">Order Now</span> <svg class="i"><use href="#bolt"/></svg></button><a class="btn b2" href="#services" data-t="hero.cta2">Browse services</a></div>
 </div>
-<div class="stage" aria-hidden="true"><div class="glass"><span class="ico"><svg class="i"><use href="#shield"/></svg></span><div><b>Escrow protected</b><small>Pay only when you approve</small></div></div><div class="glass"><span class="ico"><svg class="i"><use href="#check"/></svg></span><div><b>3-day revisions</b><small>A strict, tracked window</small></div></div><div class="glass"><span class="ico"><svg class="i"><use href="#globe"/></svg></span><div><b>4 currencies</b><small>USD · PKR · EUR · AED</small></div></div><div class="glass"><span class="ico"><svg class="i"><use href="#lock"/></svg></span><div><b>NDA &amp; IP transfer</b><small>Ownership passes on payment</small></div></div><img class="heroimg" id="heroimg" alt="" hidden></div></div></section>
+<div class="stage" aria-hidden="true"><div class="glass"><span class="ico"><svg class="i"><use href="#shield"/></svg></span><div><b data-t="hero.c1t">Escrow protected</b><small data-t="hero.c1d">Pay only when you approve</small></div></div><div class="glass"><span class="ico"><svg class="i"><use href="#check"/></svg></span><div><b data-t="hero.c2t">3-day revisions</b><small data-t="hero.c2d">A strict, tracked window</small></div></div><div class="glass"><span class="ico"><svg class="i"><use href="#globe"/></svg></span><div><b data-t="hero.c3t">4 currencies</b><small data-t="hero.c3d">USD · PKR · EUR · AED</small></div></div><div class="glass"><span class="ico"><svg class="i"><use href="#lock"/></svg></span><div><b data-t="hero.c4t">NDA &amp; IP transfer</b><small data-t="hero.c4d">Ownership passes on payment</small></div></div><img class="heroimg" id="heroimg" alt="" hidden></div></div></section>
 
-<section id="services"><div class="w"><div class="sh"><h2>Services engineered for <span class="gt">results</span></h2><p>Fixed-scope packages with transparent pricing. Prices update to your selected currency.</p></div>
+<section id="services"><div class="w"><div class="sh"><h2><span data-t="svc.h2a">Services engineered for</span> <span class="gt" data-t="svc.h2b">results</span></h2><p data-t="svc.p">Fixed-scope packages with transparent pricing. Prices update to your selected currency.</p></div>
 <div class="grid3" id="sg"></div></div></section>
 
-<section id="projects"><div class="w"><div class="sh"><h2>Project <span class="gt">briefcase</span></h2><p>A selection of recent industrial and B2B builds — the brief, what we shipped and what changed for the client.</p></div><div class="grid3"><article class="card case"><span class="ico"><svg class="i"><use href="#code"/></svg></span><h3>Plant ERP Portal</h3><div class="cl">Hanif Steel Works</div><p>Replaced spreadsheets with a web portal for production orders, stock and dispatch.</p><ul><li><svg class=i><use href=#check /></svg> Faster order processing</li><li><svg class=i><use href=#check /></svg> Zero manual stock reconciliation</li><li><svg class=i><use href=#check /></svg> Launched on schedule</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#chart"/></svg></span><h3>Machine Monitoring Dashboard</h3><div class="cl">Crescent Textiles</div><p>Real-time dashboard for loom uptime, downtime reasons and shift reports.</p><ul><li><svg class=i><use href=#check /></svg> Clear downtime reporting</li><li><svg class=i><use href=#check /></svg> Shift reports automated</li><li><svg class=i><use href=#check /></svg> Multiple plants in one view</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#globe"/></svg></span><h3>Export Catalogue Website</h3><div class="cl">Meridian Industrial Supply</div><p>Multilingual B2B catalogue with RFQ forms and SEO-ready product pages.</p><ul><li><svg class=i><use href=#check /></svg> More qualified RFQs</li><li><svg class=i><use href=#check /></svg> SEO-ready product pages</li><li><svg class=i><use href=#check /></svg> Multilingual catalogue</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#shield"/></svg></span><h3>Safety &amp; Compliance Tracker</h3><div class="cl">Orbit Chemicals</div><p>Audit checklists, incident logging and certificate expiry alerts for site teams.</p><ul><li><svg class=i><use href=#check /></svg> Audit-ready records</li><li><svg class=i><use href=#check /></svg> Fast incident logging</li><li><svg class=i><use href=#check /></svg> Expiry alerts automated</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#bolt"/></svg></span><h3>Inventory SaaS MVP</h3><div class="cl">StockLine</div><p>Multi-warehouse inventory app with barcode scanning and role-based access.</p><ul><li><svg class=i><use href=#check /></svg> MVP shipped on schedule</li><li><svg class=i><use href=#check /></svg> Multi-warehouse support</li><li><svg class=i><use href=#check /></svg> Investor-demo ready</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#video"/></svg></span><h3>Factory Promo Film</h3><div class="cl">Delta Packaging</div><p>Brand film and motion graphics showing the production line for tenders.</p><ul><li><svg class=i><use href=#check /></svg> Used in tender submissions</li><li><svg class=i><use href=#check /></svg> Social-ready cuts</li><li><svg class=i><use href=#check /></svg> Delivered on deadline</li></ul></article></div></div></section>
+<section id="projects" data-sec="projects"><div class="w"><div class="sh"><h2><span data-t="proj.h2a">Project</span> <span class="gt" data-t="proj.h2b">briefcase</span></h2><p data-t="proj.p">A selection of recent industrial and B2B builds — the brief, what we shipped and what changed for the client.</p></div><div class="grid3"><article class="card case"><span class="ico"><svg class="i"><use href="#code"/></svg></span><h3 data-t="proj.1.t">Plant ERP Portal</h3><div class="cl" data-t="proj.1.c">Hanif Steel Works</div><p data-t="proj.1.d">Replaced spreadsheets with a web portal for production orders, stock and dispatch.</p><ul><li><svg class=i><use href=#check /></svg> Faster order processing</li><li><svg class=i><use href=#check /></svg> Zero manual stock reconciliation</li><li><svg class=i><use href=#check /></svg> Launched on schedule</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#chart"/></svg></span><h3 data-t="proj.2.t">Machine Monitoring Dashboard</h3><div class="cl" data-t="proj.2.c">Crescent Textiles</div><p data-t="proj.2.d">Real-time dashboard for loom uptime, downtime reasons and shift reports.</p><ul><li><svg class=i><use href=#check /></svg> Clear downtime reporting</li><li><svg class=i><use href=#check /></svg> Shift reports automated</li><li><svg class=i><use href=#check /></svg> Multiple plants in one view</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#globe"/></svg></span><h3 data-t="proj.3.t">Export Catalogue Website</h3><div class="cl" data-t="proj.3.c">Meridian Industrial Supply</div><p data-t="proj.3.d">Multilingual B2B catalogue with RFQ forms and SEO-ready product pages.</p><ul><li><svg class=i><use href=#check /></svg> More qualified RFQs</li><li><svg class=i><use href=#check /></svg> SEO-ready product pages</li><li><svg class=i><use href=#check /></svg> Multilingual catalogue</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#shield"/></svg></span><h3 data-t="proj.4.t">Safety &amp; Compliance Tracker</h3><div class="cl" data-t="proj.4.c">Orbit Chemicals</div><p data-t="proj.4.d">Audit checklists, incident logging and certificate expiry alerts for site teams.</p><ul><li><svg class=i><use href=#check /></svg> Audit-ready records</li><li><svg class=i><use href=#check /></svg> Fast incident logging</li><li><svg class=i><use href=#check /></svg> Expiry alerts automated</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#bolt"/></svg></span><h3 data-t="proj.5.t">Inventory SaaS MVP</h3><div class="cl" data-t="proj.5.c">StockLine</div><p data-t="proj.5.d">Multi-warehouse inventory app with barcode scanning and role-based access.</p><ul><li><svg class=i><use href=#check /></svg> MVP shipped on schedule</li><li><svg class=i><use href=#check /></svg> Multi-warehouse support</li><li><svg class=i><use href=#check /></svg> Investor-demo ready</li></ul></article><article class="card case"><span class="ico"><svg class="i"><use href="#video"/></svg></span><h3 data-t="proj.6.t">Factory Promo Film</h3><div class="cl" data-t="proj.6.c">Delta Packaging</div><p data-t="proj.6.d">Brand film and motion graphics showing the production line for tenders.</p><ul><li><svg class=i><use href=#check /></svg> Used in tender submissions</li><li><svg class=i><use href=#check /></svg> Social-ready cuts</li><li><svg class=i><use href=#check /></svg> Delivered on deadline</li></ul></article></div></div></section>
 
-<section id="calculator" style="background:var(--bg2)"><div class="w two">
-<div class="sh" style="margin:0"><h2>Know your price <span class="gt">before</span> you commit</h2><p>Pick the scope, urgency and revisions. The estimate updates live and carries straight into checkout.</p></div>
+<section id="calculator" data-sec="calculator" style="background:var(--bg2)"><div class="w two">
+<div class="sh" style="margin:0"><h2><span data-t="calc.h2a">Know your price</span> <span class="gt" data-t="calc.h2b">before</span> <span data-t="calc.h2c">you commit</span></h2><p data-t="calc.p">Pick the scope, urgency and revisions. The estimate updates live and carries straight into checkout.</p></div>
 <div class="glass calc"><b>Add-ons</b><div class="opts" id="ao"></div>
 <label for="pg" style="color:var(--mu)">Pages / deliverables: <b id="pgv" style="color:var(--tx)">5</b></label><input type="range" id="pg" min="1" max="30" value="5">
 <label for="rush" style="color:var(--mu);display:block;margin-top:14px">Delivery speed</label>
 <select id="rush"><option value="1">Standard — 7 days</option><option value="1.25">Priority — 4 days (+25%)</option><option value="1.6">Express — 48 hours (+60%)</option></select>
-<div class="tot gt" id="tot">$0</div><button class="btn b1" id="cord" style="margin-top:12px">Continue to checkout</button></div></div></section>
+<div class="tot gt" id="tot">$0</div><button class="btn b1" id="cord" style="margin-top:12px" data-t="calc.btn">Continue to checkout</button></div></div></section>
 
-<section style="background:var(--bg2)"><div class="w"><div class="sh"><h2>Compliance you can <span class="gt">audit</span></h2></div>
-<div class="comp"><div class="glass"><svg class="i" style="color:var(--gold)"><use href="#shield"/></svg><h3>Escrow protection</h3><p>Funds are released only after you approve delivery.</p></div>
-<div class="glass"><svg class="i" style="color:var(--gold)"><use href="#lock"/></svg><h3>NDA &amp; IP transfer</h3><p>Full ownership of deliverables passes to you on payment.</p></div>
-<div class="glass"><svg class="i" style="color:var(--gold)"><use href="#check"/></svg><h3>Quality review</h3><p>Every delivery passes a second-reviewer checklist.</p></div>
-<div class="glass"><svg class="i" style="color:var(--gold)"><use href="#globe"/></svg><h3>Data privacy</h3><p>Encrypted in transit; files never shared with third parties.</p></div></div></div></section>
-
+<section data-sec="compliance" style="background:var(--bg2)"><div class="w"><div class="sh"><h2><span data-t="comp.h2a">Compliance you can</span> <span class="gt" data-t="comp.h2b">audit</span></h2></div>
+<div class="comp"><div class="glass"><svg class="i" style="color:var(--gold)"><use href="#shield"/></svg><h3 data-t="comp.1t">Escrow protection</h3><p data-t="comp.1d">Funds are released only after you approve delivery.</p></div>
+<div class="glass"><svg class="i" style="color:var(--gold)"><use href="#lock"/></svg><h3 data-t="comp.2t">NDA &amp; IP transfer</h3><p data-t="comp.2d">Full ownership of deliverables passes to you on payment.</p></div>
+<div class="glass"><svg class="i" style="color:var(--gold)"><use href="#check"/></svg><h3 data-t="comp.3t">Quality review</h3><p data-t="comp.3d">Every delivery passes a second-reviewer checklist.</p></div>
+<div class="glass"><svg class="i" style="color:var(--gold)"><use href="#globe"/></svg><h3 data-t="comp.4t">Data privacy</h3><p data-t="comp.4d">Encrypted in transit; files never shared with third parties.</p></div></div></div></section>
 </main>
+
 <section id="acct" hidden><div class="w">
 <div class="glass pc"><label class="avt" for="avf" title="Change photo"><span id="avl">?</span><img id="avi" alt="Profile photo" hidden></label><input type="file" id="avf" accept="image/*" hidden>
 <div><h2 id="pnm" style="font-size:30px"></h2><p class="bd" id="pem"></p><p class="bd" id="pph"></p><p class="bd" id="psn" style="font-size:13px"></p></div></div>
-<div class="stats"><div class="glass sc"><span class="bd">Total orders</span><b id="s1">0</b></div><div class="glass sc"><span class="bd">Pending</span><b id="s2">0</b></div><div class="glass sc"><span class="bd">In progress</span><b id="s3">0</b></div><div class="glass sc"><span class="bd">Delivered</span><b id="s4">0</b></div></div>
-<div id="myorders"><h3 style="font-size:26px;margin-bottom:6px">Order history</h3><div id="ol"></div></div>
-<div class="two"><form class="glass calc fl" id="pf2" novalidate><h3>Personal information</h3><div class="r2"><label>First name<input name="first" autocomplete="given-name"></label><label>Last name<input name="last" autocomplete="family-name"></label></div>
+<div class="stats"><div class="glass sc"><span class="bd" data-t="acct.s1">Total orders</span><b id="s1">0</b></div><div class="glass sc"><span class="bd" data-t="acct.s2">Pending</span><b id="s2">0</b></div><div class="glass sc"><span class="bd" data-t="acct.s3">In progress</span><b id="s3">0</b></div><div class="glass sc"><span class="bd" data-t="acct.s4">Delivered</span><b id="s4">0</b></div></div>
+<div id="myorders"><h3 style="font-size:26px;margin-bottom:6px" data-t="acct.hist">Order history</h3><div id="ol"></div></div>
+<div class="two"><form class="glass calc fl" id="pf2" novalidate><h3 data-t="acct.pi">Personal information</h3><div class="r2"><label>First name<input name="first" autocomplete="given-name"></label><label>Last name<input name="last" autocomplete="family-name"></label></div>
 <label>Email<input name="email" type="email" readonly title="Contact support to change your email"></label><label>Phone<input name="phone" type="tel" autocomplete="tel"></label><label>Company<input name="company" autocomplete="organization"></label>
-<label>Country<select name="country"><option value="">Select country</option><option>Pakistan</option><option>United Arab Emirates</option><option>Saudi Arabia</option><option>United Kingdom</option><option>United States</option><option>Canada</option><option>Germany</option><option>India</option><option>Australia</option><option>Other</option></select></label><p class="er" id="perr"></p><button class="btn b1" style="justify-content:center">Save changes</button></form>
-<form class="glass calc fl" id="sf" novalidate><h3>Security</h3><label>Current password<input name="cur" type="password" autocomplete="current-password"></label><label>New password<input name="np" id="npw" type="password" autocomplete="new-password"></label><label>Confirm new password<input name="cp" type="password" autocomplete="new-password"></label><ul class="rl" id="prl"></ul><p class="er" id="serr"></p><button class="btn b1" style="justify-content:center">Update password</button></form></div>
+<label>Country<select name="country"><option value="">Select country</option><option>Pakistan</option><option>United Arab Emirates</option><option>Saudi Arabia</option><option>United Kingdom</option><option>United States</option><option>Canada</option><option>Germany</option><option>India</option><option>Australia</option><option>Other</option></select></label><p class="er" id="perr"></p><button class="btn b1" style="justify-content:center" data-t="acct.save">Save changes</button></form>
+<form class="glass calc fl" id="sf" novalidate><h3 data-t="acct.sec">Security</h3><label>Current password<input name="cur" type="password" autocomplete="current-password"></label><label>New password<input name="np" id="npw" type="password" autocomplete="new-password"></label><label>Confirm new password<input name="cp" type="password" autocomplete="new-password"></label><ul class="rl" id="prl"></ul><p class="er" id="serr"></p><button class="btn b1" style="justify-content:center" data-t="acct.pw">Update password</button></form></div>
 </div></section>
 
-<footer><div class="w" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span>© 2026 PuriiK— Digital solutions&Industrial Programs. Secured with escrow &amp; encrypted storage.</span><span style="display:flex;gap:20px;flex-wrap:wrap"><a href="#" data-open="about">About</a><a href="#" data-open="contact">Contact</a><a href="#" data-open="faq">FAQs</a><a href="#" data-open="terms">Terms &amp; Conditions</a></span></div></footer>
+<footer><div class="w" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap"><span data-t="foot.copy">© 2026 ShoaibScale.Online — Digital solutions &amp; Industrial Programs. Secured with escrow &amp; encrypted storage.</span><span style="display:flex;gap:20px;flex-wrap:wrap"><a href="#" data-open="about">About</a><a href="#" data-open="contact">Contact</a><a href="#" data-open="faq">FAQs</a><a href="#" data-open="terms">Terms &amp; Conditions</a></span></div></footer>
 
 <div class="mod" id="m-auth"><div class="glass"><div class="mh"><h3 id="at">Welcome back</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div>
 <div class="tabs" id="atabs"><button type="button" data-tab="login">Log in</button><button type="button" data-tab="signup">Sign up</button></div>
@@ -231,37 +231,46 @@ select.cur{width:auto;flex:none}.nav .btn{white-space:nowrap}.nav{min-width:0}
 <p class="er" id="pyerr" role="alert"></p><button class="btn b1" style="justify-content:center">Submit proof securely</button></form>
 <h4 style="margin:22px 0 8px">Payment history</h4><div id="phl"></div></div></div>
 
-<div class="mod wide" id="m-about"><div class="glass"><div class="mh"><h3>About PuriiK</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div>
-<p class="bd">PuritiK— Industrial Programs is a digital studio building software, websites and brand systems for manufacturers, suppliers and industrial service companies. Scope is fixed before work starts, payment sits in escrow, and every delivery comes with a strict 3-day revision window — no surprises, no hidden fees.</p>
-<button class="btn b1" data-open="contact" style="margin-top:16px">Work with us</button></div></div>
+<div class="mod pv" id="m-preview"><div class="glass"><div class="mh"><h3>Preview — <span id="pvt">Order</span></h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div>
+<div class="pv-grid">
+  <div class="pv-col"><b>Your website / code (editable)</b><textarea id="pcode" spellcheck="false" placeholder="Your delivered code / HTML will appear here…"></textarea></div>
+  <div class="pv-col"><b>Live running preview</b><iframe id="pframe" sandbox="allow-scripts allow-same-origin" title="Live preview"></iframe></div>
+</div>
+<div class="pv-foot">
+  <button class="btn b2" id="prun"><svg class="i"><use href="#play"/></svg> Run preview</button>
+  <div id="pdl"></div>
+  <div class="pv-lock" id="plock"><svg class="i"><use href="#lock"/></svg> Download locked — admin ke payment approve karne ke baad unlock hoga.</div>
+</div>
+</div></div>
 
-<div class="mod" id="m-contact"><div class="glass"><div class="mh"><h3>Contact us</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div>
-<p class="bd">Tell us about your project and we’ll reply by email. Logged-in customers can also use Live Chat from the menu.</p>
+<div class="mod wide" id="m-about"><div class="glass"><div class="mh"><h3 data-t="about.h">About ShoaibScale.Online</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div>
+<p class="bd" data-t="about.p">ShoaibScale.Online — Industrial Programs is a digital studio building software, websites and brand systems for manufacturers, suppliers and industrial service companies. Scope is fixed before work starts, payment sits in escrow, and every delivery comes with a strict 3-day revision window — no surprises, no hidden fees.</p>
+<button class="btn b1" data-open="contact" style="margin-top:16px" data-t="about.btn">Work with us</button></div></div>
+
+<div class="mod" id="m-contact"><div class="glass"><div class="mh"><h3 data-t="contact.h">Contact us</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div>
+<p class="bd" data-t="contact.p">Tell us about your project and we’ll reply by email. Logged-in customers can also use Live Chat from the menu.</p>
 <form class="fl" id="cf2" style="margin-top:12px" novalidate><label>Name<input name="name" autocomplete="name"></label><label>Email<input name="email" type="email" autocomplete="email"></label>
 <label>Topic<select name="topic"><option>New project</option><option>Existing order</option><option>Payments &amp; escrow</option><option>Partnership</option></select></label>
 <label>Message<textarea name="msg" rows="4"></textarea></label><p class="er" id="cerr"></p><button class="btn b1" style="justify-content:center">Send message</button></form></div></div>
 
-<div class="mod wide" id="m-faq"><div class="glass"><div class="mh"><h3>Frequently asked questions</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div><details><summary>How does escrow work?</summary><p>Your payment is held securely. The specialist starts once funds are confirmed, and funds release only after you approve the delivery.</p></details><details><summary>How long is the revision window?</summary><p>Strictly 3 days from delivery. The countdown on your dashboard shows exactly how long remains; after it ends the order is auto-completed.</p></details><details><summary>Which currencies can I pay in?</summary><p>Prices display in USD, PKR, EUR and AED. Final invoicing is confirmed in chat before payment.</p></details><details><summary>Do I own the final files?</summary><p>Yes. Full rights transfer to you upon payment, with source files included.</p></details><details><summary>Can I request a refund?</summary><p>If we fail to deliver to the agreed brief after revisions, escrow funds are returned in full.</p></details></div></div>
+<div class="mod wide" id="m-faq"><div class="glass"><div class="mh"><h3 data-t="faq.h">Frequently asked questions</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div><details><summary data-t="faq.q1">How does escrow work?</summary><p data-t="faq.a1">Your payment is held securely. The specialist starts once funds are confirmed, and funds release only after you approve the delivery.</p></details><details><summary data-t="faq.q2">How long is the revision window?</summary><p data-t="faq.a2">Strictly 3 days from delivery. The countdown on your dashboard shows exactly how long remains; after it ends the order is auto-completed.</p></details><details><summary data-t="faq.q3">Which currencies can I pay in?</summary><p data-t="faq.a3">Prices display in USD, PKR, EUR and AED. Final invoicing is confirmed in chat before payment.</p></details><details><summary data-t="faq.q4">Do I own the final files?</summary><p data-t="faq.a4">Yes. Full rights transfer to you upon payment, with source files included.</p></details><details><summary data-t="faq.q5">Can I request a refund?</summary><p data-t="faq.a5">If we fail to deliver to the agreed brief after revisions, escrow funds are returned in full.</p></details></div></div>
 
-<div class="mod wide" id="m-terms"><div class="glass"><div class="mh"><h3>Terms &amp; Conditions</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div><div class="bd tc">
-<h4>1. Scope &amp; orders</h4><p>Each order is based on the package or written brief agreed in chat. Work outside the agreed scope is quoted separately before it starts.</p>
-<h4>2. Escrow &amp; payment</h4><p>Work begins once payment is confirmed in escrow. Funds are released to the specialist when you approve the delivery or when the revision window ends.</p>
-<h4>3. Revisions</h4><p>Each delivery includes a strict 3-day revision window. Revisions must stay within the original brief; after the window closes the order is completed automatically.</p>
-<h4>4. Ownership</h4><p>On full payment, rights to the final deliverables transfer to you. We may reference the project in our portfolio unless you request an NDA.</p>
-<h4>5. Refunds</h4><p>If we cannot deliver to the agreed brief after the included revisions, escrow funds are returned in full. Refunds are not available for work already approved.</p>
-<h4>6. Privacy</h4><p>Your files and data are used only to deliver your project and are never sold or shared with third parties.</p>
-<h4>7. Changes</h4><p>We may update these terms; orders in progress stay under the terms they were placed with.</p>
-<p style="font-size:12px">Last updated: November 2026. Replace this draft with reviewed legal text before launch.</p></div></div></div>
-<aside class="cdr" id="chatd" aria-label="Live chat"><div class="ch"><div style="flex:1"><b>Support chat</b><small style="display:block;color:var(--mu)">Our team replies during business hours</small></div><button class="ib" data-close aria-label="Close chat"><svg class="i"><use href="#x"/></svg></button></div>
+<div class="mod wide" id="m-terms"><div class="glass"><div class="mh"><h3 data-t="terms.h">Terms &amp; Conditions</h3><button data-close aria-label="Close"><svg class="i"><use href="#x"/></svg></button></div><div class="bd tc">
+<h4 data-t="terms.1h">1. Scope &amp; orders</h4><p data-t="terms.1p">Each order is based on the package or written brief agreed in chat. Work outside the agreed scope is quoted separately before it starts.</p>
+<h4 data-t="terms.2h">2. Escrow &amp; payment</h4><p data-t="terms.2p">Work begins once payment is confirmed in escrow. Funds are released to the specialist when you approve the delivery or when the revision window ends.</p>
+<h4 data-t="terms.3h">3. Revisions</h4><p data-t="terms.3p">Each delivery includes a strict 3-day revision window. Revisions must stay within the original brief; after the window closes the order is completed automatically.</p>
+<h4 data-t="terms.4h">4. Ownership</h4><p data-t="terms.4p">On full payment, rights to the final deliverables transfer to you. We may reference the project in our portfolio unless you request an NDA.</p>
+<h4 data-t="terms.5h">5. Refunds</h4><p data-t="terms.5p">If we cannot deliver to the agreed brief after the included revisions, escrow funds are returned in full. Refunds are not available for work already approved.</p>
+<h4 data-t="terms.6h">6. Privacy</h4><p data-t="terms.6p">Your files and data are used only to deliver your project and are never sold or shared with third parties.</p>
+<h4 data-t="terms.7h">7. Changes</h4><p data-t="terms.7p">We may update these terms; orders in progress stay under the terms they were placed with.</p>
+<p style="font-size:12px" data-t="terms.note">Last updated: November 2026. Replace this draft with reviewed legal text before launch.</p></div></div></div>
+<aside class="cdr" id="chatd" aria-label="Live chat"><div class="ch"><div style="flex:1"><b data-t="chat.h">Support chat</b><small style="display:block;color:var(--mu)" data-t="chat.sub">Our team replies during business hours</small></div><button class="ib" data-close aria-label="Close chat"><svg class="i"><use href="#x"/></svg></button></div>
 <div class="msgs" id="msgs" aria-live="polite"></div>
 <div class="cf"><label class="ib" for="fi" title="Attach file"><svg class="i"><use href="#clip"/></svg></label><input type="file" id="fi" hidden><input id="ci" placeholder="Type your message…" aria-label="Message" autocomplete="off"><button class="ib" id="csend" aria-label="Send" style="background:var(--gg);color:#1a1405"><svg class="i"><use href="#send"/></svg></button></div></aside>
 <div class="toast" id="ts" role="status"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
-/* ===== Firebase Realtime Database storage (replaces localStorage) =====
-   Sara data DB ke 'siq/<key>' path par JSON string ki tarah save hota hai.
-   Sirf login session aur currency (is device ki setting) browser mein rehti hai. */
 const firebaseConfig={apiKey:"AIzaSyB5h-ltxhulwY3AHubPOg-GDzAn4TYCp2M",authDomain:"shoaib-iq.firebaseapp.com",databaseURL:"https://shoaib-iq-default-rtdb.firebaseio.com",projectId:"shoaib-iq",storageBucket:"shoaib-iq.firebasestorage.app",messagingSenderId:"620967955154",appId:"1:620967955154:web:bb4c2ed41e41b1872c7b0b",measurementId:"G-VRJE4LES7C"};
 firebase.initializeApp(firebaseConfig);
 const DB=firebase.database().ref('siq');
@@ -297,8 +306,7 @@ const FBREADY=new Promise(res=>{
 </script>
 
 <script type="text/plain" id="app-src">
-/* ===== PuritiK front-end. Storage = Firebase Realtime Database.
-   INTEGRATION POINTS: Auth (signUp/logIn/reset), saveOrders, pays, chat → replace with your API/Firebase later. ===== */
+/* ===== ShoaibScale.Online front-end. Firebase Realtime Database. ===== */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
@@ -309,19 +317,50 @@ const me=()=>sess?users[sess]:null,mine=()=>orders.filter(o=>o.email===sess).sor
 const saveOrders=()=>LS.set('siq_orders',orders),dt=t=>new Date(t).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'});
 const RATE={USD:1,PKR:278,EUR:.92,AED:3.67},SYM={USD:'$',PKR:'Rs ',EUR:'€',AED:'AED '};
 const money=u=>SYM[cur]+Math.round(u*RATE[cur]).toLocaleString('en');
+const T=(k,d)=>{const o=LS.get('siq_texts',null)||{},v=o[k];return typeof v==='string'&&v.trim()?v:d};
+const DLV=()=>LS.get('siq_dlv',null)||{},FRES={},FPRO={};
+
+/* 🔒 PAYMENT-APPROVED CHECK: drives ALL file/preview/download gating */
+const isPayApproved=oid=>{
+  const p=LS.get('siq_pays',[]);
+  return p.some(x=>String(x.orderId)===String(oid)&&x.state==='Verified');
+};
+
+/* ---------- receipt image helper (NAYA) ---------- */
+function readImageAsDataURL(file){
+  return new Promise((res,rej)=>{
+    if(!/^image\/(png|jpe?g|webp)$/i.test(file.type)) return rej('Sirf PNG/JPG/WebP receipt allowed');
+    if(file.size > 5*1024*1024) return rej('Receipt 5 MB se chhoti honi chahiye');
+    const r = new FileReader();
+    r.onerror = rej;
+    r.onload = () => {
+      const im = new Image();
+      im.onerror = () => rej('Image khul nahi saki');
+      im.onload = () => {
+        const s = Math.min(1, 1400 / Math.max(im.width, im.height));
+        const c = document.createElement('canvas');
+        c.width  = Math.max(1, Math.round(im.width  * s));
+        c.height = Math.max(1, Math.round(im.height * s));
+        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.8));
+      };
+      im.src = r.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+
 /* ---------- passwords ---------- */
 const RULES=[['8+ characters',p=>p.length>=8],['Uppercase',p=>/[A-Z]/.test(p)],['Lowercase',p=>/[a-z]/.test(p)],['Number',p=>/\d/.test(p)],['Special character',p=>/[^A-Za-z0-9]/.test(p)]];
 const pwOk=p=>RULES.every(r=>r[1](p)),rulesUI=(ul,p)=>ul.innerHTML=RULES.map(r=>`<li class="${r[1](p)?'ok':''}">${r[0]}</li>`).join('');
 async function hash(p,salt){const d=new TextEncoder().encode(salt+p);if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',d);return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}return btoa(salt+p)}
 const PHONE=/^\+?[0-9\s-]{7,16}$/,MAIL=/^\S+@\S+\.\S+$/;
-/* ---------- services & calculator ---------- */
 const SV=LS.get('siq_services',null)||[{id:'web',n:'Premium Website',d:'Conversion-focused, responsive site with CMS and SEO foundations.',p:499,i:'code'},{id:'brand',n:'Brand Identity',d:'Logo, palette, typography and a complete brand guideline.',p:299,i:'pen'},{id:'seo',n:'SEO & Growth',d:'Technical audit, keyword strategy and a monthly growth roadmap.',p:349,i:'chart'},{id:'vid',n:'Video & Motion',d:'Promo videos and motion graphics edited for social and ads.',p:399,i:'video'},{id:'app',n:'Web App / SaaS MVP',d:'Scalable MVP with auth, dashboard and payments integration.',p:1499,i:'bolt'},{id:'copy',n:'Content & Copywriting',d:'Sales pages, blog systems and brand voice that converts.',p:149,i:'pen'}];
 const AO=[['Source files',60],['SEO setup',90],['Copywriting',120],['Priority support',80]];
 const renderSV=()=>$('#sg').innerHTML=SV.map(s=>`<article class="card"><span class="ico">${ic(s.i)}</span><h3>${s.n}</h3><p>${s.d}</p><div class="pr"><div><small>Starting at</small><b>${money(s.p)}</b></div><button class="btn b1" data-buy="${s.id}">Order</button></div></article>`).join('');
 $('#ao').innerHTML=AO.map(a=>`<label><input type="checkbox" data-p="${a[1]}"> ${a[0]} <span style="margin-left:auto;color:var(--mu)">+$${a[1]}</span></label>`).join('');
 function calc(){const pg=+$('#pg').value;$('#pgv').textContent=pg;let t=99+pg*38;$$('#ao input:checked').forEach(c=>t+=+c.dataset.p);calc.v=Math.round(t*$('#rush').value);$('#tot').textContent=money(calc.v)}
 $('#calculator').addEventListener('input',calc);
-/* ---------- navigation / views ---------- */
 const show=v=>{$('#home').hidden=v!=='home';$('#acct').hidden=v!=='acct'};
 function closeAll(){['#drawer','#chatd'].forEach(x=>$(x).classList.remove('on'));$$('.mod.on').forEach(m=>m.classList.remove('on'));$('#scrim').classList.remove('on')}
 const openM=id=>{closeAll();$('#m-'+id).classList.add('on')};
@@ -329,11 +368,10 @@ function needAuth(cb){afterAuth=cb||null;authView('login');openM('auth')}
 const requireAuth=cb=>me()?cb():needAuth(cb);
 function go(t){closeAll();if(t==='orders'||t==='profile'){if(!me())return needAuth(()=>go(t));show('acct');renderAcct();return(t==='orders'?$('#myorders'):$('#acct')).scrollIntoView({behavior:'smooth'})}
  show('home');if(t==='home')return window.scrollTo({top:0,behavior:'smooth'});setTimeout(()=>{const e=$('#'+t);e&&e.scrollIntoView({behavior:'smooth'})},30)}
-/* ---------- auth ---------- */
 function authView(v){const f=$('#af');f.dataset.v=v;$('#at').textContent={login:'Welcome back',signup:'Create your account',forgot:'Reset your password'}[v];$('#asub').textContent={login:'Log in',signup:'Create account',forgot:'Send reset link'}[v];$('#aerr').textContent='';$('#atabs').hidden=v==='forgot';$$('#atabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===v));f.elements.password.autocomplete=v==='signup'?'new-password':'current-password';rulesUI($('#arl'),f.elements.password.value)}
 $('#af').onsubmit=async e=>{e.preventDefault();const f=e.target,v=f.dataset.v,d=Object.fromEntries(new FormData(f)),em=(d.email||'').trim().toLowerCase(),fail=m=>{$('#aerr').textContent=m};
  if(!MAIL.test(em))return fail('Enter a valid email address.');users=LS.get('siq_users',{});if(v!=='forgot'){const bl=blocked(em,d.phone||(users[em]||{}).phone);if(bl)return fail('This email/phone is blacklisted. '+(bl.reason||'')+' Contact support.')}
- if(v==='forgot'){/* INTEGRATE: sendPasswordResetEmail(email) */f.reset();authView('login');return toast('If an account exists for that email, a reset link has been sent.')}
+ if(v==='forgot'){f.reset();authView('login');return toast('If an account exists for that email, a reset link has been sent.')}
  if(v==='signup'){const n=d.fullname.trim();if(n.length<2)return fail('Enter your full name.');if(!PHONE.test(d.phone.trim()))return fail('Enter a valid phone number.');
   if(!pwOk(d.password))return fail('Password must meet all the rules below.');if(d.password!==d.confirm)return fail('Passwords do not match.');if(users[em])return fail('An account with this email already exists.');
   const salt=Math.random().toString(36).slice(2);users[em]={name:n,phone:d.phone.trim(),salt,pass:await hash(d.password,salt),created:Date.now(),company:'',country:'',avatar:''};LS.set('siq_users',users)}
@@ -343,17 +381,49 @@ $('#af').onsubmit=async e=>{e.preventDefault();const f=e.target,v=f.dataset.v,d=
  if(afterAuth){const c=afterAuth;afterAuth=null;c()}};
 function renderAuth(){const u=me();document.body.toggleAttribute('data-auth',!!u);$('#ha').hidden=!!u;$('#hu').hidden=!u;if(u)$('#hu').innerHTML=`<span class="mi">${esc(u.name[0].toUpperCase())}</span>${esc(u.name.split(' ')[0])}`}
 function logout(){sess=null;LS.set('siq_sess',null);renderAuth();go('home');toast('Logged out')}
-/* ---------- account ---------- */
 const STAT={pending:['New','Awaiting Payment'],prog:['Processing','Revision Requested'],done:['Delivered','Completed']},slug=s=>s.toLowerCase().replace(/ /g,'-');
-function renderAcct(){const u=me();if(!u)return;const m=mine(),f=$('#pf2').elements,[fi,...la]=u.name.split(' ');
- $('#pnm').textContent=u.name;$('#pem').textContent=sess;$('#pph').textContent=u.phone;$('#psn').textContent='Member since '+dt(u.created);$('#avl').textContent=u.name[0].toUpperCase();$('#avi').hidden=!u.avatar;if(u.avatar)$('#avi').src=u.avatar;
+
+function payLockNotice(o){
+  const dlv = DLV()[o.id]||{};
+  const hasProgress = dlv['Processing'] && ((dlv['Processing'].files||[]).length||dlv['Processing'].note);
+  const hasDelivery = dlv['Delivered'] && ((dlv['Delivered'].files||[]).length||dlv['Delivered'].note);
+  if(!hasProgress && !hasDelivery) return '';
+  const lbl = hasDelivery ? 'Delivery ready — locked 🔒' : 'Work in progress — locked 🔒';
+  const msg = hasDelivery
+    ? 'Your delivery is ready, but files stay <b>hidden until the admin verifies your payment</b>. Click <b>Preview</b> to see a sample, or wait for verification to unlock the real files, images and instructions.'
+    : 'We are working on your order. Updates will <b>stay hidden until the admin verifies your payment</b>.';
+  return `<div class="dlv paylock"><div class="dh"><b>${ic('lock')} ${lbl}</b></div>
+  <div class="dn" style="margin:0"><span>${esc(T('acct.inst','Note'))}</span>${msg}</div>
+  </div>`;
+}
+
+function renderAcct(){
+ const u=me();if(!u)return;const m=mine(),f=$('#pf2').elements,[fi,...la]=u.name.split(' ');
+ $('#pnm').textContent=u.name;$('#pem').textContent=sess;$('#pph').textContent=u.phone;$('#psn').textContent=T('acct.since','Member since')+' '+dt(u.created);$('#avl').textContent=u.name[0].toUpperCase();$('#avi').hidden=!u.avatar;if(u.avatar)$('#avi').src=u.avatar;
  f.first.value=fi;f.last.value=la.join(' ');f.email.value=sess;f.phone.value=u.phone;f.company.value=u.company||'';f.country.value=u.country||'';
  $('#s1').textContent=m.length;$('#s2').textContent=m.filter(o=>STAT.pending.includes(o.status)).length;$('#s3').textContent=m.filter(o=>STAT.prog.includes(o.status)).length;$('#s4').textContent=m.filter(o=>STAT.done.includes(o.status)).length;
- $('#ol').innerHTML=m.length?m.map(o=>{const pay=['New','Awaiting Payment'].includes(o.status),dl=o.status==='Delivered';return `<div class="glass ord"><div class="top"><div><b>${esc(o.id)}</b> · ${esc(o.svc)} <span style="color:var(--mu)">(${esc(o.pkg)})</span><div style="color:var(--mu);font-size:13px">${money(o.amt)} · placed ${dt(o.createdAt)} · due ${esc(o.deadline)} · ${esc(o.method)}</div></div><span class="bdg st-${slug(o.status)}">${esc(o.status)}</span></div>
-${pay?`<button class="btn b2" style="margin-top:12px" data-pay="${o.id}">${ic('up')} Submit payment proof</button>`:''}
-${dl?`<div style="margin-top:12px;font-size:13px;color:var(--mu)">Revision window closes in:</div><div class="cd" data-end="${o.deliveredAt+72*36e5}"><div><span>00</span><small>days</small></div><div><span>00</span><small>hrs</small></div><div><span>00</span><small>min</small></div><div><span>00</span><small>sec</small></div></div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn b2" data-rev="${o.id}">Request revision</button><button class="btn b1" data-ok="${o.id}">Approve &amp; release</button></div>`:''}</div>`}).join(''):`<div class="glass ord bd">No orders yet. <a href="#services" style="color:var(--gold2)">Browse services</a> to place your first order.</div>`;tick()}
+ $('#ol').innerHTML=m.length?m.map(o=>{
+  const pay=['New','Awaiting Payment'].includes(o.status),dl=o.status==='Delivered',approved=isPayApproved(o.id);
+  const previewBtn=`<button class="btn b2" data-preview="${o.id}">${ic('eye')} Preview</button>`;
+  const dlBtn = approved
+    ? `<button class="btn b1" data-download="${o.id}">${ic('dl')} Download</button>`
+    : `<button class="btn b2" disabled title="Payment approve hone ke baad unlock hoga">${ic('lock')} Download locked</button>`;
+  return `<div class="glass ord"><div class="top"><div><b>${esc(o.id)}</b> · ${esc(o.svc)} <span style="color:var(--mu)">(${esc(o.pkg)})</span><div style="color:var(--mu);font-size:13px">${money(o.amt)} · placed ${dt(o.createdAt)} · due ${esc(o.deadline)} · ${esc(o.method)}</div></div><span class="bdg st-${slug(o.status)}">${esc(o.status)}</span></div>
+${approved ? dlvHTML(o) : payLockNotice(o)}${pay?`<button class="btn b2" style="margin-top:12px" data-pay="${o.id}">${ic('up')} ${esc(T('acct.pay','Submit payment proof'))}</button>`:''}
+${dl?`<div style="margin-top:12px;font-size:13px;color:var(--mu)">${esc(T('acct.revwin','Revision window closes in:'))}</div><div class="cd" data-end="${o.deliveredAt+72*36e5}"><div><span>00</span><small>days</small></div><div><span>00</span><small>hrs</small></div><div><span>00</span><small>min</small></div><div><span>00</span><small>sec</small></div></div>
+<div class="ord-actions">
+ ${previewBtn}
+ ${dlBtn}
+ ${approved?'':`<span class="lock-hint">${ic('lock')} Payment verify hone par download khulega</span>`}
+ <button class="btn b2" data-rev="${o.id}">${esc(T('acct.req','Request revision'))}</button>
+ <button class="btn b1" data-ok="${o.id}">${esc(T('acct.appr','Approve & release'))}</button>
+</div>`:''}
+</div>`}).join(''):`<div class="glass ord bd">No orders yet. <a href="#services" style="color:var(--gold2)">Browse services</a> to place your first order.</div>`;
+ tick();hydrateDlv();
+}
+
 function tick(){$$('.cd').forEach(c=>{let ms=+c.dataset.end-Date.now();c.classList.toggle('x',ms<=0);ms=Math.max(ms,0);[864e5,36e5,6e4,1e3].forEach((u,i)=>{const x=Math.floor(ms/u);ms-=x*u;c.querySelectorAll('span')[i].textContent=String(x).padStart(2,'0')})})}setInterval(tick,1000);
-window.SIQ={setStatus(id,st){const o=orders.find(x=>x.id===id);if(!o)return false;o.status=st;if(st==='Delivered')o.deliveredAt=Date.now();saveOrders();renderAcct();return true},markDelivered(id){return SIQ.setStatus(id,'Delivered')}}; // admin/backend hook
+window.SIQ={setStatus(id,st){const o=orders.find(x=>x.id===id);if(!o)return false;o.status=st;if(st==='Delivered')o.deliveredAt=Date.now();saveOrders();renderAcct();return true},markDelivered(id){return SIQ.setStatus(id,'Delivered')}};
 $('#pf2').onsubmit=e=>{e.preventDefault();const f=e.target.elements,u=me(),er=$('#perr');const n=(f.first.value.trim()+' '+f.last.value.trim()).trim();
  if(f.first.value.trim().length<2)return er.textContent='Enter your first name.';if(!PHONE.test(f.phone.value.trim()))return er.textContent='Enter a valid phone number.';er.textContent='';
  Object.assign(u,{name:n,phone:f.phone.value.trim(),company:f.company.value.trim(),country:f.country.value});LS.set('siq_users',users);renderAuth();renderAcct();toast('Profile updated')};
@@ -363,7 +433,6 @@ $('#sf').onsubmit=async e=>{e.preventDefault();const f=e.target.elements,u=me(),
  if(f.np.value!==f.cp.value)return er.textContent='New passwords do not match.';if(f.np.value===f.cur.value)return er.textContent='Choose a different password.';
  u.salt=Math.random().toString(36).slice(2);u.pass=await hash(f.np.value,u.salt);LS.set('siq_users',users);e.target.reset();rulesUI($('#prl'),'');er.textContent='';toast('Password updated')};
 $('#avf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f||!f.type.startsWith('image/'))return toast('Choose an image file');if(f.size>2e5)return toast('Photo must be under 200 KB');const r=new FileReader();r.onload=()=>{me().avatar=r.result;LS.set('siq_users',users);renderAcct()};r.readAsDataURL(f)};
-/* ---------- checkout ---------- */
 const svcs=()=>SV.concat([{id:'custom',n:'Custom project (calculator estimate)',p:calc.v}]);
 $('#coao').innerHTML=AO.map(a=>`<label><input type="checkbox" data-n="${a[0]}" data-p="${a[1]}"> ${a[0]} <span style="margin-left:auto;color:var(--mu)">+$${a[1]}</span></label>`).join('');$('#coao').className='opts';
 const co={};
@@ -379,16 +448,53 @@ $('#cof').onsubmit=e=>{e.preventDefault();const f=e.target.elements,er=$('#coerr
  const seq=LS.get('siq_seq',1043);LS.set('siq_seq',seq+1);
  const o={id:'SIQ-'+seq,email:sess,svc:co.s.n,pkg:co.pk,addons:co.ad,amt:co.total,brief:f.brief.value.trim(),deadline:f.deadline.value,method:e.target.elements.method.value,attachment:f.file.files[0]?f.file.files[0].name:'',contact:{name:f.fullname.value.trim(),email:f.email.value.trim(),phone:f.phone.value.trim()},status:'New',createdAt:Date.now()};
  orders.push(o);if(!saveOrders())return;closeAll();notify();toast(`Order ${o.id} placed ✔`);go('orders')};
-/* ---------- payment proof ---------- */
 const need=['New','Awaiting Payment'];
 function openPay(id){requireAuth(()=>{openM('pay');const f=$('#pyf').elements;$('#pcur').textContent=cur;$('#oids').innerHTML=mine().map(o=>`<option value="${o.id}">`).join('');f.oid.value=id||'';f.amt.value='';f.file.value='';$('#pvw').hidden=true;$('#pyerr').textContent='';if(id)f.amt.value=Math.round(orders.find(o=>o.id===id).amt*RATE[cur]);histPay()})}
 const histPay=()=>{const h=pays.filter(p=>p.email===sess).sort((a,b)=>b.at-a.at);$('#phl').innerHTML=h.length?h.map(p=>`<div class="hi"><span><b>${esc(p.orderId)}</b> · ${esc(p.method)}<br><small style="color:var(--mu)">${dt(p.at)} · ${esc(p.file)}</small></span><span style="text-align:right">${esc(p.cur)} ${p.amount.toLocaleString('en')}<br><span class="bdg st-processing">${esc(p.state)}</span></span></div>`).join(''):'<p class="bd" style="font-size:14px">No payments submitted yet.</p>'};
 $('#pyf').elements.file.onchange=e=>{const f=e.target.files[0];if(f&&f.type.startsWith('image/')){$('#pvw').src=URL.createObjectURL(f);$('#pvw').hidden=false}else $('#pvw').hidden=true};
-$('#pyf').onsubmit=e=>{e.preventDefault();const f=e.target.elements,er=$('#pyerr'),o=mine().find(x=>x.id.toLowerCase()===f.oid.value.trim().toLowerCase()),fl=f.file.files[0];
- if(!o)return er.textContent='Order ID not found in your orders.';if(!(+f.amt.value>0))return er.textContent='Enter the amount you paid.';if(!fl||!fl.type.startsWith('image/'))return er.textContent='Upload a receipt image (JPG/PNG).';if(fl.size>5e6)return er.textContent='Receipt must be under 5 MB.';
- pays.push({id:'PAY-'+Date.now(),email:sess,orderId:o.id,amount:+f.amt.value,cur,method:f.method.value,file:fl.name,at:Date.now(),state:'Pending verification'}); /* INTEGRATE: upload fl to storage */
- if(need.includes(o.status))o.status='Processing';LS.set('siq_pays',pays);saveOrders();e.target.reset();$('#pvw').hidden=true;er.textContent='';histPay();renderAcct();toast('Payment proof submitted — verification pending')};
-/* ---------- notifications & chat ---------- */
+
+/* ============================================================
+   ✅ UPDATED: payment proof submit — receipt image bhi save hoti hai
+   ============================================================ */
+$('#pyf').onsubmit=async e=>{
+ e.preventDefault();
+ const f=e.target.elements,er=$('#pyerr');
+ const o=mine().find(x=>x.id.toLowerCase()===f.oid.value.trim().toLowerCase());
+ const fl=f.file.files[0];
+
+ if(!o)return er.textContent='Order ID not found in your orders.';
+ if(!(+f.amt.value>0))return er.textContent='Enter the amount you paid.';
+ if(!fl||!fl.type.startsWith('image/'))return er.textContent='Upload a receipt image (JPG/PNG).';
+ if(fl.size>5e6)return er.textContent='Receipt must be under 5 MB.';
+
+ let receiptData='';
+ try{receiptData=await readImageAsDataURL(fl)}
+ catch(err){return er.textContent=(typeof err==='string'?err:'Receipt process nahi ho saki.')}
+
+ pays.push({
+   id:'PAY-'+Date.now(),
+   email:sess,
+   orderId:o.id,
+   amount:+f.amt.value,
+   cur,
+   method:f.method.value,
+   file:fl.name,
+   receipt:receiptData,
+   at:Date.now(),
+   state:'Pending verification'
+ });
+
+ if(need.includes(o.status))o.status='Processing';
+ LS.set('siq_pays',pays);
+ saveOrders();
+ e.target.reset();
+ $('#pvw').hidden=true;
+ er.textContent='';
+ histPay();
+ renderAcct();
+ toast('Payment proof submitted — verification pending');
+};
+
 const setNc=()=>{$('#nc').hidden=!nc;$('#nc').textContent=nc};function notify(){nc++;setNc();$('#bell').classList.add('ring');setTimeout(()=>$('#bell').classList.remove('ring'),800)}
 $('#bell').onclick=()=>{nc=0;setNc();toast('No new notifications')};
 const ms=$('#msgs'),hm=t=>new Date(t).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
@@ -396,16 +502,116 @@ function bubble(m){const d=document.createElement('div');d.className='m'+(m.me?'
 const send=m=>{if(!sess)return needAuth();m.email=sess;m.name=me().name;const a=LS.get('siq_chat',[]);a.push(m);LS.set('siq_chat',a.slice(-2000));lastN=-1;bubble(m)};
 function setUnread(n){unread=n;$('#cu').hidden=$('#ud').hidden=!n;$('#cu').textContent=n}
 function typing(on){let t=$('#typ');if(on&&!t){t=document.createElement('div');t.id='typ';t.className='typ';t.textContent='Support is typing…';ms.appendChild(t)}else if(!on&&t)t.remove();ms.scrollTop=ms.scrollHeight}
-function autoReply(){if(acked)return;acked=true;typing(true);setTimeout(()=>{typing(false);send({text:'Thanks — we’ve received your message. A team member will reply here during business hours.',at:Date.now(),me:false});if(!$('#chatd').classList.contains('on'))setUnread(unread+1)},1300)}
+function autoReply(){if(acked)return;acked=true;typing(true);setTimeout(()=>{typing(false);send({text:T('chat.auto','Thanks — we’ve received your message. A team member will reply here during business hours.'),at:Date.now(),me:false});if(!$('#chatd').classList.contains('on'))setUnread(unread+1)},1300)}
 function say(){const i=$('#ci'),t=i.value.trim();if(!t)return;i.value='';send({text:t,at:Date.now(),me:true});autoReply()}
 $('#csend').onclick=say;$('#ci').onkeydown=e=>{if(e.key==='Enter')say()};
 $('#fi').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;send({file:{name:f.name,size:f.size},at:Date.now(),me:true});autoReply()};
 function openChat(){if(!me())return needAuth(openChat);closeAll();loadChat();$('#chatd').classList.add('on');$('#scrim').classList.add('on');setUnread(0);ms.scrollTop=ms.scrollHeight;setTimeout(()=>$('#ci').focus(),450)}
 loadChat();
-/* ---------- contact ---------- */
 $('#cf2').onsubmit=e=>{e.preventDefault();const f=e.target.elements,er=$('#cerr');if(f.name.value.trim().length<2||!MAIL.test(f.email.value.trim())||f.msg.value.trim().length<10)return er.textContent='Please complete all fields with a valid email and a message.';
  const c=LS.get('siq_contacts',[]);c.push({name:f.name.value.trim(),email:f.email.value.trim(),topic:f.topic.value,msg:f.msg.value.trim(),at:Date.now()});LS.set('siq_contacts',c);e.target.reset();er.textContent='';closeAll();toast('Message sent — we’ll reply by email')};
-/* ---------- events ---------- */
+
+function fileData(oid,fid){return firebase.database().ref('siq_files/'+oid+'/'+fid).once('value').then(s=>s.val())}
+function decodeDataUrl(d){
+  if(!d)return '';
+  if(/^data:/.test(d)){
+    const i=d.indexOf(',');
+    if(d.slice(0,i).indexOf(';base64')>-1){
+      try{return atob(d.slice(i+1))}catch(e){return ''}
+    }
+    try{return decodeURIComponent(d.slice(i+1))}catch(e){return ''}
+  }
+  return d;
+}
+function isCodeFile(f){
+  const n=(f.name||'').toLowerCase(),t=(f.type||'');
+  return /\.(html?|htm|js|jsx|ts|tsx|css|json|xml|svg|md|txt|php)$/.test(n)
+    || /text\/(html|css|javascript|plain|xml)/.test(t);
+}
+async function openPreview(oid){
+  requireAuth(async()=>{
+    const o=orders.find(x=>x.id===oid);if(!o)return;
+    const dlv=(LS.get('siq_dlv',null)||{})[oid]||{};
+    const deliv=dlv['Delivered']||{};
+    const files=deliv.files||[];
+    openM('preview');
+    $('#pvt').textContent=o.id+' — '+o.svc;
+    const approved=isPayApproved(oid);
+
+    let codeFile=files.find(isCodeFile)||files.find(f=>f.type&&f.type.indexOf('text/')===0)||null;
+    let code='';
+
+    if(approved && codeFile){
+      $('#pcode').value='// Loading file: '+codeFile.name+' …';
+      try{
+        const v=await fileData(oid,codeFile.id);
+        code=decodeDataUrl(v&&v.data)||'';
+        if(!code)code='// File loaded but no readable text. Download file instead.';
+      }catch(e){code='// File load error: '+e.message}
+    }else if(approved && !codeFile){
+      code=[
+        '<!doctype html>',
+        '<html><head><meta charset="utf-8"><title>Preview</title>',
+        '<style>body{font-family:system-ui,sans-serif;background:#0f1425;color:#eef0f7;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;padding:24px}',
+        'h1{color:#e8d08a;font-size:22px}p{color:#9aa2bd;line-height:1.6}</style></head>',
+        '<body><div><h1>ShoaibScale.Online — Delivery</h1>',
+        '<p>Your files are ready. Download them from My Orders.</p></div></body></html>'
+      ].join('\n');
+    }else{
+      code=[
+        '<!-- 🔒 PREVIEW MODE — Payment not verified -->',
+        '<!-- Real delivered files are HIDDEN until admin verifies your payment -->',
+        '',
+        '<!doctype html>',
+        '<html><head><meta charset="utf-8"><title>Preview — Locked</title>',
+        '<style>',
+        'body{font-family:system-ui,sans-serif;background:linear-gradient(135deg,#0f1425,#171d33);color:#eef0f7;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:24px}',
+        '.box{max-width:520px}',
+        '.lock{font-size:64px;margin-bottom:20px;filter:drop-shadow(0 0 20px rgba(232,208,138,.3))}',
+        'h1{color:#e8d08a;font-size:24px;margin-bottom:14px;font-family:Georgia,serif}',
+        'p{color:#9aa2bd;line-height:1.7;margin-bottom:12px;font-size:15px}',
+        '.badge{display:inline-block;background:rgba(201,162,39,.15);border:1px solid rgba(201,162,39,.4);color:#e8d08a;padding:8px 18px;border-radius:99px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-top:16px}',
+        '.hint{font-size:13px;color:#9aa2bd;margin-top:20px;padding:12px;background:rgba(255,255,255,.03);border-radius:10px;border:1px dashed rgba(201,162,39,.2)}',
+        '</style></head>',
+        '<body><div class="box">',
+        '<div class="lock">🔒</div>',
+        '<h1>Delivery Preview — Locked</h1>',
+        '<p>Your delivery is ready! To protect both sides, real files and code stay <b>hidden</b> until the admin verifies your payment proof.</p>',
+        '<p>Once verified, this preview will show your <b>actual delivered website/code</b> live, and the Download button will unlock.</p>',
+        '<div class="badge">Preview Mode · Awaiting Verification</div>',
+        '<div class="hint">💡 Already paid? Your proof is under review. You\'ll be notified as soon as it\'s verified.</div>',
+        '</div></body></html>'
+      ].join('\n');
+    }
+    $('#pcode').value=code;
+    $('#pframe').srcdoc=code;
+
+    if(approved){
+      $('#plock').style.display='none';
+      $('#pdl').innerHTML=`<button class="btn b1" data-download="${oid}">${ic('dl')} Download files</button>`;
+    }else{
+      $('#plock').style.display='flex';
+      $('#plock').innerHTML=`${ic('lock')} Download locked — admin ke payment approve karne ke baad unlock hoga. Real files preview se bhi hidden hain.`;
+      $('#pdl').innerHTML='';
+    }
+  });
+}
+function doDownload(oid){
+  if(!isPayApproved(oid))return toast('🔒 Download locked — admin payment approve nahi kiya');
+  const o=orders.find(x=>x.id===oid);if(!o)return;
+  const files=((LS.get('siq_dlv',null)||{})[oid]||{}).Delivered&&((LS.get('siq_dlv',null)||{})[oid].Delivered.files)||[];
+  if(!files.length)return toast('No files to download');
+  files.forEach(f=>{
+    fileData(oid,f.id).then(v=>{
+      if(!v||!v.data)return;
+      const a=document.createElement('a');
+      a.href=v.data;a.download=v.name||f.name;
+      document.body.appendChild(a);a.click();a.remove();
+    });
+  });
+  toast('Downloading '+files.length+' file(s)…');
+}
+
 document.addEventListener('click',e=>{const t=e.target,q=s=>t.closest(s);let x;
  if(x=q('[data-open]')){e.preventDefault();const k=x.dataset.open;if(k==='auth'){authView(x.dataset.tab||'login');openM('auth')}else if(k==='chat')openChat();else if(k==='pay')openPay();else openM(k);return}
  if(x=q('[data-go]')){e.preventDefault();return go(x.dataset.go)}
@@ -415,6 +621,9 @@ document.addEventListener('click',e=>{const t=e.target,q=s=>t.closest(s);let x;
  if(q('[data-order]'))return openCheckout(SV[0]?SV[0].id:'custom');
  if(q('#cord'))return openCheckout('custom');
  if(x=q('[data-pay]'))return openPay(x.dataset.pay);
+ if(x=q('[data-preview]'))return openPreview(x.dataset.preview);
+ if(x=q('[data-download]'))return doDownload(x.dataset.download);
+ if(q('#prun')){$('#pframe').srcdoc=$('#pcode').value;return toast('Preview refreshed')}
  if(q('[data-logout]'))return logout();
  if(x=q('[data-rev]')){const o=orders.find(o=>o.id===x.dataset.rev);if(Date.now()>o.deliveredAt+72*36e5)return toast('The 3-day revision window has closed');o.status='Revision Requested';saveOrders();renderAcct();return toast('Revision requested')}
  if(x=q('[data-ok]')){orders.find(o=>o.id===x.dataset.ok).status='Completed';saveOrders();renderAcct();return toast('Order approved & escrow released')}
@@ -426,7 +635,6 @@ $('#cur').value=cur;$('#cur').onchange=e=>{cur=e.target.value;LS.set('siq_cur',c
 $$('input[type=password]').forEach(i=>{const w=document.createElement('span');w.className='pw';i.before(w);w.append(i);const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show password');b.innerHTML=ic('eye');b.onclick=()=>{const s=i.type==='password';i.type=s?'text':'password';b.innerHTML=ic(s?'eyeoff':'eye');b.setAttribute('aria-label',s?'Hide password':'Show password')};w.append(b)});
 $('#af').elements.password.addEventListener('input',e=>rulesUI($('#arl'),e.target.value));
 renderSV();calc();renderAuth();setNc();rulesUI($('#arl'),'');rulesUI($('#prl'),'');
-/* ---------- moderation, per-user chat, admin sync ---------- */
 const BL=()=>LS.get('siq_blacklist',[]),dg=s=>String(s||'').replace(/\D/g,'');
 const blocked=(em,ph)=>BL().find(x=>x.email===em||(ph&&x.phone&&dg(x.phone)===dg(ph)));
 const banInfo=u=>u&&u.ban&&(!u.ban.until||Date.now()<u.ban.until)?u.ban:null;
@@ -434,7 +642,7 @@ function ov(h){let o=$('#mdo');if(!o){o=document.createElement('div');o.id='mdo'
 function guard(){users=LS.get('siq_users',{});const u=sess&&users[sess];if(!u){if(sess){sess=null;LS.set('siq_sess',null);renderAuth()}return}const bl=blocked(sess,u.phone),b=bl||banInfo(u);
  if(b){sess=null;LS.set('siq_sess',null);renderAuth();show('home');closeAll();const o=ov('<h2 style="margin-bottom:10px">Account '+(bl?'blacklisted':'suspended')+'</h2><p style="color:var(--mu);margin-bottom:18px">'+esc(b.reason||'Policy violation')+(b.until?'<br>Until '+dt(b.until):'')+'</p><button class="btn b2" id="mdx">Close</button>');o.querySelector('#mdx').onclick=()=>o.remove();return}
  const i=(u.warns||[]).findIndex(w=>!w.ack);if(i>-1&&!$('#mdo')){const o=ov('<h2 style="margin-bottom:10px">⚠ Warning from admin</h2><p style="margin-bottom:18px">'+esc(u.warns[i].msg)+'</p><button class="btn b1" id="mdx">I understand</button>');o.querySelector('#mdx').onclick=()=>{users=LS.get('siq_users',{});const w=users[sess]&&users[sess].warns;if(w&&w[i])w[i].ack=Date.now();LS.set('siq_users',users);o.remove()}}}
-function loadChat(){const g={text:'Hi 👋 Share your project details and our team will reply here.',at:Date.now(),me:false};ms.innerHTML='';bubble(g);LS.get('siq_chat',[]).filter(m=>m.email===sess).forEach(bubble)}
+function loadChat(){const g={text:T('chat.welcome','Hi 👋 Share your project details and our team will reply here.'),at:Date.now(),me:false};ms.innerHTML='';bubble(g);LS.get('siq_chat',[]).filter(m=>m.email===sess).forEach(bubble)}
 let lastN=-1,lastU=null;
 function syncChat(){if(lastU!==sess){lastU=sess;lastN=-1}const t=LS.get('siq_chat',[]).filter(m=>m.email===sess),p=lastN;if(t.length===lastN)return;lastN=t.length;const l=t[t.length-1];if(p>=0&&l&&!l.me){if($('#chatd').classList.contains('on'))loadChat();else{setUnread(unread+1);notify()}}}
 function ann(){const a=LS.get('siq_announce',null);let e=$('#ann');if(!a||!a.on||!a.text){e&&e.remove();return}if(!e){e=document.createElement('div');e.id='ann';e.style.cssText='background:var(--gg);color:#1a1405;text-align:center;padding:8px 14px;font-weight:600;font-size:14px';document.body.prepend(e)}e.textContent=a.text}
@@ -443,10 +651,37 @@ function brand(){const b=LS.get('siq_brand',null)||{},ok=v=>typeof v==='string'&
  if(li){if(li.dataset.s!==lg){li.dataset.s=lg;if(lg)li.src=lg;else li.removeAttribute('src')}li.hidden=!lg;mk.style.display=lg?'none':'';tx.hidden=!!lg&&b.showText===false}
  if(hi){if(hi.dataset.s!==hr){hi.dataset.s=hr;if(hr)hi.src=hr;else hi.removeAttribute('src')}hi.hidden=!hr;st.classList.toggle('hasimg',!!hr)}
  let f=$('#favi');if(lg){if(!f){f=document.createElement('link');f.id='favi';f.rel='icon';document.head.appendChild(f)}if(f.getAttribute('href')!==lg)f.href=lg}else if(f)f.remove()}
-function sync(){guard();syncChat();ann();brand()}
+function sync(){guard();syncChat();ann();brand();applyTexts();dsync()}
 addEventListener('siq-change',e=>{const k=e.detail.key;if(k==='siq_services'){const n=LS.get('siq_services',null);if(n){SV.length=0;SV.push(...n);renderSV();calc()}}if(k==='siq_orders')orders=LS.get('siq_orders',[]);if(k==='siq_pays')pays=LS.get('siq_pays',[]);if(k==='siq_users')users=LS.get('siq_users',{});if((k==='siq_orders'||k==='siq_pays')&&sess&&!$('#acct').hidden)renderAcct();sync()});
+const isImg=f=>/^image\//.test(f.type||'');
+function fileUrl(oid,f){const k=oid+'/'+f.id;if(FRES[k])return Promise.resolve(FRES[k]);
+ return FPRO[k]||(FPRO[k]=firebase.database().ref('siq_files/'+oid+'/'+f.id).once('value').then(s=>{const v=s.val();if(!v||!v.data)throw 0;return fetch(v.data).then(r=>r.blob())}).then(b=>{const u=URL.createObjectURL(new Blob([b],{type:f.type||b.type}));FRES[k]=u;return u}).catch(()=>{delete FPRO[k];return null}))}
+function dlvHTML(o){const d=DLV()[o.id]||{};return [['Processing',T('acct.upd1','Work in progress update')],['Delivered',T('acct.upd2','Delivery from our team')]].filter(([s])=>d[s]&&(d[s].note||(d[s].files||[]).length)).map(([s,l])=>{const x=d[s];
+ return `<div class="dlv" data-dl="${esc(o.id)}" data-st="${s}"><div class="dh"><b>${esc(l)}</b><small>${dt(x.at)}</small></div>${x.note?`<div class="dn"><span>${esc(T('acct.inst','Instructions'))}</span>${esc(x.note)}</div>`:''}${(x.files||[]).length?'<div class="dfs"></div>':''}</div>`}).join('')}
+function fileHTML(f,u){if(!u)return `<span class="fchip bd">${esc(f.name)} — unavailable</span>`;const nm=esc(f.name);
+ return isImg(f)?`<div class="fth"><a class="im" href="${u}" data-lb="${u}" data-nm="${nm}"><img src="${u}" alt="${nm}"></a><a class="fdl" href="${u}" download="${nm}">${ic('dl')} ${nm}</a></div>`:`<a class="fchip" href="${u}" download="${nm}">${ic('dl')} ${nm} <small style="color:var(--mu)">${Math.max(1,Math.round(f.size/1024))} KB</small></a>`}
+function hydrateDlv(){$$('.dlv').forEach(el=>{const oid=el.dataset.dl;
+  if(!isPayApproved(oid)) return;
+  const x=(DLV()[oid]||{})[el.dataset.st],box=el.querySelector('.dfs');if(!x||!box)return;const fs=x.files||[];
+ if(fs.every(f=>FRES[oid+'/'+f.id])){box.innerHTML=fs.map(f=>fileHTML(f,FRES[oid+'/'+f.id])).join('');return}
+ box.innerHTML='<span class="bd" style="font-size:13px">Loading files…</span>';
+ Promise.all(fs.map(f=>fileUrl(oid,f))).then(us=>{if(box.isConnected)box.innerHTML=fs.map((f,i)=>fileHTML(f,us[i])).join('')})})}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-lb]');if(!a)return;e.preventDefault();
+ const oid=a.closest('[data-dl]')&&a.closest('[data-dl]').dataset.dl;
+ if(oid&&!isPayApproved(oid))return toast('🔒 Files locked until payment verified');
+ const o=document.createElement('div');o.className='lbx';
+ o.innerHTML=`<img src="${a.dataset.lb}" alt=""><a class="btn b1" href="${a.dataset.lb}" download="${esc(a.dataset.nm)}">${ic('dl')} Download</a>`;o.onclick=ev=>{if(!ev.target.closest('a.btn'))o.remove()};document.body.appendChild(o)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){const l=$('.lbx');l&&l.remove()}});
+let lastDC=0,lastDS;
+const dlvCount=()=>{const d=DLV();return mine().reduce((n,o)=>n+Object.values(d[o.id]||{}).reduce((m,x)=>m+(x?(x.files||[]).length+(x.note?1:0):0),0),0)};
+function dsync(){if(lastDS!==sess){lastDS=sess;lastDC=dlvCount()}}
+addEventListener('siq-change',e=>{const k=e.detail.key;
+ if(k==='siq_dlv'){const n=dlvCount();if(sess&&lastDS===sess&&n>lastDC){notify();toast('New update on your order — open My Orders')}lastDC=n;lastDS=sess}
+ if((k==='siq_dlv'||k==='siq_texts'||k==='siq_pays')&&sess&&!$('#acct').hidden)renderAcct()});
+function applyTexts(){const o=LS.get('siq_texts',null)||{};
+ $$('[data-t]').forEach(el=>{if(el.dataset.d===undefined)el.dataset.d=el.textContent;const v=o[el.dataset.t],n=typeof v==='string'&&v.trim()?v:el.dataset.d;if(el.textContent!==n)el.textContent=n});
+ const s=LS.get('siq_sections',null)||{};$$('[data-sec]').forEach(el=>{el.hidden=s[el.dataset.sec]===false})}
 setInterval(sync,2500);sync();
-
 </script>
 <script>
 FBREADY.then(ok=>{if(!ok)return;const s=document.createElement('script');s.textContent=document.getElementById('app-src').textContent;document.body.appendChild(s)});
