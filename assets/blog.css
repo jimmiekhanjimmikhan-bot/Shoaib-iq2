@@ -1,0 +1,23 @@
+/* ShoaibScale blog styles — used only by blog.html and article pages */
+.bl-wrap{max-width:1080px;margin:0 auto}
+.bl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;margin-top:8px}
+.bl-card{display:flex;flex-direction:column;gap:10px;padding:22px;border:1px solid var(--ln,#dbe3ee);border-radius:18px;background:var(--card,#fff);text-decoration:none;color:inherit;transition:transform .15s,box-shadow .15s}
+.bl-card:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(15,23,42,.10)}
+.bl-card h3{margin:0;font-size:19px;line-height:1.3}
+.bl-card p{margin:0;color:var(--mu,#5b6b82);font-size:15px;line-height:1.6}
+.bl-tag{display:inline-block;align-self:flex-start;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(37,99,235,.10);color:var(--bl,#2563eb)}
+.bl-meta{font-size:13px;color:var(--mu,#5b6b82)}
+.bl-more{margin-top:auto;font-weight:700;color:var(--bl,#2563eb)}
+.post{max-width:760px;margin:0 auto;padding:8px 0 24px}
+.post h1{font-size:clamp(28px,5vw,40px);line-height:1.2;margin:10px 0 12px}
+.post h2{font-size:clamp(21px,3.4vw,26px);margin:34px 0 10px;line-height:1.3}
+.post p,.post li{font-size:17px;line-height:1.75;color:inherit}
+.post p{margin:0 0 16px}
+.post ul,.post ol{margin:0 0 18px;padding-left:22px}
+.post li{margin-bottom:8px}
+.post .lead{font-size:19px;color:var(--mu,#5b6b82)}
+.post .bl-note{border-left:4px solid var(--bl,#2563eb);padding:12px 16px;border-radius:0 12px 12px 0;background:rgba(37,99,235,.06);margin:22px 0}
+.post-cta{margin:36px 0 0;padding:24px;border:1px solid var(--ln,#dbe3ee);border-radius:18px;text-align:center}
+.post-cta h3{margin:0 0 8px}
+.bl-back{display:inline-block;margin-bottom:14px;font-weight:700;text-decoration:none}
+@media (prefers-color-scheme:dark){.bl-card:hover{box-shadow:0 10px 28px rgba(0,0,0,.4)}.bl-tag,.post .bl-note{background:rgba(96,165,250,.14)}}
