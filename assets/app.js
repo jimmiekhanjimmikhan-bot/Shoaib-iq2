@@ -1,366 +1,231 @@
-/* ShoaibScale front-end (shared by every page) */
-/* ===== ShoaibScale front-end (light theme). Firebase Realtime Database. ===== */
-const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-/* $p: for elements that only exist on some pages (returns a harmless dummy when absent) */
-const $p=s=>document.querySelector(s)||document.createElement('div');
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
-function toast(t){const e=$('#ts');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3000)}
-let users=LS.get('siq_users',{}),orders=LS.get('siq_orders',[]),pays=LS.get('siq_pays',[]),sess=LS.get('siq_sess',null),cur=LS.get('siq_cur','USD'),afterAuth=null,nc=0,unread=0,acked=false;
-const PAGE=document.body.dataset.page||'home',onAcct=PAGE==='account'||PAGE==='orders',GATED=['account','orders','chat','payment'];
-const URLS={home:'index.html',services:'services.html',portfolio:'portfolio.html',pricing:'pricing.html',about:'about.html',contact:'contact.html',faq:'faq.html',orders:'orders.html',profile:'account.html',chat:'chat.html',payment:'payment.html',login:'login.html'};
-const me=()=>sess?users[sess]:null,mine=()=>orders.filter(o=>o.email===sess).sort((a,b)=>b.createdAt-a.createdAt);
-const saveOrders=()=>{const r=LS.set('siq_orders',orders);snapOrders();return r},dt=t=>new Date(t).toLocaleDateString('en',{day:'numeric',month:'short',year:'numeric'});
-const RATE={USD:1,PKR:278,EUR:.92,AED:3.67},SYM={USD:'$',PKR:'Rs ',EUR:'€',AED:'AED '};
-const money=u=>SYM[cur]+Math.round(u*RATE[cur]).toLocaleString('en');
-const T=(k,d)=>{const o=LS.get('siq_texts',null)||{},v=o[k];return typeof v==='string'&&v.trim()?v:d};
-const DLV=()=>LS.get('siq_dlv',null)||{},FRES={},FPRO={};
-
-const isPayApproved=oid=>{
-  const p=LS.get('siq_pays',[]);
-  return p.some(x=>String(x.orderId)===String(oid)&&x.state==='Verified');
-};
-
-function readImageAsDataURL(file,max=1000,q=0.7){
-  return new Promise((res,rej)=>{
-    if(!/^image\/(png|jpe?g|webp)$/i.test(file.type)) return rej('Only PNG, JPG or WebP images are allowed');
-    if(file.size > 5*1024*1024) return rej('Image must be under 5 MB');
-    const r = new FileReader();
-    r.onerror = rej;
-    r.onload = () => {
-      const im = new Image();
-      im.onerror = () => rej('The image could not be opened');
-      im.onload = () => {
-        const s = Math.min(1, max / Math.max(im.width, im.height));
-        const c = document.createElement('canvas');
-        c.width  = Math.max(1, Math.round(im.width  * s));
-        c.height = Math.max(1, Math.round(im.height * s));
-        c.getContext('2d').drawImage(im, 0, 0, c.width, c.height);
-        res(c.toDataURL('image/jpeg', q));
-      };
-      im.src = r.result;
-    };
-    r.readAsDataURL(file);
-  });
-}
-
-/* ---------- passwords ---------- */
-const RULES=[['8+ characters',p=>p.length>=8],['Uppercase',p=>/[A-Z]/.test(p)],['Lowercase',p=>/[a-z]/.test(p)],['Number',p=>/\d/.test(p)],['Special character',p=>/[^A-Za-z0-9]/.test(p)]];
-const pwOk=p=>RULES.every(r=>r[1](p)),rulesUI=(ul,p)=>ul.innerHTML=RULES.map(r=>`<li class="${r[1](p)?'ok':''}">${r[0]}</li>`).join('');
-async function hash(p,salt){const d=new TextEncoder().encode(salt+p);if(window.crypto&&crypto.subtle){const b=await crypto.subtle.digest('SHA-256',d);return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}return btoa(salt+p)}
-const PHONE=/^\+?[0-9\s-]{7,16}$/,MAIL=/^\S+@\S+\.\S+$/;
-
-/* ---------- services (admin can override via siq_services) ---------- */
-const SV=LS.get('siq_services',null)||[
- {id:'landing',n:'Landing page design & development',d:'Focused pages that explain an offer and make the next step easy.',p:0,b:['Page structure and conversion copy','Responsive design and build','Forms, booking or WhatsApp CTA']},
- {id:'sites',n:'Business websites & catalogues',d:'Professional websites for service businesses, manufacturers and suppliers.',p:0,b:['Company and service pages','Export catalogues and product pages','RFQ / enquiry forms']},
- {id:'copy',n:'Content writing & copywriting',d:'Clear website, product and campaign content based on your actual offer.',p:0,b:['Website and landing-page copy','Product descriptions and FAQs','Proofread and tone-matched content']},
- {id:'trans',n:'Translation & localization',d:'Translate for the audience and market—not just word for word.',p:0,b:['Website and product translation','Terminology and tone alignment','Language review with your glossary']},
- {id:'bot',n:'AI chatbot development',d:'Answer approved FAQs, guide visitors and route complex queries to a person.',p:0,b:['Knowledge and FAQ setup','Website chat flows','Human escalation and handoff']},
- {id:'erp',n:'ERP, inventory & business portals',d:'Web tools for operational processes that are hard to manage in spreadsheets.',p:0,b:['Orders, stock and dispatch workflows','Role-based views','Custom internal portals']},
- {id:'dash',n:'Dashboards & machine monitoring',d:'Bring production, uptime and shift information into a useful view.',p:0,b:['Machine and operations dashboards','Downtime and shift reporting','Multi-site visibility']},
- {id:'safety',n:'Safety & compliance trackers',d:'Make routine checklists, incidents and expiry dates easier to follow.',p:0,b:['Audit and inspection checklists','Incident logging','Certificate and expiry reminders']},
- {id:'brand',n:'Brand systems & promo films',d:'Visual assets that help explain a company, product or production process.',p:0,b:['Brand identity and design assets','Factory / product promotional films','Short social-ready edits']}];
-const AO=[['Source files',60],['SEO setup',90],['Copywriting',120],['Priority support',80]];
-const renderSV=()=>{
- $p('#sg').innerHTML=SV.map((s,i)=>{const b=Array.isArray(s.b)?s.b:[];
-  const act=+s.p>0?`<div class="pr"><div><small>Starting at</small><b>${money(+s.p)}</b></div><button class="btn b1" data-buy="${esc(s.id)}">Order</button></div>`:`<a class="ql" href="contact.html" data-quote="${esc(s.n)}">Request a quote →</a>`;
-  return `<article class="card"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.n)}</h3><p>${esc(s.d)}</p>${b.length?`<ul>${b.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}${act}</article>`}).join('');
- const cs=$p('#cservice');if(cs){const v=cs.value;cs.innerHTML='<option value="">Choose a service</option>'+SV.map(s=>`<option>${esc(s.n)}</option>`).join('')+'<option>Not sure yet</option>';cs.value=v}};
-
-/* ---------- navigation ---------- */
-const PAGES=['home','services','portfolio','pricing','about','contact','faq'];
-function closeAll(){['#drawer','#chatd'].forEach(x=>{if(!(x==='#chatd'&&PAGE==='chat'))$(x).classList.remove('on')});$$('.mod.on').forEach(m=>m.classList.remove('on'));$('#scrim').classList.remove('on');$('#np').hidden=true;$('#um').hidden=true}
-const openM=id=>{closeAll();$('#m-'+id).classList.add('on')};
-function needAuth(cb){afterAuth=cb||null;authView('login');openM('auth')}
-const requireAuth=cb=>me()?cb():needAuth(cb);
-function go(t){closeAll();if(t==='projects')t='portfolio';
- if((t==='orders'||t==='profile')&&!me())return needAuth(()=>go(t));
- location.href=URLS[t]||URLS.home}
-function authView(v){const f=$('#af');f.dataset.v=v;$('#at').textContent={login:'Welcome back',signup:'Create your account',forgot:'Reset your password'}[v];$('#asub').textContent={login:'Log in',signup:'Create account',forgot:'Request reset'}[v];$('#aerr').textContent='';$('#atabs').hidden=v==='forgot';$$('#atabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===v));f.elements.password.autocomplete=v==='signup'?'new-password':'current-password';rulesUI($('#arl'),f.elements.password.value)}
-$('#af').onsubmit=async e=>{e.preventDefault();await PRIV;const f=e.target,v=f.dataset.v,d=Object.fromEntries(new FormData(f)),em=(d.email||'').trim().toLowerCase(),fail=m=>{$('#aerr').textContent=m};
- if(!MAIL.test(em))return fail('Enter a valid email address.');users=LS.get('siq_users',{});if(v!=='forgot'){const bl=blocked(em,d.phone||(users[em]||{}).phone);if(bl)return fail('This email/phone is blacklisted. '+(bl.reason||'')+' Contact support.')}
- if(v==='forgot'){const c=LS.get('siq_contacts',[]);c.push({name:'Password reset',email:em,topic:'Existing order',msg:'Password reset requested for '+em,at:Date.now()});LS.set('siq_contacts',c);f.reset();authView('login');return toast('Reset request sent to support — we will contact you by email.')}
- if(v==='signup'){const n=d.fullname.trim();if(n.length<2)return fail('Enter your full name.');if(!PHONE.test(d.phone.trim()))return fail('Enter a valid phone number.');
-  if(!pwOk(d.password))return fail('Password must meet all the rules below.');if(d.password!==d.confirm)return fail('Passwords do not match.');if(users[em])return fail('An account with this email already exists.');
-  const salt=Math.random().toString(36).slice(2);users[em]={name:n,phone:d.phone.trim(),salt,pass:await hash(d.password,salt),created:Date.now(),company:'',country:'',avatar:''};LS.set('siq_users',users)}
- else{const u=users[em];if(!u||u.pass!==await hash(d.password,u.salt))return fail('Incorrect email or password.')}
- {const bn=banInfo(users[em]);if(bn)return fail('This account is banned. '+(bn.reason?'Reason: '+bn.reason+'. ':'')+(bn.until?'Until '+dt(bn.until)+'. ':'')+'Contact support.')}
- sess=em;LS.set('siq_sess',sess);snapOrders();snapPays();f.reset();closeAll();renderAuth();toast(v==='signup'?'Account created — welcome!':'Logged in');
- loadChat();setNc();if(onAcct)renderAcct();
- if(PAGE==='login'){const nx=new URLSearchParams(location.search).get('next');return void(location.href=/^[a-z-]+\.html$/.test(nx||'')?nx:URLS.orders)}
- if(PAGE==='payment'&&!afterAuth)openPay(new URLSearchParams(location.search).get('order')||'');
- if(afterAuth){const c=afterAuth;afterAuth=null;c()}};
-function renderAuth(){const u=me(),pend=!u&&sess&&!window.PRIVOK,on=!!u||!!pend;document.body.toggleAttribute('data-auth',on);$('#ha').hidden=on;$('#hu').hidden=!on;
- if(on){let n='Account';if(u){n=u.name;try{localStorage.setItem('siq_sname',n)}catch(e){}}else{try{n=localStorage.getItem('siq_sname')||n}catch(e){}}$('#hu').innerHTML=`<span class="mi">${esc(n[0].toUpperCase())}</span>${esc(n.split(' ')[0])}`}}
-function logout(){sess=null;LS.set('siq_sess',null);renderAuth();closeAll();if(GATED.includes(PAGE))return go('home');toast('Logged out')}
-const STAT={pending:['New','Awaiting Payment'],prog:['Processing','Revision Requested'],done:['Delivered','Completed']},slug=s=>s.toLowerCase().replace(/ /g,'-');
-
-function payLockNotice(o){
-  const dlv = DLV()[o.id]||{};
-  const hasProgress = dlv['Processing'] && ((dlv['Processing'].files||[]).length||dlv['Processing'].note);
-  const hasDelivery = dlv['Delivered'] && ((dlv['Delivered'].files||[]).length||dlv['Delivered'].note);
-  if(!hasProgress && !hasDelivery) return '';
-  const lbl = hasDelivery ? 'Delivery ready — locked 🔒' : 'Work in progress — locked 🔒';
-  const msg = hasDelivery
-    ? 'Your delivery is ready, but files stay <b>hidden until the admin verifies your payment</b>. Click <b>Preview</b> to see a sample, or wait for verification to unlock the real files, images and instructions.'
-    : 'We are working on your order. Updates will <b>stay hidden until the admin verifies your payment</b>.';
-  return `<div class="dlv paylock"><div class="dh"><b>${ic('lock')} ${lbl}</b></div>
-  <div class="dn" style="margin:0"><span>${esc(T('acct.inst','Note'))}</span>${msg}</div>
-  </div>`;
-}
-
-function renderAcct(){
- if(!onAcct)return;const u=me();if(!u)return;const m=mine(),f=$p('#pf2').elements||{first:{},last:{},email:{},phone:{},company:{},country:{}},[fi,...la]=u.name.split(' ');
- $p('#pnm').textContent=u.name;$p('#pem').textContent=sess;$p('#pph').textContent=u.phone;$p('#psn').textContent=T('acct.since','Member since')+' '+dt(u.created);$p('#avl').textContent=u.name[0].toUpperCase();$p('#avi').hidden=!u.avatar;if(u.avatar)$p('#avi').src=u.avatar;
- f.first.value=fi;f.last.value=la.join(' ');f.email.value=sess;f.phone.value=u.phone;f.company.value=u.company||'';f.country.value=u.country||'';
- $p('#s1').textContent=m.length;$p('#s2').textContent=m.filter(o=>STAT.pending.includes(o.status)).length;$p('#s3').textContent=m.filter(o=>STAT.prog.includes(o.status)).length;$p('#s4').textContent=m.filter(o=>STAT.done.includes(o.status)).length;
- $p('#ol').innerHTML=m.length?m.map(o=>{
-  const pay=['New','Awaiting Payment'].includes(o.status),dl=o.status==='Delivered',approved=isPayApproved(o.id);
-  const previewBtn=`<button class="btn b2" data-preview="${o.id}">${ic('eye')} Preview</button>`;
-  const dlBtn = approved
-    ? `<button class="btn b1" data-download="${o.id}">${ic('dl')} Download</button>`
-    : `<button class="btn b2" disabled title="Unlocks after payment is verified">${ic('lock')} Download locked</button>`;
-  return `<div class="glass ord"><div class="top"><div><b>${esc(o.id)}</b> · ${esc(o.svc)} <span style="color:var(--mu)">(${esc(o.pkg)})</span><div style="color:var(--mu);font-size:13px">${money(o.amt)} · placed ${dt(o.createdAt)} · due ${esc(o.deadline)} · ${esc(o.method)}</div></div><span class="bdg st-${slug(o.status)}">${esc(o.status)}</span></div>
-${approved ? dlvHTML(o) : payLockNotice(o)}${pay?`<button class="btn b2" style="margin-top:12px" data-pay="${o.id}">${ic('up')} ${esc(T('acct.pay','Submit payment proof'))}</button>`:''}
-${dl?`<div style="margin-top:12px;font-size:13px;color:var(--mu)">${esc(T('acct.revwin','Revision window closes in:'))}</div><div class="cd" data-end="${o.deliveredAt+72*36e5}"><div><span>00</span><small>days</small></div><div><span>00</span><small>hrs</small></div><div><span>00</span><small>min</small></div><div><span>00</span><small>sec</small></div></div>
-<div class="ord-actions">
- ${previewBtn}
- ${dlBtn}
- ${approved?'':`<span class="lock-hint">${ic('lock')} Download unlocks once payment is verified</span>`}
- <button class="btn b2" data-rev="${o.id}">${esc(T('acct.req','Request revision'))}</button>
- <button class="btn b1" data-ok="${o.id}">${esc(T('acct.appr','Approve delivery'))}</button>
-</div>`:''}
-</div>`}).join(''):`<div class="glass ord bd">No orders yet. <a href="services.html" data-go="services" style="color:var(--bl)">Browse services</a> to place your first order.</div>`;
- tick();hydrateDlv();
-}
-
-function tick(){$$('.cd').forEach(c=>{let ms=+c.dataset.end-Date.now();c.classList.toggle('x',ms<=0);ms=Math.max(ms,0);[864e5,36e5,6e4,1e3].forEach((u,i)=>{const x=Math.floor(ms/u);ms-=x*u;c.querySelectorAll('span')[i].textContent=String(x).padStart(2,'0')})})}setInterval(tick,1000);
-window.SIQ={setStatus(id,st){const o=orders.find(x=>x.id===id);if(!o)return false;o.status=st;if(st==='Delivered')o.deliveredAt=Date.now();saveOrders();renderAcct();return true},markDelivered(id){return SIQ.setStatus(id,'Delivered')}};
-$p('#pf2').onsubmit=e=>{e.preventDefault();const f=e.target.elements,u=me(),er=$('#perr');const n=(f.first.value.trim()+' '+f.last.value.trim()).trim();
- if(f.first.value.trim().length<2)return er.textContent='Enter your first name.';if(!PHONE.test(f.phone.value.trim()))return er.textContent='Enter a valid phone number.';er.textContent='';
- Object.assign(u,{name:n,phone:f.phone.value.trim(),company:f.company.value.trim(),country:f.country.value});LS.set('siq_users',users);renderAuth();renderAcct();toast('Profile updated')};
-$p('#npw').oninput=e=>rulesUI($p('#prl'),e.target.value);
-$p('#sf').onsubmit=async e=>{e.preventDefault();await PRIV;const f=e.target.elements,u=me(),er=$('#serr');
- if(u.pass!==await hash(f.cur.value,u.salt))return er.textContent='Current password is incorrect.';if(!pwOk(f.np.value))return er.textContent='New password must meet all the rules.';
- if(f.np.value!==f.cp.value)return er.textContent='New passwords do not match.';if(f.np.value===f.cur.value)return er.textContent='Choose a different password.';
- u.salt=Math.random().toString(36).slice(2);u.pass=await hash(f.np.value,u.salt);LS.set('siq_users',users);e.target.reset();rulesUI($p('#prl'),'');er.textContent='';toast('Password updated')};
-$p('#avf').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f||!f.type.startsWith('image/'))return toast('Choose an image file');readImageAsDataURL(f,160,0.8).then(d=>{me().avatar=d;LS.set('siq_users',users);renderAcct()}).catch(m=>toast(typeof m==='string'?m:'Photo could not be processed'))};
-
-/* ---------- checkout (only for services that have a price) ---------- */
-const svcs=()=>SV.filter(s=>+s.p>0);
-$('#coao').innerHTML=AO.map(a=>`<label><input type="checkbox" data-n="${a[0]}" data-p="${a[1]}"> ${a[0]} <span style="margin-left:auto;color:var(--mu)">+$${a[1]}</span></label>`).join('');
-const co={};
-function coCalc(){const f=$('#cof').elements,s=svcs().find(x=>x.id===f.service.value);if(!s)return;const m=+f.pkg.value,pk=f.pkg.options[f.pkg.selectedIndex].text,base=Math.round(s.p*m),ad=$$('#coao input:checked');
- co.s=s;co.pk=pk;co.ad=ad.map(a=>a.dataset.n);co.total=base+ad.reduce((a,c)=>a+ +c.dataset.p,0);
- $('#sl').innerHTML=`<div class="ln"><span>${esc(s.n)} — ${pk}</span><b>${money(base)}</b></div>`+ad.map(a=>`<div class="ln"><span>${a.dataset.n}</span><b>${money(+a.dataset.p)}</b></div>`).join('');$('#st').textContent=$('#tt').textContent=money(co.total)}
-function openCheckout(id){if(!svcs().length)return go('contact');requireAuth(()=>{const u=me(),f=$('#cof').elements;openM('co');$('#coerr').textContent='';f.fullname.value=u.name;f.email.value=sess;f.phone.value=u.phone;f.brief.value='';f.file.value='';$$('#coao input').forEach(c=>c.checked=false);
- $('#cosv').innerHTML=svcs().map(s=>`<option value="${esc(s.id)}">${esc(s.n)}</option>`).join('');if(svcs().some(s=>s.id===id))f.service.value=id;const t=new Date(Date.now()+864e5*8);f.deadline.value=t.toISOString().slice(0,10);f.deadline.min=new Date(Date.now()+864e5).toISOString().slice(0,10);coCalc()})}
-$('#cof').addEventListener('input',coCalc);
-$('#cof').onsubmit=e=>{e.preventDefault();const f=e.target.elements,er=$('#coerr'),bad=m=>er.textContent=m;
- if(!co.s)return bad('Choose a service.');
- if(f.fullname.value.trim().length<2)return bad('Enter your full name.');if(!MAIL.test(f.email.value.trim()))return bad('Enter a valid email.');if(!PHONE.test(f.phone.value.trim()))return bad('Enter a valid phone number.');
- if(f.brief.value.trim().length<20)return bad('Please describe your project (at least 20 characters).');if(!f.deadline.value||new Date(f.deadline.value)<=new Date())return bad('Choose a delivery deadline in the future.');
- const seq=LS.get('siq_seq',1043);LS.set('siq_seq',seq+1);
- const o={id:'SIQ-'+seq,email:sess,svc:co.s.n,pkg:co.pk,addons:co.ad,amt:co.total,brief:f.brief.value.trim(),deadline:f.deadline.value,method:e.target.elements.method.value,attachment:f.file.files[0]?f.file.files[0].name:'',contact:{name:f.fullname.value.trim(),email:f.email.value.trim(),phone:f.phone.value.trim()},status:'New',createdAt:Date.now()};
- orders.push(o);if(!saveOrders())return;closeAll();notify('Order '+o.id+' placed. Next step: submit your payment proof.',URLS.payment);toast(`Order ${o.id} placed ✔`);setTimeout(()=>go('orders'),1200)};
-const need=['New','Awaiting Payment'];
-function openPay(id){requireAuth(()=>{openM('pay');const f=$('#pyf').elements;$('#pcur').textContent=cur;$('#oids').innerHTML=mine().map(o=>`<option value="${o.id}">`).join('');f.oid.value=id||'';f.amt.value='';f.file.value='';$('#pvw').hidden=true;$('#pyerr').textContent='';if(id)f.amt.value=Math.round(orders.find(o=>o.id===id).amt*RATE[cur]);histPay()})}
-const histPay=()=>{const h=pays.filter(p=>p.email===sess).sort((a,b)=>b.at-a.at);$('#phl').innerHTML=h.length?h.map(p=>`<div class="hi"><span><b>${esc(p.orderId)}</b> · ${esc(p.method)}<br><small style="color:var(--mu)">${dt(p.at)} · ${esc(p.file)}</small></span><span style="text-align:right">${esc(p.cur)} ${p.amount.toLocaleString('en')}<br><span class="bdg st-
-processing">${esc(p.state)}</span></span></div>`).join(''):'<p class="bd" style="font-size:14px">No payments submitted yet.</p>'};
-$('#pyf').elements.file.onchange=e=>{const f=e.target.files[0];if(f&&f.type.startsWith('image/')){$('#pvw').src=URL.createObjectURL(f);$('#pvw').hidden=false}else $('#pvw').hidden=true};
-
-$('#pyf').onsubmit=async e=>{
- e.preventDefault();await PRIV;
- const f=e.target.elements,er=$('#pyerr');
- const o=mine().find(x=>x.id.toLowerCase()===f.oid.value.trim().toLowerCase());
- const fl=f.file.files[0];
- if(!o)return er.textContent='Order ID not found in your orders.';
- if(!(+f.amt.value>0))return er.textContent='Enter the amount you paid.';
- if(!fl||!fl.type.startsWith('image/'))return er.textContent='Upload a receipt image (JPG/PNG).';
- if(fl.size>5e6)return er.textContent='Receipt must be under 5 MB.';
- let receiptData='';
- try{receiptData=await readImageAsDataURL(fl)}
- catch(err){return er.textContent=(typeof err==='string'?err:'The receipt could not be processed.')}
- pays.push({id:'PAY-'+Date.now(),email:sess,orderId:o.id,amount:+f.amt.value,cur,method:f.method.value,file:fl.name,receipt:receiptData,at:Date.now(),state:'Pending verification'});
- if(need.includes(o.status))o.status='Processing';
- LS.set('siq_pays',pays);snapPays();
- saveOrders();
- e.target.reset();
- $('#pvw').hidden=true;
- er.textContent='';
- histPay();
- renderAcct();
- toast('Payment proof submitted — verification pending');
-};
-
-const NK=()=>'siq_nf_'+(sess||'');
-const nfGet=()=>{try{return JSON.parse(localStorage.getItem(NK())||'[]')}catch(e){return[]}};
-const nfSet=a=>{try{localStorage.setItem(NK(),JSON.stringify(a.slice(0,50)))}catch(e){}};
-const setNc=()=>{nc=sess?nfGet().filter(n=>!n.read).length:0;['#nc','#nc2'].forEach(q=>{const e=$(q);e.hidden=!nc;e.textContent=nc})};
-function renderNf(){const a=nfGet();$('#nl').innerHTML=a.length?a.map(n=>`<a class="nf${n.read?'':' un'}" href="${esc(n.link||'#')}"><b>${esc(n.text)}</b><small>${dt(n.at)} · ${hm(n.at)}</small></a>`).join(''):'<p class="bd" style="font-size:13px;padding:12px">No notifications yet. Updates on your orders, payments and chat will appear here.</p>';
- $('#nperm').hidden=!('Notification' in window)||Notification.permission!=='default'}
-function notify(text,link){if(!sess)return;if(text){const a=nfGet();a.unshift({id:Date.now()+Math.random(),text,link:link||'',at:Date.now(),read:false});nfSet(a)}setNc();
- $('#bell').classList.add('ring');setTimeout(()=>$('#bell').classList.remove('ring'),800);if(!$('#np').hidden)renderNf();
- if(text&&document.hidden&&'Notification' in window&&Notification.permission==='granted'){try{new Notification('ShoaibScale',{body:text,icon:'/assets/favicon-48x48.png'})}catch(e){}}}
-function toggleNf(){const p=$('#np');if(!p.hidden){p.hidden=true;return}closeAll();renderNf();p.hidden=false;const a=nfGet();a.forEach(n=>n.read=true);nfSet(a);setNc()}
-$('#bell').onclick=toggleNf;
-const ms=$('#msgs'),hm=t=>new Date(t).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
-function bubble(m){const d=document.createElement('div');d.className='m'+(m.me?' me':'');d.innerHTML=(m.text?esc(m.text):'')+(m.file?`<div class="att">${ic('clip')} ${esc(m.file.name)} <small style="margin:0">${(m.file.size/1024).toFixed(1)} KB</small></div>`:'')+`<small>${hm(m.at)}</small>`;ms.appendChild(d);ms.scrollTop=ms.scrollHeight}
-const send=m=>{if(!sess)return needAuth();m.email=sess;m.name=me().name;const a=LS.get('siq_chat',[]);a.push(m);LS.set('siq_chat',a.slice(-300));lastN=-1;bubble(m)};
-function setUnread(n){unread=n;$('#cu').hidden=$('#ud').hidden=$('#cu2').hidden=!n;$('#cu').textContent=$('#cu2').textContent=n}
-function typing(on){let t=$('#typ');if(on&&!t){t=document.createElement('div');t.id='typ';t.className='typ';t.textContent='Support is typing…';ms.appendChild(t)}else if(!on&&t)t.remove();ms.scrollTop=ms.scrollHeight}
-function autoReply(){if(acked)return;acked=true;typing(true);setTimeout(()=>{typing(false);send({text:T('chat.auto','Thanks — we’ve received your message. A team member will reply here during business hours.'),at:Date.now(),me:false});if(!$('#chatd').classList.contains('on'))setUnread(unread+1)},1300)}
-function say(){const i=$('#ci'),t=i.value.trim();if(!t)return;i.value='';send({text:t,at:Date.now(),me:true});autoReply()}
-$('#csend').onclick=say;$('#ci').onkeydown=e=>{if(e.key==='Enter')say()};
-$('#fi').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;send({file:{name:f.name,size:f.size},at:Date.now(),me:true});autoReply()};
-function openChat(){if(!me())return needAuth(openChat);if(PAGE==='chat'){loadChat();setUnread(0);ms.scrollTop=ms.scrollHeight;return $('#ci').focus()}closeAll();loadChat();$('#chatd').classList.add('on');$('#scrim').classList.add('on');setUnread(0);ms.scrollTop=ms.scrollHeight;setTimeout(()=>$('#ci').focus(),450)}
-loadChat();
-
-/* contact page form */
-$p('#cf2').onsubmit=e=>{e.preventDefault();const f=e.target.elements,er=$p('#cerr');
- if(f.name.value.trim().length<2||!MAIL.test(f.email.value.trim())||f.msg.value.trim().length<10)return er.textContent='Please add your name, a valid email and a short message (at least 10 characters).';
- const c=LS.get('siq_contacts',[]);
- c.push({name:f.name.value.trim(),email:f.email.value.trim(),topic:f.service.value||'New project',msg:(f.budget.value?'[Budget: '+f.budget.value+'] ':'')+f.msg.value.trim(),at:Date.now()});
- if(!LS.set('siq_contacts',c))return;
- e.target.reset();er.textContent='';toast('Message sent — we’ll reply by email')};
-
-function fileData(oid,fid){return firebase.database().ref('siq_files/'+oid+'/'+fid).once('value').then(s=>s.val())}
-function decodeDataUrl(d){
-  if(!d)return '';
-  if(/^data:/.test(d)){
-    const i=d.indexOf(',');
-    if(d.slice(0,i).indexOf(';base64')>-1){
-      try{return atob(d.slice(i+1))}catch(e){return ''}
+/* ShoaibScale shared script. Site Firebase ke bina bhi chalti hai (data browser me save hota hai);
+   agar firebase-init.js sahi config ke sath ho to inquiries/orders/chat Firebase me bhi mirror hote hain. */
+(function () {
+  "use strict";
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function (s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  var MAP = { session: "siq_sess", users: "siq_users", orders: "siq_orders", payments: "siq_pays", chat: "siq_chat", inquiries: "siq_contacts" };
+  var store = {
+    get: function (k, d) {
+      try {
+        if (MAP[k] && window.LS) { var v = LS.get(MAP[k], d); return v == null ? d : v; }
+        var r = localStorage.getItem("ss_" + k); return r ? JSON.parse(r) : d;
+      } catch (e) { return d; }
+    },
+    set: function (k, v) {
+      try { if (MAP[k] && window.LS) return LS.set(MAP[k], v); localStorage.setItem("ss_" + k, JSON.stringify(v)); return true; } catch (e) { return false; }
     }
-    try{return decodeURIComponent(d.slice(i+1))}catch(e){return ''}
-  }
-  return d;
-}
-function isCodeFile(f){
-  const n=(f.name||'').toLowerCase(),t=(f.type||'');
-  return /\.(html?|htm|js|jsx|ts|tsx|css|json|xml|svg|md|txt|php)$/.test(n)
-    || /text\/(html|css|javascript|plain|xml)/.test(t);
-}
-async function openPreview(oid){
-  requireAuth(async()=>{
-    const o=orders.find(x=>x.id===oid);if(!o)return;
-    const dlv=(LS.get('siq_dlv',null)||{})[oid]||{};
-    const deliv=dlv['Delivered']||{};
-    const files=deliv.files||[];
-    openM('preview');
-    $('#pvt').textContent=o.id+' — '+o.svc;
-    const approved=isPayApproved(oid);
-    let codeFile=files.find(isCodeFile)||files.find(f=>f.type&&f.type.indexOf('text/')===0)||null;
-    let code='';
-    if(approved && codeFile){
-      $('#pcode').value='// Loading file: '+codeFile.name+' …';
-      try{
-        const v=await fileData(oid,codeFile.id);
-        code=decodeDataUrl(v&&v.data)||'';
-        if(!code)code='// File loaded but no readable text. Download file instead.';
-      }catch(e){code='// File load error: '+e.message}
-    }else if(approved && !codeFile){
-      code=['<!doctype html>','<html><head><meta charset="utf-8"><title>Preview</title>','<style>body{font-family:system-ui,sans-serif;background:#f6f8fc;color:#14213a;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;padding:24px}','h1{color:#2563eb;font-size:22px}p{color:#5b6b82;line-height:1.6}</style></head>','<body><div><h1>ShoaibScale — Delivery</h1>','<p>Your files are ready. Download them from My Orders.</p></div></body></html>'].join('\n');
-    }else{
-      code=['<!-- 🔒 PREVIEW MODE — Payment not verified -->','<!-- Real delivered files are HIDDEN until admin verifies your payment -->','','<!doctype html>','<html><head><meta charset="utf-8"><title>Preview — Locked</title>','<style>',
-        'body{font-family:system-ui,sans-serif;background:#f6f8fc;color:#14213a;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;text-align:center;padding:24px}','.box{max-width:520px}','.lock{font-size:60px;margin-bottom:18px}','h1{color:#2563eb;font-size:24px;margin-bottom:14px}','p{color:#5b6b82;line-height:1.7;margin-bottom:12px;font-size:15px}',
-        '.badge{display:inline-block;background:#e8efff;border:1px solid #c7d8fb;color:#2563eb;padding:8px 18px;border-radius:99px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-top:16px}','.hint{font-size:13px;color:#5b6b82;margin-top:20px;padding:12px;background:#fff;border-radius:10px;border:1px dashed #c7d8fb}',
-        '</style></head>','<body><div class="box">','<div class="lock">🔒</div>','<h1>Delivery Preview — Locked</h1>','<p>Your delivery is ready! To protect both sides, real files and code stay <b>hidden</b> until the admin verifies your payment proof.</p>','<p>Once verified, this preview will show your <b>actual delivered website/code</b> live, and the Download button will unlock.</p>','<div class="badge">Preview Mode · Awaiting Verification</div>','<div class="hint">💡 Already paid? Your proof is under review. You\'ll be notified as soon as it\'s verified.</div>','</div></body></html>'].join('\n');
-    }
-    $('#pcode').value=code;
-    $('#pframe').srcdoc=code;
-    if(approved){
-      $('#plock').style.display='none';
-      $('#pdl').innerHTML=`<button class="btn b1" data-download="${oid}">${ic('dl')} Download files</button>`;
-    }else{
-      $('#plock').style.display='flex';
-      $('#plock').innerHTML=`${ic('lock')} Download locked — it unlocks once your payment is verified. Real files are hidden in preview until then.`;
-      $('#pdl').innerHTML='';
-    }
-  });
-}
-function doDownload(oid){
-  if(!isPayApproved(oid))return toast('🔒 Download locked — payment not verified yet');
-  const o=orders.find(x=>x.id===oid);if(!o)return;
-  const files=((LS.get('siq_dlv',null)||{})[oid]||{}).Delivered&&((LS.get('siq_dlv',null)||{})[oid].Delivered.files)||[];
-  if(!files.length)return toast('No files to download');
-  files.forEach(f=>{
-    fileData(oid,f.id).then(v=>{
-      if(!v||!v.data)return;
-      const a=document.createElement('a');
-      a.href=v.data;a.download=v.name||f.name;
-      document.body.appendChild(a);a.click();a.remove();
+  };
+  function ready() { return window.PRIV ? Promise.resolve(window.PRIV).catch(function () {}) : Promise.resolve(); }
+  function mirror() {}
+  function toast(m) { var t = $("#ts"); if (!t) return; t.textContent = m; t.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(function () { t.classList.remove("on"); }, 3200); }
+  function err(id, m) { var e = $("#" + id); if (e) { e.textContent = m || ""; e.style.display = m ? "block" : ""; } }
+  var emailOk = function (s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); };
+  function sha(s) {
+    if (!(window.crypto && crypto.subtle)) return Promise.resolve("p:" + btoa(unescape(encodeURIComponent(s))));
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function (b) {
+      return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join("");
     });
-  });
-  toast('Downloading '+files.length+' file(s)…');
-}
+  }
 
-document.addEventListener('click',e=>{const t=e.target,q=s=>t.closest(s);let x;
- if(!q('#np,#bell,[data-open="notif"]'))$('#np').hidden=true;if(!q('#um,#hu'))$('#um').hidden=true;
- if(q('#hu')){e.preventDefault();const m=$('#um');m.hidden=!m.hidden;return}
- if(x=q('[data-open]')){e.preventDefault();const k=x.dataset.open;if(k==='auth'){authView(x.dataset.tab||'login');openM('auth')}else if(k==='chat')openChat();else if(k==='pay')openPay();else if(k==='notif')toggleNf();else if(k==='contact'||k==='faq')go(k);else openM(k);return}
- if(x=q('[data-quote]')){e.preventDefault();const s=x.dataset.quote;location.href=URLS.contact+(s?'?service='+encodeURIComponent(s):'');return}
- if(x=q('[data-go]')){const hr=x.getAttribute('href');if(x.tagName==='A'&&hr&&hr[0]!=='#')return;e.preventDefault();return go(x.dataset.go)}
- if(x=q('[data-av]')){e.preventDefault();return authView(x.dataset.av)}
- if(x=q('#atabs [data-tab]'))return authView(x.dataset.tab);
- if(x=q('[data-buy]'))return openCheckout(x.dataset.buy);
- if(x=q('[data-pay]'))return openPay(x.dataset.pay);
- if(x=q('[data-preview]'))return openPreview(x.dataset.preview);
- if(x=q('[data-download]'))return doDownload(x.dataset.download);
- if(q('#prun')){$('#pframe').srcdoc=$('#pcode').value;return toast('Preview refreshed')}
- if(q('[data-logout]'))return logout();
- if(x=q('[data-rev]')){const o=orders.find(o=>o.id===x.dataset.rev);if(Date.now()>o.deliveredAt+72*36e5)return toast('The 3-day revision window has closed');o.status='Revision Requested';saveOrders();renderAcct();return toast('Revision requested')}
- if(x=q('[data-ok]')){orders.find(o=>o.id===x.dataset.ok).status='Completed';saveOrders();renderAcct();return toast('Order approved')}
- if(q('[data-close]')||t.classList.contains('mod')||t.id==='scrim')return closeAll();
- if((x=q('a[href^="#"]'))){e.preventDefault();const h=x.getAttribute('href').slice(1);if(PAGES.includes(h))go(h)}});
-$('#bg').onclick=()=>{$('#drawer').classList.add('on');$('#scrim').classList.add('on')};$('#cls').onclick=closeAll;
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
-$('#cur').value=cur;$('#cur').onchange=e=>{cur=e.target.value;LS.set('siq_cur',cur);renderSV();if(onAcct)renderAcct();if($('#m-co').classList.contains('on'))coCalc()};
-$$('input[type=password]').forEach(i=>{const w=document.createElement('span');w.className='pw';i.before(w);w.append(i);const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show password');b.innerHTML=ic('eye');b.onclick=()=>{const s=i.type==='password';i.type=s?'text':'password';b.innerHTML=ic(s?'eyeoff':'eye');b.setAttribute('aria-label',s?'Hide password':'Show password')};w.append(b)});
-$('#af').elements.password.addEventListener('input',e=>rulesUI($('#arl'),e.target.value));
-const BL=()=>LS.get('siq_blacklist',[]),dg=s=>String(s||'').replace(/\D/g,'');
-const blocked=(em,ph)=>BL().find(x=>x.email===em||(ph&&x.phone&&dg(x.phone)===dg(ph)));
-const banInfo=u=>u&&u.ban&&(!u.ban.until||Date.now()<u.ban.until)?u.ban:null;
-function ov(h){let o=$('#mdo');if(!o){o=document.createElement('div');o.id='mdo';o.style.cssText='position:fixed;inset:0;z-index:999;background:rgba(15,23,42,.6);display:grid;place-items:center;padding:20px';document.body.appendChild(o)}o.innerHTML='<div class="glass" style="max-width:440px;padding:30px;text-align:center">'+h+'</div>';return o}
-function guard(){if(!window.PRIVOK)return;users=LS.get('siq_users',{});const u=sess&&users[sess];if(!u){if(sess){sess=null;LS.set('siq_sess',null);renderAuth()}return}const bl=blocked(sess,u.phone),b=bl||banInfo(u);
- if(b){sess=null;LS.set('siq_sess',null);renderAuth();closeAll();if(GATED.includes(PAGE))location.href='index.html';const o=ov('<h2 style="margin-bottom:10px">Account '+(bl?'blacklisted':'suspended')+'</h2><p style="color:var(--mu);margin-bottom:18px">'+esc(b.reason||'Policy violation')+(b.until?'<br>Until '+dt(b.until):'')+'</p><button class="btn b2" id="mdx">Close</button>');o.querySelector('#mdx').onclick=()=>o.remove();return}
- const i=(u.warns||[]).findIndex(w=>!w.ack);if(i>-1&&!$('#mdo')){const o=ov('<h2 style="margin-bottom:10px">⚠ Warning from admin</h2><p style="margin-bottom:18px">'+esc(u.warns[i].msg)+'</p><button class="btn b1" id="mdx">I understand</button>');o.querySelector('#mdx').onclick=()=>{users=LS.get('siq_users',{});const w=users[sess]&&users[sess].warns;if(w&&w[i])w[i].ack=Date.now();LS.set('siq_users',users);o.remove()}}}
-function loadChat(){const g={text:T('chat.welcome','Hi 👋 Share your project details and our team will reply here.'),at:Date.now(),me:false};ms.innerHTML='';bubble(g);LS.get('siq_chat',[]).filter(m=>m.email===sess).forEach(bubble)}
-let lastN=-1,lastU=null;
-function syncChat(){if(lastU!==sess){lastU=sess;lastN=-1}const t=LS.get('siq_chat',[]).filter(m=>m.email===sess),p=lastN;if(t.length===lastN)return;lastN=t.length;const l=t[t.length-1];if(p>=0&&l&&!l.me){if($('#chatd').classList.contains('on'))loadChat();else{setUnread(unread+1);notify('New message from support',URLS.chat)}}}
-function ann(){const a=LS.get('siq_announce',null);let e=$('#ann');if(!a||!a.on||!a.text){e&&e.remove();return}if(!e){e=document.createElement('div');e.id='ann';e.style.cssText='background:#2563eb;color:#fff;text-align:center;padding:8px 14px;font-weight:600;font-size:14px';document.body.prepend(e)}e.textContent=a.text}
-function brand(){const b=LS.get('siq_brand',null)||{},ok=v=>typeof v==='string'&&/^data:image\/(png|jpe?g|webp|gif|svg\+xml)[;,]/.test(v)?v:'';
- const lg=ok(b.logo),hr=ok(b.hero),li=$('#logoimg'),tx=$('.logo .lt'),hi=$p('#heroimg'),st=$p('.stage');
- if(li){if(li.dataset.s!==lg){li.dataset.s=lg;if(lg)li.src=lg;else li.removeAttribute('src')}li.hidden=!lg;tx.hidden=!!lg&&b.showText===false}
- if(hi){if(hi.dataset.s!==hr){hi.dataset.s=hr;if(hr)hi.src=hr;else hi.removeAttribute('src')}hi.hidden=!hr;st.classList.toggle('hasimg',!!hr)}
- let f=$('#favi');if(lg){if(!f){f=document.createElement('link');f.id='favi';f.rel='icon';document.head.appendChild(f)}if(f.getAttribute('href')!==lg)f.href=lg}else if(f)f.remove()}
+  /* ---------- CONTENT (yahan se services/portfolio edit karein) ---------- */
+  var SERVICES = [
+    ["Landing pages & websites", "Design, content and development for clear product and service pages.", "Hero and offer structure · Responsive build · Contact or booking CTA · Basic SEO setup"],
+    ["Content & translation", "Website copy, product content and audience-aware translation.", "Website and product copy · Translation and localization · Tone and terminology checks"],
+    ["AI chatbots", "FAQ assistants, lead capture and clear human handoff.", "FAQ assistant · Lead capture · Human handoff · Verified answers only"],
+    ["Custom portals & software", "ERP, inventory and workflow tools shaped around business needs.", "Requirements mapping · Portals and inventory tools · Role-based access · Handover notes"],
+    ["Dashboards & monitoring", "Operational reporting, machine monitoring and shift views.", "KPI dashboards · Machine and shift views · Reports for managers"],
+    ["Brand systems & promo films", "Visual identity and production stories for business audiences.", "Logo and colour system · Brand guidelines · Short promo film planning"]
+  ];
+  var PORTFOLIO = [
+    ["Business landing page", "Landing page", "A focused page that explains one service and leads to a single enquiry action."],
+    ["FAQ chatbot", "AI chatbot", "A support assistant that answers common questions and hands over to a person."],
+    ["Operations dashboard", "Dashboard", "Shift and production views that make daily reporting easier to read."]
+  ];
+  var DEMOS = []; // demo cards yahan add karein: ["Title","Tag","Description"]
+  var LOGO = "assets/shoaibscale-logo.png";
 
-const U=v=>{v=String(v||'').trim();return v?(/^https?:\/\//i.test(v)?v:'https://'+v):''};
-const PF=()=>{const a=LS.get('siq_portfolio',null);return Array.isArray(a)?a:[]};
-/* default portfolio shown until admin adds real projects */
-const DPF=[
- {t:'Plant ERP Portal',k:'Custom software',c:'Hanif Steel Works',d:'Replaced spreadsheet-based tracking with a portal for production orders, stock and dispatch.',r:'Faster order processing\nStock reconciliation reduced',g:'g0'},
- {t:'Machine Monitoring Dashboard',k:'Dashboards',c:'Crescent Textiles',d:'Real-time loom uptime, downtime reasons and shift reports, with multiple plants in one view.',r:'Downtime reporting\nShift reports automated',g:'g1'},
- {t:'Export Catalogue Website',k:'Websites & content',c:'Meridian Industrial Supply',d:'Multilingual B2B catalogue with RFQ forms and SEO-ready product pages.',r:'Qualified enquiries\nMultilingual catalogue',g:'g2c'},
- {t:'Safety & Compliance Tracker',k:'Custom software',c:'Orbit Chemicals',d:'Audit checklists, incident logging and certificate-expiry alerts for site teams.',r:'Audit-ready records\nExpiry reminders',g:'g3c'},
- {t:'Inventory SaaS MVP',k:'Product development',c:'StockLine',d:'Multi-warehouse inventory application with barcode scanning and role-based access.',r:'MVP delivery\nMulti-warehouse support',g:'g4'},
- {t:'Factory Promo Film',k:'Brand & video',c:'Delta Packaging',d:'Production-line brand film and short motion cuts for tender and social use.',r:'Tender presentation\nSocial-ready edits',g:'g5'}];
-const DEMOS=[
- {t:'EarningsBee',k:'Prototype',d:'Rewards-app interface concept: account screens, tasks, referral and withdrawal flow. Demo prototype.',g:'g4',demo:1},
- {t:'FoilFlow',k:'Prototype',d:'Product sign-in screen preview. Demo prototype.',g:'g1',demo:1}];
-const GR=['g0','g1','g2c','g3c','g4','g5'];
-function pfCard(p){
- const im=/^data:image\//.test(p.img||'')?`<img class="pimg" src="${p.img}" alt="${esc(p.t)}" loading="lazy">`:`<div class="cover ${p.g||'g0'}"><div class="ca">${esc(p.k||'Project')}</div><div class="cb"></div></div>`;
- const l=U(p.l),rs=String(p.r||'').split('\n').map(x=>x.trim()).filter(Boolean).slice(0,6);
- return `<article class="card pfc">${im}<div class="pm2"><span class="chip">${esc(p.k||'Case study')}</span><small>${p.demo?'Prototype':'Case study'}</small></div><h3>${esc(p.t)}</h3><p>${p.c?`<b>${esc(p.c)}</b> · `:''}${esc(p.d)}</p>${p.s?`<span class="res">${esc(p.s)}</span>`:''}${rs.length?`<div class="rs">${rs.map(x=>esc(x)).join(' · ')}</div>`:''}${l?`<a class="vl" href="${esc(l)}" target="_blank" rel="noopener noreferrer">View project →</a>`:`<a class="vl" href="contact.html" data-quote="">Discuss a similar project →</a>`}</article>`}
-let pfK='',abK='',soK='';
-function renderPF(){const a=PF(),k=JSON.stringify(a);if(k===pfK)return;pfK=k;
- const it=a.length?a.map((p,i)=>({...p,k:p.k||'Project',g:GR[i%6]})):DPF;
- $p('#pfg').innerHTML=it.map(pfCard).join('');$p('#pfh').innerHTML=it.slice(0,3).map(pfCard).join('');
- $p('#demos').hidden=a.length>0;$p('#pfd').innerHTML=DEMOS.map(pfCard).join('')}
-const ABOUT_ROLE='Independent digital studio · Remote projects';
-function renderAbout(){const a=LS.get('siq_about',null)||{},k=JSON.stringify(a);if(k===abK)return;abK=k;
- $p('#abname').textContent=a.name||'ShoaibScale';$p('#abrole').textContent=a.role||ABOUT_ROLE;const b=$p('#abbio');b.textContent=a.bio&&a.bio.trim()?a.bio:'';b.hidden=!b.textContent;
- const i=$p('#abimg'),ok=/^data:image\//.test(a.photo||'');i.hidden=!ok;$p('#abmono').hidden=ok;if(ok)i.src=a.photo;else i.removeAttribute('src')}
-const SOC=[['linkedin','LinkedIn','in'],['fiverr','Fiverr','Fi'],['upwork','Upwork','Up'],['instagram','Instagram'],['facebook','Facebook','f'],['x','X','X'],['github','GitHub','GH'],['youtube','YouTube'],['tiktok','Ti
+  var num = function (i) { return ("0" + (i + 1)).slice(-2); };
+  function fromDB(key, fallback, map) {
+    try { if (window.LS) { var v = LS.get(key, null); if (v && v.length) return v.map(map).filter(function (x) { return x[0]; }); } } catch (e) {}
+    return fallback;
+  }
+  function renderCards() {
+    var SV = fromDB("siq_services", SERVICES, function (x) { return Array.isArray(x) ? x : [x.title || x.name || x.t, x.desc || x.description || x.d || "", x.details || x.points || ""]; });
+    var PF = fromDB("siq_portfolio", PORTFOLIO, function (x) { return Array.isArray(x) ? x : [x.title || x.name || x.t, x.tag || x.category || x.type || "Project", x.desc || x.description || x.d || ""]; });
+    var sg = $("#sg");
+    if (sg) sg.innerHTML = SV.map(function (s, i) {
+      return '<article class="card"><span class="num">' + num(i) + "</span><h3>" + esc(s[0]) + "</h3><p>" + esc(s[1]) + '</p><p style="font-size:13px;margin-top:10px">' + esc(s[2]) + '</p><a class="more" href="contact.html" data-quote="' + esc(s[0]) + '" style="display:inline-block;margin-top:14px">Request a quote →</a></article>';
+    }).join("");
+    var pf = function (id, list) {
+      var el = $(id); if (!el) return;
+      el.innerHTML = list.map(function (p) { return '<article class="card pfc"><div class="cover"></div><span class="pill">' + esc(p[1]) + "</span><h3>" + esc(p[0]) + '</h3><p>' + esc(p[2]) + "</p></article>"; }).join("");
+    };
+    pf("#pfh", PF); pf("#pfg", PF); pf("#pfd", DEMOS);
+    var d = $("#demos"); if (d && !DEMOS.length) d.style.display = "none";
+    var cs = $("#cservice"); if (cs) { cs.innerHTML = '<option value="">Choose a service</option>'; } if (cs) SV.forEach(function (s) { cs.insertAdjacentHTML("beforeend", "<option>" + esc(s[0]) + "</option>"); });
+    var co = $("#cosv"); if (co) co.innerHTML = SV.map(function (s) { return "<option>" + esc(s[0]) + "</option>"; }).join("");
+  }
+
+  /* ---------- logo ---------- */
+  function logo() {
+    var im = $("#logoimg"); if (!im) return;
+    var t = new Image(); t.onload = function () { im.src = LOGO; im.hidden = false; var lt = $(".logo .lt"); if (lt) lt.style.display = "none"; };
+    t.src = LOGO;
+  }
+
+  /* ---------- menu / modals / drawers ---------- */
+  var scrim = function () { return $("#scrim"); };
+  function closeAll() {
+    $$(".mod.on,.drawer.on,.np:not([hidden]),.cdr.on:not(.pg)").forEach(function (e) { e.classList.remove("on"); if (e.classList.contains("np")) e.hidden = true; });
+    var s = scrim(); if (s) s.classList.remove("on"); var um = $("#um"); if (um) um.hidden = true;
+  }
+  function open(name) {
+    if (name === "chat") { if (document.body.dataset.page === "chat") return; if (!session()) return openAuth("login"); closeAll(); var c = $("#chatd"); if (c) { c.classList.add("on"); drawMsgs(); } if (scrim()) scrim().classList.add("on"); return; }
+    if (name === "notif") { var np = $("#np"); if (np) np.hidden = !np.hidden; return; }
+    if (name === "auth") return openAuth("login");
+    var m = $("#m-" + name); if (m) { closeAll(); m.classList.add("on"); }
+  }
+  function openAuth(tab) {
+    if (document.body.dataset.page !== "login") { closeAll(); var m = $("#m-auth"); if (m) m.classList.add("on"); }
+    setTab(tab || "login");
+  }
+  function setTab(t) {
+    var f = $("#af"); if (!f) return; f.dataset.v = t;
+    $$("#atabs [data-tab]").forEach(function (b) { b.classList.toggle("on", b.dataset.tab === t); });
+    var title = $("#at"), btn = $("#asub");
+    if (title) title.textContent = { login: "Welcome back", signup: "Create your account", forgot: "Reset password" }[t];
+    if (btn) btn.textContent = { login: "Log in", signup: "Create account", forgot: "Request reset" }[t];
+    err("aerr", "");
+  }
+  function bindUI() {
+    document.addEventListener("click", function (e) {
+      var el;
+      if ((el = e.target.closest("[data-open]"))) { e.preventDefault(); var n = el.dataset.open; if (n === "auth") openAuth(el.dataset.tab || "login"); else open(n); return; }
+      if ((el = e.target.closest("[data-close]"))) { if (el.closest(".cdr.pg") || el.closest("#m-auth.authcard") || el.closest("#m-pay.pagecard")) return; e.preventDefault(); closeAll(); return; }
+      if ((el = e.target.closest("#atabs [data-tab]"))) { setTab(el.dataset.tab); return; }
+      if ((el = e.target.closest("[data-av]"))) { e.preventDefault(); setTab(el.dataset.av); return; }
+      if ((el = e.target.closest("[data-logout]"))) { e.preventDefault(); store.set("session", null); location.href = "index.html"; return; }
+      if ((el = e.target.closest("[data-quote]"))) { if (el.dataset.quote) store.set("quote", el.dataset.quote); return; }
+      if (e.target.closest("#bg")) { var d = $("#drawer"); if (d) d.classList.add("on"); if (scrim()) scrim().classList.add("on"); return; }
+      if (e.target.closest("#cls") || e.target === scrim()) { closeAll(); return; }
+      if (e.target.closest("#hu")) { var um = $("#um"); if (um) um.hidden = !um.hidden; return; }
+      if (e.target.closest("#bell")) { open("notif"); return; }
+      if (e.target.classList && e.target.classList.contains("mod")) closeAll();
+    });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
+  }
+
+  /* ---------- accounts ---------- */
+  var rules = [["8+ characters", function (p) { return p.length >= 8; }], ["A letter", function (p) { return /[A-Za-z]/.test(p); }], ["A number", function (p) { return /\d/.test(p); }]];
+  function session() { return store.get("session", null); }
+  function drawRules(inp, ul) {
+    if (!inp || !ul) return;
+    var up = function () { ul.innerHTML = rules.map(function (r) { return '<li style="color:' + (r[1](inp.value) ? "#15803d" : "#6b7a90") + '">' + (r[1](inp.value) ? "✓ " : "○ ") + r[0] + "</li>"; }).join(""); };
+    inp.addEventListener("input", up); up();
+  }
+  function authUI() {
+    var u = session();
+    if (u) document.body.setAttribute("data-auth", "1"); else document.body.removeAttribute("data-auth");
+    var ha = $("#ha"), hu = $("#hu");
+    if (ha) ha.style.display = u ? "none" : ""; if (hu) { hu.hidden = !u; if (u) hu.textContent = (u.name || u.email).split(" ")[0]; }
+  }
+  function authForm() {
+    var f = $("#af"); if (!f) return;
+    drawRules(f.elements.password, $("#arl"));
+    setTab(location.hash === "#signup" ? "signup" : "login");
+    f.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var v = f.dataset.v, d = {}; $$("input", f).forEach(function (i) { d[i.name] = i.value.trim(); });
+      if (!emailOk(d.email)) return err("aerr", "Enter a valid email address.");
+      var users = store.get("users", []);
+      if (v === "forgot") { mirror("resets", { email: d.email, t: Date.now() }); err("aerr", ""); toast("Request sent. Our team will contact you."); return; }
+      if (!d.password) return err("aerr", "Enter your password.");
+      ready().then(function () { return sha(d.password); }).then(function (h) {
+        users = store.get("users", []);
+        var ex = users.filter(function (x) { return x.email.toLowerCase() === d.email.toLowerCase(); })[0];
+        if (v === "signup") {
+          if (!d.fullname) return err("aerr", "Enter your full name.");
+          if (ex) return err("aerr", "An account with this email already exists.");
+          if (!rules.every(function (r) { return r[1](d.password); })) return err("aerr", "Password does not meet the requirements.");
+          if (d.password !== d.confirm) return err("aerr", "Passwords do not match.");
+          ex = { name: d.fullname, email: d.email, phone: d.phone || "", h: h, created: Date.now() };
+          users.push(ex); store.set("users", users); mirror("users", { name: ex.name, email: ex.email, phone: ex.phone, t: ex.created });
+        } else if (!ex || ex.h !== h) return err("aerr", "Incorrect email or password.");
+        store.set("session", { name: ex.name, email: ex.email, phone: ex.phone }); location.href = document.body.dataset.page === "login" ? "orders.html" : location.href;
+      });
+    });
+  }
+
+  /* ---------- contact ---------- */
+  function contact() {
+    var f = $("#cf2"); if (!f) return;
+    var q = store.get("quote", ""); if (q && f.elements.service) { f.elements.service.value = q; store.set("quote", ""); }
+    f.addEventListener("submit", function (e) {
+      e.preventDefault(); var d = {}; $$("input,select,textarea", f).forEach(function (i) { d[i.name] = i.value.trim(); });
+      if (!d.name) return err("cerr", "Please enter your name.");
+      if (!emailOk(d.email)) return err("cerr", "Enter a valid email address.");
+      if (d.msg.length < 10) return err("cerr", "Please describe what you need (a sentence or two).");
+      d.t = Date.now(); if (window.PRIVOK === false && window.LS) return err("cerr", "Please wait a moment and try again."); var l = store.get("inquiries", []); l.push(d); store.set("inquiries", l); mirror("inquiries", d);
+      f.reset(); err("cerr", ""); toast("Inquiry sent. You'll get a reply by email.");
+    });
+  }
+
+  /* ---------- chat ---------- */
+  function drawMsgs() {
+    var b = $("#msgs"); if (!b) return; var me = session(), m = store.get("chat", []).filter(function (x) { return me && x.email === me.email; });
+    if (!m.length) m = [{ me: 0, text: "Hello! Tell us what you need and we’ll reply during business hours." }];
+    b.innerHTML = m.map(function (x) { return '<div class="bub' + (x.me ? " b" : "") + '" style="max-width:85%;align-self:' + (x.me ? "flex-end" : "flex-start") + ';font-size:14px;padding:10px 12px">' + esc(x.text) + "</div>"; }).join("");
+    b.scrollTop = b.scrollHeight;
+  }
+  function chat() {
+    var ci = $("#ci"), sb = $("#csend"); if (!ci || !sb) return;
+    var send = function () { if (window.PRIVOK === false && window.LS) return toast("Please wait a moment — data is still loading…"); var t = ci.value.trim(); if (!t) return; var u = session(); if (!u) return; var m = store.get("chat", []); m.push({ me: 1, email: u.email, text: t, t: Date.now() }); store.set("chat", m); mirror("chat", { email: u && u.email, text: t, t: Date.now() }); ci.value = ""; drawMsgs(); };
+    sb.addEventListener("click", send); ci.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); send(); } });
+    drawMsgs();
+  }
+
+  /* ---------- orders / payments / profile ---------- */
+  function orders() {
+    var ol = $("#ol"); if (!ol) return; var me = session(), o = store.get("orders", []).filter(function (x) { return me && x.email === me.email; });
+    ["s1", "s2", "s3", "s4"].forEach(function (id, i) { var e = $("#" + id); if (!e) return; e.textContent = [o.length, o.filter(function (x) { return x.status === "new"; }).length, o.filter(function (x) { return x.status === "processing"; }).length, o.filter(function (x) { return x.status === "delivered"; }).length][i]; });
+    ol.innerHTML = o.length ? o.map(function (x) { return '<div class="glass" style="padding:16px;margin-top:10px"><b>' + esc(x.id) + " · " + esc(x.service) + '</b> <span class="st-' + esc(x.status) + '">' + esc(x.status) + "</span></div>"; }).join("") : '<p class="bd" style="margin-top:10px">No orders yet. Start with a <a href="contact.html" style="color:var(--bl)">project inquiry</a>.</p>';
+  }
+  function payments() {
+    var f = $("#pyf"); if (!f) return; var list = $("#phl");
+    var draw = function () { var me = session(), p = store.get("payments", []).filter(function (x) { return me && x.email === me.email; }); if (list) list.innerHTML = p.length ? p.map(function (x) { return '<div class="glass" style="padding:12px;margin-top:8px">' + esc(x.oid) + " · " + esc(x.amt) + " · " + esc(x.method) + " · <i>pending verification</i></div>"; }).join("") : '<p class="bd">No payments submitted yet.</p>'; };
+    draw();
+    f.addEventListener("submit", function (e) {
+      e.preventDefault(); var d = {}; $$("input,select", f).forEach(function (i) { if (i.type !== "file") d[i.name] = i.value.trim(); });
+      if (!d.oid || !d.amt) return err("pyerr", "Enter the order ID and the amount paid.");
+      var fl = f.elements.file.files[0]; if (!fl) return err("pyerr", "Attach the receipt image.");
+      d.file = fl.name; d.email = (session() || {}).email; d.t = Date.now(); var p = store.get("payments", []); p.unshift(d); store.set("payments", p); mirror("payments", d);
+      f.reset(); err("pyerr", ""); draw(); toast("Payment proof submitted for verification.");
+    });
+  }
+  function profile() {
+    var f = $("#pf2"), u = session(); if (!f || !u) return;
+    var parts = (u.name || "").split(" ");
+    $("#pnm").textContent = u.name || ""; $("#pem").textContent = u.email || ""; $("#pph").textContent = u.phone || ""; $("#avl").textContent = (u.name || "?").charAt(0).toUpperCase();
+    f.elements.first.value = parts[0] || ""; f.elements.last.value = parts.slice(1).join(" "); f.elements.email.value = u.email; f.elements.phone.value = u.phone || "";
+    f.addEventListener("submit", function (e) {
+      e.preventDefault(); u.name = (f.elements.first.value + " " + f.elements.last.value).trim(); u.phone = f.elements.phone.value.trim();
+      store.set("session", u); var us = store.get("users", []).map(function (x) { if (x.email === u.email) { x.name = u.name; x.phone = u.phone; } return x; }); store.set("users", us);
+      $("#pnm").textContent = u.name; $("#pph").textContent = u.phone; toast("Profile updated.");
+    });
+    var sf = $("#sf"); drawRules($("#npw"), $("#prl"));
+    if (sf) sf.addEventListener("submit", function (e) {
+      e.preventDefault(); var cur = sf.elements.cur.value, np = sf.elements.np.value, cp = sf.elements.cp.value;
+      if (!rules.every(function (r) { return r[1](np); })) return err("serr", "New password does not meet the requirements.");
+      if (np !== cp) return err("serr", "Passwords do not match.");
+      sha(cur).then(function (h0) { var us = store.get("users", []), me = us.filter(function (x) { return x.email === u.email; })[0]; if (!me || me.h !== h0) return err("serr", "Current password is incorrect."); return sha(np).then(function (h1) { me.h = h1; store.set("users", us); sf.reset(); err("serr", ""); toast("Password updated."); }); });
+    });
+  }
+
+  window.addEventListener("siq-change", function (e) { var k = e.detail && e.detail.key; try { if (k === "siq_services" || k === "siq_portfolio") renderCards(); if (k === "siq_chat") drawMsgs(); if (k === "siq_orders") orders(); } catch (x) {} });
+  function init() {
+    [logo, renderCards, bindUI, authUI, authForm, contact, chat, orders, payments, profile].forEach(function (fn) { try { fn(); } catch (e) { console.error("ShoaibScale app.js:", fn.name, e); } });
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
+})();
