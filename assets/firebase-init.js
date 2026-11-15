@@ -1,7 +1,7 @@
 /* ShoaibScale: Firebase Realtime Database bootstrap (shared by every page) */
 const firebaseConfig={apiKey:"AIzaSyB5h-ltxhulwY3AHubPOg-GDzAn4TYCp2M",authDomain:"shoaib-iq.firebaseapp.com",databaseURL:"https://shoaib-iq-default-rtdb.firebaseio.com",projectId:"shoaib-iq",storageBucket:"shoaib-iq.firebasestorage.app",messagingSenderId:"620967955154",appId:"1:620967955154:web:bb4c2ed41e41b1872c7b0b",measurementId:"G-VRJE4LES7C"};
 firebase.initializeApp(firebaseConfig);
-const DB=firebase.database().ref('siq');
+const DB=firebase.database().ref();
 const DEVICE_KEYS=['siq_sess','siq_cur'];
 const PUB_KEYS=['siq_portfolio','siq_about','siq_social','siq_brand','siq_texts','siq_sections','siq_announce','siq_services'];
 const PRIV_KEYS=['siq_users','siq_orders','siq_pays','siq_chat','siq_contacts','siq_dlv','siq_blacklist','siq_seq'];
@@ -33,4 +33,4 @@ window.PRIV=new Promise(res=>{
  PRIV_KEYS.forEach(k=>DB.child(k).on('value',s=>{const v=s.val();if(v===null)delete CACHE[k];else CACHE[k]=v;
   if(!seen[k]){seen[k]=1;if(--left===0){window.PRIVOK=true;res(true)}}else fire(k)},e=>{dbErr(e)}));
 });
-                                                                                                                          
+                          
