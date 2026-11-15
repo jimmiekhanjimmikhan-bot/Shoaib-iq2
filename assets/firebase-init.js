@@ -2,7 +2,7 @@
 
 const firebaseConfig={apiKey:"AIzaSyB-sxrpIQVyo_S8Natb2rJO7AvYyBP6-Pg",authDomain:"shoaibscaleonline-f2647.firebaseapp.com",databaseURL:"https://shoaibscaleonline-f2647-default-rtdb.firebaseio.com",projectId:"shoaibscaleonline-f2647",storageBucket:"shoaibscaleonline-f2647.firebasestorage.app",messagingSenderId:"52329806631",appId:"1:52329806631:web:4c9f8286b4b4f240adc702",measurementId:"G-L0YH7GT4MZ"};
 firebase.initializeApp(firebaseConfig);
-const DB=firebase.database().ref();
+const DB=firebase.database().ref('siq'); /* admin.html bhi 'siq' node use karta hai — dono yahin connect hote hain */
 const DEVICE_KEYS=['siq_sess','siq_cur'];
 const PUB_KEYS=['siq_portfolio','siq_about','siq_social','siq_brand','siq_texts','siq_sections','siq_announce','siq_services'];
 const PRIV_KEYS=['siq_users','siq_orders','siq_pays','siq_chat','siq_contacts','siq_dlv','siq_blacklist','siq_seq'];
