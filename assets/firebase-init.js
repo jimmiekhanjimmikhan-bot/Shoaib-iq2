@@ -1,6 +1,6 @@
-/* ShoaibScale: Firebase Realtime Database bootstrap (shared by every page) — NEW database: shoaibscaleonline */
+/* ShoaibScale: Firebase Realtime Database bootstrap (shared by every page) — NEW database: shoaibscaleonline-f2647 */
 
-const firebaseConfig={apiKey:"AIzaSyB2wjMWNTepJOxgV360cuurq8BVNbNPvEw",authDomain:"shoaibscaleonline.firebaseapp.com",databaseURL:"https://shoaibscaleonline-default-rtdb.firebaseio.com",projectId:"shoaibscaleonline",storageBucket:"shoaibscaleonline.firebasestorage.app",messagingSenderId:"424787809458",appId:"1:424787809458:web:cd2155e09455a5296c25ab",measurementId:"G-WB9EEG3EZM"};
+const firebaseConfig={apiKey:"AIzaSyB-sxrpIQVyo_S8Natb2rJO7AvYyBP6-Pg",authDomain:"shoaibscaleonline-f2647.firebaseapp.com",databaseURL:"https://shoaibscaleonline-f2647-default-rtdb.firebaseio.com",projectId:"shoaibscaleonline-f2647",storageBucket:"shoaibscaleonline-f2647.firebasestorage.app",messagingSenderId:"52329806631",appId:"1:52329806631:web:4c9f8286b4b4f240adc702",measurementId:"G-L0YH7GT4MZ"};
 firebase.initializeApp(firebaseConfig);
 const DB=firebase.database().ref();
 const DEVICE_KEYS=['siq_sess','siq_cur'];
