@@ -9,12 +9,12 @@
   var store = {
     get: function (k, d) {
       try {
-        if (MAP[k] && window.LS) { var v = LS.get(MAP[k], d); return v == null ? d : v; }
+        if (MAP[k] && (typeof LS !== "undefined")) { var v = LS.get(MAP[k], d); return v == null ? d : v; }
         var r = localStorage.getItem("ss_" + k); return r ? JSON.parse(r) : d;
       } catch (e) { return d; }
     },
     set: function (k, v) {
-      try { if (MAP[k] && window.LS) return LS.set(MAP[k], v); localStorage.setItem("ss_" + k, JSON.stringify(v)); return true; } catch (e) { return false; }
+      try { if (MAP[k] && (typeof LS !== "undefined")) return LS.set(MAP[k], v); localStorage.setItem("ss_" + k, JSON.stringify(v)); return true; } catch (e) { return false; }
     }
   };
   function ready() { return window.PRIV ? Promise.resolve(window.PRIV).catch(function () {}) : Promise.resolve(); }
@@ -48,7 +48,7 @@
 
   var num = function (i) { return ("0" + (i + 1)).slice(-2); };
   function fromDB(key, fallback, map) {
-    try { if (window.LS) { var v = LS.get(key, null); if (v && v.length) return v.map(map).filter(function (x) { return x[0]; }); } } catch (e) {}
+    try { if ((typeof LS !== "undefined")) { var v = LS.get(key, null); if (v && v.length) return v.map(map).filter(function (x) { return x[0]; }); } } catch (e) {}
     return fallback;
   }
   function renderCards() {
@@ -167,7 +167,7 @@
       if (!d.name) return err("cerr", "Please enter your name.");
       if (!emailOk(d.email)) return err("cerr", "Enter a valid email address.");
       if (d.msg.length < 10) return err("cerr", "Please describe what you need (a sentence or two).");
-      d.t = Date.now(); if (window.PRIVOK === false && window.LS) return err("cerr", "Please wait a moment and try again."); var l = store.get("inquiries", []); l.push(d); store.set("inquiries", l); mirror("inquiries", d);
+      d.t = Date.now(); if (window.PRIVOK === false && (typeof LS !== "undefined")) return err("cerr", "Please wait a moment and try again."); var l = store.get("inquiries", []); l.push(d); store.set("inquiries", l); mirror("inquiries", d);
       f.reset(); err("cerr", ""); toast("Inquiry sent. You'll get a reply by email.");
     });
   }
@@ -181,7 +181,7 @@
   }
   function chat() {
     var ci = $("#ci"), sb = $("#csend"); if (!ci || !sb) return;
-    var send = function () { if (window.PRIVOK === false && window.LS) return toast("Please wait a moment — data is still loading…"); var t = ci.value.trim(); if (!t) return; var u = session(); if (!u) return; var m = store.get("chat", []); m.push({ me: 1, email: u.email, text: t, t: Date.now() }); store.set("chat", m); mirror("chat", { email: u && u.email, text: t, t: Date.now() }); ci.value = ""; drawMsgs(); };
+    var send = function () { if (window.PRIVOK === false && (typeof LS !== "undefined")) return toast("Please wait a moment — data is still loading…"); var t = ci.value.trim(); if (!t) return; var u = session(); if (!u) return; var m = store.get("chat", []); m.push({ me: 1, email: u.email, text: t, t: Date.now() }); store.set("chat", m); mirror("chat", { email: u && u.email, text: t, t: Date.now() }); ci.value = ""; drawMsgs(); };
     sb.addEventListener("click", send); ci.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); send(); } });
     drawMsgs();
   }
