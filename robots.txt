@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /account.html
+Disallow: /orders.html
+Disallow: /chat.html
+Disallow: /payment.html
+Disallow: /login.html
 
 Sitemap: https://shoaibscale.online/sitemap.xml

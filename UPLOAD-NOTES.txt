@@ -1,0 +1,15 @@
+GitHub upload structure for Shoaib-iq2
+
+1. Extract these files directly into the repository root (main branch).
+2. Keep the three shared code files inside assets/:
+   assets/style.css
+   assets/app.js
+   assets/firebase-init.js
+3. Keep existing image assets if present, especially:
+   assets/favicon-48x48.png
+   assets/social-preview-1200x630.jpg
+   The files attached in chat did not include these images.
+4. Replace existing index.html, sitemap.xml, and robots.txt with these versions.
+   Add the other .html pages. Back up the current repository first.
+5. Commit the changes. Vercel should deploy from the connected GitHub repo.
+6. Sitemap and canonical URLs use .html paths, e.g. /services.html.
