@@ -3,10 +3,12 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 /* $p: for elements that only exist on some pages (returns a harmless dummy when absent) */
 const $p=s=>document.querySelector(s)||document.createElement('div');
+/* accounts may exist in an older/array format (other app.js versions): always read them as an object keyed by email */
+function getUsers(){let u=LS.get("siq_users",{});if(Array.isArray(u)){const o={};u.forEach(x=>{if(!x||!x.email)return;o[String(x.email).toLowerCase()]={name:x.name||'',phone:x.phone||'',salt:x.salt!==undefined?x.salt:'',pass:x.pass||x.h||'',created:x.created||Date.now(),company:x.company||'',country:x.country||'',avatar:x.avatar||''}});u=o;if(window.PRIVOK)LS.set("siq_users",o)}return u&&typeof u==='object'?u:{}}
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const ic=n=>`<svg class="i"><use href="#${n}"/></svg>`;
 function toast(t){const e=$('#ts');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),3000)}
-let users=LS.get('siq_users',{}),orders=LS.get('siq_orders',[]),pays=LS.get('siq_pays',[]),sess=LS.get('siq_sess',null),cur=LS.get('siq_cur','USD'),afterAuth=null,nc=0,unread=0,acked=false;
+let users=getUsers(),orders=LS.get('siq_orders',[]),pays=LS.get('siq_pays',[]),sess=(s=>s&&typeof s==='object'&&s.email?String(s.email).toLowerCase():s)(LS.get('siq_sess',null)),cur=LS.get('siq_cur','USD'),afterAuth=null,nc=0,unread=0,acked=false;
 const PAGE=document.body.dataset.page||'home',onAcct=PAGE==='account'||PAGE==='orders',GATED=['account','orders','chat','payment'];
 const URLS={home:'index.html',services:'services.html',portfolio:'portfolio.html',pricing:'pricing.html',about:'about.html',contact:'contact.html',faq:'faq.html',blog:'blog.html',orders:'orders.html',profile:'account.html',chat:'chat.html',payment:'payment.html',login:'login.html'};
 const me=()=>sess?users[sess]:null,mine=()=>orders.filter(o=>o.email===sess).sort((a,b)=>b.createdAt-a.createdAt);
@@ -79,11 +81,11 @@ function go(t){closeAll();if(t==='projects')t='portfolio';
  location.href=URLS[t]||URLS.home}
 function authView(v){const f=$('#af');f.dataset.v=v;$('#at').textContent={login:'Welcome back',signup:'Create your account',forgot:'Reset your password'}[v];$('#asub').textContent={login:'Log in',signup:'Create account',forgot:'Request reset'}[v];$('#aerr').textContent='';$('#atabs').hidden=v==='forgot';$$('#atabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===v));f.elements.password.autocomplete=v==='signup'?'new-password':'current-password';rulesUI($('#arl'),f.elements.password.value)}
 $('#af').onsubmit=async e=>{e.preventDefault();await PRIV;const f=e.target,v=f.dataset.v,d=Object.fromEntries(new FormData(f)),em=(d.email||'').trim().toLowerCase(),fail=m=>{$('#aerr').textContent=m};
- if(!MAIL.test(em))return fail('Enter a valid email address.');users=LS.get('siq_users',{});if(v!=='forgot'){const bl=blocked(em,d.phone||(users[em]||{}).phone);if(bl)return fail('This email/phone is blacklisted. '+(bl.reason||'')+' Contact support.')}
+ if(!MAIL.test(em))return fail('Enter a valid email address.');users=getUsers();if(v!=='forgot'){const bl=blocked(em,d.phone||(users[em]||{}).phone);if(bl)return fail('This email/phone is blacklisted. '+(bl.reason||'')+' Contact support.')}
  if(v==='forgot'){const c=LS.get('siq_contacts',[]);c.push({name:'Password reset',email:em,topic:'Existing order',msg:'Password reset requested for '+em,at:Date.now()});LS.set('siq_contacts',c);f.reset();authView('login');return toast('Reset request sent to support — we will contact you by email.')}
  if(v==='signup'){const n=d.fullname.trim();if(n.length<2)return fail('Enter your full name.');if(!PHONE.test(d.phone.trim()))return fail('Enter a valid phone number.');
   if(!pwOk(d.password))return fail('Password must meet all the rules below.');if(d.password!==d.confirm)return fail('Passwords do not match.');if(users[em])return fail('An account with this email already exists.');
-  const salt=Math.random().toString(36).slice(2);users[em]={name:n,phone:d.phone.trim(),salt,pass:await hash(d.password,salt),created:Date.now(),company:'',country:'',avatar:''};LS.set('siq_users',users)}
+  const salt=Math.random().toString(36).slice(2);users[em]={name:n,phone:d.phone.trim(),salt,pass:await hash(d.password,salt),created:Date.now(),company:'',country:'',avatar:''};try{await LS.setNow('siq_users',users)}catch(x){delete users[em];CACHE.siq_users=JSON.stringify(users);return fail('Could not save your account ('+String(x&&x.message||x).replace(/^Error: /,'')+'). Please try again or contact support.')}}
  else{const u=users[em];if(!u||u.pass!==await hash(d.password,u.salt))return fail('Incorrect email or password.')}
  {const bn=banInfo(users[em]);if(bn)return fail('This account is banned. '+(bn.reason?'Reason: '+bn.reason+'. ':'')+(bn.until?'Until '+dt(bn.until)+'. ':'')+'Contact support.')}
  sess=em;LS.set('siq_sess',sess);snapOrders();snapPays();f.reset();closeAll();renderAuth();toast(v==='signup'?'Account created — welcome!':'Logged in');
@@ -322,9 +324,9 @@ const BL=()=>LS.get('siq_blacklist',[]),dg=s=>String(s||'').replace(/\D/g,'');
 const blocked=(em,ph)=>BL().find(x=>x.email===em||(ph&&x.phone&&dg(x.phone)===dg(ph)));
 const banInfo=u=>u&&u.ban&&(!u.ban.until||Date.now()<u.ban.until)?u.ban:null;
 function ov(h){let o=$('#mdo');if(!o){o=document.createElement('div');o.id='mdo';o.style.cssText='position:fixed;inset:0;z-index:999;background:rgba(15,23,42,.6);display:grid;place-items:center;padding:20px';document.body.appendChild(o)}o.innerHTML='<div class="glass" style="max-width:440px;padding:30px;text-align:center">'+h+'</div>';return o}
-function guard(){if(!window.PRIVOK)return;users=LS.get('siq_users',{});const u=sess&&users[sess];if(!u){if(sess){sess=null;LS.set('siq_sess',null);renderAuth()}return}const bl=blocked(sess,u.phone),b=bl||banInfo(u);
+function guard(){if(!window.PRIVOK)return;users=getUsers();const u=sess&&users[sess];if(!u){if(sess){sess=null;LS.set('siq_sess',null);renderAuth()}return}const bl=blocked(sess,u.phone),b=bl||banInfo(u);
  if(b){sess=null;LS.set('siq_sess',null);renderAuth();closeAll();if(GATED.includes(PAGE))location.href='index.html';const o=ov('<h2 style="margin-bottom:10px">Account '+(bl?'blacklisted':'suspended')+'</h2><p style="color:var(--mu);margin-bottom:18px">'+esc(b.reason||'Policy violation')+(b.until?'<br>Until '+dt(b.until):'')+'</p><button class="btn b2" id="mdx">Close</button>');o.querySelector('#mdx').onclick=()=>o.remove();return}
- const i=(u.warns||[]).findIndex(w=>!w.ack);if(i>-1&&!$('#mdo')){const o=ov('<h2 style="margin-bottom:10px">⚠ Warning from admin</h2><p style="margin-bottom:18px">'+esc(u.warns[i].msg)+'</p><button class="btn b1" id="mdx">I understand</button>');o.querySelector('#mdx').onclick=()=>{users=LS.get('siq_users',{});const w=users[sess]&&users[sess].warns;if(w&&w[i])w[i].ack=Date.now();LS.set('siq_users',users);o.remove()}}}
+ const i=(u.warns||[]).findIndex(w=>!w.ack);if(i>-1&&!$('#mdo')){const o=ov('<h2 style="margin-bottom:10px">⚠ Warning from admin</h2><p style="margin-bottom:18px">'+esc(u.warns[i].msg)+'</p><button class="btn b1" id="mdx">I understand</button>');o.querySelector('#mdx').onclick=()=>{users=getUsers();const w=users[sess]&&users[sess].warns;if(w&&w[i])w[i].ack=Date.now();LS.set('siq_users',users);o.remove()}}}
 function loadChat(){const g={text:T('chat.welcome','Hi 👋 Share your project details and our team will reply here.'),at:Date.now(),me:false};ms.innerHTML='';bubble(g);LS.get('siq_chat',[]).filter(m=>m.email===sess).forEach(bubble)}
 let lastN=-1,lastU=null;
 function syncChat(){if(lastU!==sess){lastU=sess;lastN=-1}const t=LS.get('siq_chat',[]).filter(m=>m.email===sess),p=lastN;if(t.length===lastN)return;lastN=t.length;const l=t[t.length-1];if(p>=0&&l&&!l.me){if($('#chatd').classList.contains('on'))loadChat();else{setUnread(unread+1);notify('New message from support',URLS.chat)}}}
@@ -372,7 +374,7 @@ function renderSocial(){const s=LS.get('siq_social',null)||{},k=JSON.stringify(s
  $p('#cinfo').innerHTML=ci.length?ci.join(''):'<span>Use the form to reach us — details appear here once added.</span>';
  const w=$('#wa');if(wa){w.href='https://wa.me/'+wa;w.hidden=false}else w.hidden=true}
 function sync(){renderPF();renderAbout();renderSocial();guard();syncChat();ann();brand();applyTexts();dsync()}
-addEventListener('siq-change',e=>{const k=e.detail.key;if(k==='siq_services'){const n=LS.get('siq_services',null);if(n){SV.length=0;SV.push(...n);renderSV()}}if(k==='siq_orders')orders=LS.get('siq_orders',[]);if(k==='siq_pays')pays=LS.get('siq_pays',[]);if(k==='siq_users'){users=LS.get('siq_users',{});renderAuth()}if((k==='siq_orders'||k==='siq_pays')&&sess&&onAcct)renderAcct();sync()});
+addEventListener('siq-change',e=>{const k=e.detail.key;if(k==='siq_services'){const n=LS.get('siq_services',null);if(n){SV.length=0;SV.push(...n);renderSV()}}if(k==='siq_orders')orders=LS.get('siq_orders',[]);if(k==='siq_pays')pays=LS.get('siq_pays',[]);if(k==='siq_users'){users=getUsers();renderAuth()}if((k==='siq_orders'||k==='siq_pays')&&sess&&onAcct)renderAcct();sync()});
 const isImg=f=>/^image\//.test(f.type||'');
 function fileUrl(oid,f){const k=oid+'/'+f.id;if(FRES[k])return Promise.resolve(FRES[k]);
  return FPRO[k]||(FPRO[k]=firebase.database().ref('siq_files/'+oid+'/'+f.id).once('value').then(s=>{const v=s.val();if(!v||!v.data)throw 0;return fetch(v.data).then(r=>r.blob())}).then(b=>{const u=URL.createObjectURL(new Blob([b],{type:f.type||b.type}));FRES[k]=u;return u}).catch(()=>{delete FPRO[k];return null}))}
@@ -416,7 +418,7 @@ addEventListener('siq-change',e=>{const k=e.detail.key;if(!sess||!window.PRIVOK)
  if(k==='siq_announce'){const a=LS.get('siq_announce',null);if(a&&a.on&&a.text){let l='';try{l=localStorage.getItem('siq_lastann')||''}catch(_){}try{localStorage.setItem('siq_lastann',a.text)}catch(_){}if(l&&l!==a.text)notify('Announcement: '+a.text)}}});
 sync();
 /* data lives in Firebase: once it has loaded, validate the saved session and finish page setup */
-PRIV.then(()=>{users=LS.get('siq_users',{});orders=LS.get('siq_orders',[]);pays=LS.get('siq_pays',[]);
+PRIV.then(()=>{users=getUsers();orders=LS.get('siq_orders',[]);pays=LS.get('siq_pays',[]);
  if(sess&&!users[sess]){sess=null;LS.set('siq_sess',null)}
  snapOrders();snapPays();renderAuth();loadChat();setNc();
  if(PAGE==='login'&&me()){const nx=new URLSearchParams(location.search).get('next');location.href=/^[a-z-]+\.html$/.test(nx||'')?nx:URLS.orders;return}
