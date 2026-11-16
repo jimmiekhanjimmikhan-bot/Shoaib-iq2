@@ -334,7 +334,7 @@ function ann(){const a=LS.get('siq_announce',null);let e=$('#ann');if(!a||!a.on|
 function brand(){const b=LS.get('siq_brand',null)||{},ok=v=>typeof v==='string'&&/^data:image\/(png|jpe?g|webp|gif|svg\+xml)[;,]/.test(v)?v:'';
  const lg=ok(b.logo),hr=ok(b.hero),li=$('#logoimg'),tx=$('.logo .lt'),hi=$p('#heroimg'),st=$p('.stage');
  if(li){if(li.dataset.s!==lg){li.dataset.s=lg;if(lg)li.src=lg;else li.removeAttribute('src')}li.hidden=!lg;tx.hidden=!!lg&&b.showText===false}
- if(hi){if(hi.dataset.s!==hr){hi.dataset.s=hr;if(hr)hi.src=hr;else hi.removeAttribute('src')}hi.hidden=!hr;st.classList.toggle('hasimg',!!hr)}
+ if(hi){if(hi.dataset.s!==hr){hi.dataset.s=hr;if(hr)hi.src=hr;else hi.removeAttribute('src')}hi.alt='ShoaibScale project preview showing digital services';hi.hidden=!hr;st.classList.toggle('hasimg',!!hr)}
  let f=$('#favi');if(lg){if(!f){f=document.createElement('link');f.id='favi';f.rel='icon';document.head.appendChild(f)}if(f.getAttribute('href')!==lg)f.href=lg}else if(f)f.remove()}
 
 const U=v=>{v=String(v||'').trim();return v?(/^https?:\/\//i.test(v)?v:'https://'+v):''};
@@ -363,7 +363,7 @@ function renderPF(){const a=PF(),k=JSON.stringify(a);if(k===pfK)return;pfK=k;
 const ABOUT_ROLE='Independent digital studio · Remote projects';
 function renderAbout(){const a=LS.get('siq_about',null)||{},k=JSON.stringify(a);if(k===abK)return;abK=k;
  $p('#abname').textContent=a.name||'ShoaibScale';$p('#abrole').textContent=a.role||ABOUT_ROLE;const b=$p('#abbio');b.textContent=a.bio&&a.bio.trim()?a.bio:'';b.hidden=!b.textContent;
- const i=$p('#abimg'),ok=/^data:image\//.test(a.photo||'');i.hidden=!ok;$p('#abmono').hidden=ok;if(ok)i.src=a.photo;else i.removeAttribute('src')}
+ const i=$p('#abimg'),ok=/^data:image\//.test(a.photo||'');i.alt=`${a.name||'ShoaibScale'} founder portrait`;i.hidden=!ok;$p('#abmono').hidden=ok;if(ok)i.src=a.photo;else i.removeAttribute('src')}
 const SOC=[['linkedin','LinkedIn','in'],['fiverr','Fiverr','Fi'],['upwork','Upwork','Up'],['instagram','Instagram'],['facebook','Facebook','f'],['x','X','X'],['github','GitHub','GH'],['youtube','YouTube'],['tiktok','TikTok','Tt']];
 const sIcon=(k,t)=>k==='instagram'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>':k==='youtube'?'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>':`<svg viewBox="0 0 24 24"><text x="12" y="16.5" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="13" fill="currentColor">${t}</text></svg>`;
 function renderSocial(){const s=LS.get('siq_social',null)||{},k=JSON.stringify(s);if(k===soK)return;soK=k;
@@ -392,7 +392,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('[data-lb]');if(!
  const oid=a.closest('[data-dl]')&&a.closest('[data-dl]').dataset.dl;
  if(oid&&!isPayApproved(oid))return toast('🔒 Files locked until payment verified');
  const o=document.createElement('div');o.className='lbx';
- o.innerHTML=`<img src="${a.dataset.lb}" alt=""><a class="btn b1" href="${a.dataset.lb}" download="${esc(a.dataset.nm)}">${ic('dl')} Download</a>`;o.onclick=ev=>{if(!ev.target.closest('a.btn'))o.remove()};document.body.appendChild(o)});
+ o.innerHTML=`<img src="${a.dataset.lb}" alt="${esc(a.dataset.nm||'Delivered project image')}"><a class="btn b1" href="${a.dataset.lb}" download="${esc(a.dataset.nm)}">${ic('dl')} Download</a>`;o.onclick=ev=>{if(!ev.target.closest('a.btn'))o.remove()};document.body.appendChild(o)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){const l=$('.lbx');l&&l.remove()}});
 let lastDC=0,lastDS;
 const dlvCount=()=>{const d=DLV();return mine().reduce((n,o)=>n+Object.values(d[o.id]||{}).reduce((m,x)=>m+(x?(x.files||[]).length+(x.note?1:0):0),0),0)};
