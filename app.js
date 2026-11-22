@@ -366,15 +366,21 @@ const ABOUT_ROLE='Independent digital studio · Remote projects';
 function renderAbout(){const a=LS.get('siq_about',null)||{},k=JSON.stringify(a);if(k===abK)return;abK=k;
  $p('#abname').textContent=a.name||'ShoaibScale';$p('#abrole').textContent=a.role||ABOUT_ROLE;const b=$p('#abbio');b.textContent=a.bio&&a.bio.trim()?a.bio:'';b.hidden=!b.textContent;
  const i=$p('#abimg'),ok=/^data:image\//.test(a.photo||'');i.hidden=!ok;$p('#abmono').hidden=ok;if(ok)i.src=a.photo;else i.removeAttribute('src')}
+/* WhatsApp: fixed number, shown on every page (floating button + any [data-wa] link) */
+const WA_NUM='923047391349',WA_URL='https://wa.me/'+WA_NUM+'?text='+encodeURIComponent('Assalam o Alaikum! I visited ShoaibScale and would like to discuss a project.');
+const WA_SVG='<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.04 2a9.93 9.93 0 0 0-8.5 15.1L2 22l5.04-1.5A9.94 9.94 0 1 0 12.04 2zm5.8 14.1c-.25.7-1.45 1.34-2 1.4-.52.06-1.17.09-1.9-.12-.44-.14-1-.33-1.72-.64-3.03-1.3-5-4.35-5.15-4.55-.15-.2-1.23-1.64-1.23-3.12 0-1.49.78-2.22 1.06-2.52.28-.3.6-.38.8-.38h.58c.19 0 .43-.07.67.52.25.6.84 2.06.91 2.2.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.38-.45.51-.15.15-.3.3-.13.6.17.3.76 1.25 1.63 2.02 1.12 1 2.06 1.3 2.36 1.45.3.15.47.12.64-.07.18-.2.74-.86.94-1.16.2-.3.4-.25.67-.15.28.1 1.76.83 2.06.98.3.15.5.22.57.35.08.12.08.72-.17 1.42z"/></svg>';
+function waSet(){const w=document.getElementById('wa');if(w){w.href=WA_URL;w.innerHTML=WA_SVG+'<span>WhatsApp</span>';w.hidden=false}
+ document.querySelectorAll('[data-wa]').forEach(a=>{a.href=WA_URL;a.target='_blank';a.rel='noopener noreferrer';if(!a.querySelector('svg'))a.insertAdjacentHTML('afterbegin',WA_SVG)})}
+waSet();
 const SOC=[['linkedin','LinkedIn','in'],['fiverr','Fiverr','Fi'],['upwork','Upwork','Up'],['instagram','Instagram'],['facebook','Facebook','f'],['x','X','X'],['github','GitHub','GH'],['youtube','YouTube'],['tiktok','TikTok','Tt']];
 const sIcon=(k,t)=>k==='instagram'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>':k==='youtube'?'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>':`<svg viewBox="0 0 24 24"><text x="12" y="16.5" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="13" fill="currentColor">${t}</text></svg>`;
 function renderSocial(){const s=LS.get('siq_social',null)||{},k=JSON.stringify(s);if(k===soK)return;soK=k;
- const wa=String(s.whatsapp||'').replace(/\D/g,''),it=SOC.filter(x=>U(s[x[0]])).map(x=>`<a href="${esc(U(s[x[0]]))}" target="_blank" rel="noopener noreferrer" aria-label="${x[1]}" title="${x[1]}">${sIcon(x[0],x[2])}</a>`);
+ const wa=WA_NUM,it=SOC.filter(x=>U(s[x[0]])).map(x=>`<a href="${esc(U(s[x[0]]))}" target="_blank" rel="noopener noreferrer" aria-label="${x[1]}" title="${x[1]}">${sIcon(x[0],x[2])}</a>`);
  if(wa)it.push(`<a href="https://wa.me/${wa}" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" title="WhatsApp">${sIcon('wa','WA')}</a>`);
  ['#fsoc','#asoc','#csoc'].forEach(q=>{const e=$(q);if(e)e.innerHTML=it.join('')});
  const ci=[];if(s.email)ci.push(`<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>`);if(s.phone)ci.push(`<a href="tel:${esc(String(s.phone).replace(/[^\d+]/g,''))}">${esc(s.phone)}</a>`);
  $p('#cinfo').innerHTML=ci.length?ci.join(''):'<span>Use the form to reach us — details appear here once added.</span>';
- const w=$('#wa');if(wa){w.href='https://wa.me/'+wa;w.hidden=false}else w.hidden=true}
+ waSet()}
 function sync(){renderPF();renderAbout();renderSocial();guard();syncChat();ann();brand();applyTexts();dsync()}
 addEventListener('siq-change',e=>{const k=e.detail.key;if(k==='siq_services'){const n=LS.get('siq_services',null);if(n){SV.length=0;SV.push(...n);renderSV()}}if(k==='siq_orders')orders=LS.get('siq_orders',[]);if(k==='siq_pays')pays=LS.get('siq_pays',[]);if(k==='siq_users'){users=getUsers();renderAuth()}if((k==='siq_orders'||k==='siq_pays')&&sess&&onAcct)renderAcct();sync()});
 const isImg=f=>/^image\//.test(f.type||'');
