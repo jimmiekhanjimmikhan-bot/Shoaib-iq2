@@ -223,3 +223,71 @@ footer{background:#080b0a;border-top:1px solid var(--ln);color:#9aa9a2}
 a:hover{color:inherit}
 ::selection{background:rgba(34,214,95,.35)}
 .w.ph{padding-left:20px;padding-right:20px}
+
+/* ===== WhatsApp button (floating, every page) ===== */
+.wa{display:inline-flex;align-items:center;gap:8px;left:auto;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:var(--bl);color:#04110a;font-weight:700;padding:12px 18px;box-shadow:0 8px 24px rgba(34,214,95,.35);transition:transform .15s,background .15s;-webkit-tap-highlight-color:transparent}
+.wa:hover{background:var(--bl2);transform:translateY(-2px)}
+.wa[hidden]{display:none}
+.btn[data-wa]{justify-content:center}
+.b2[data-wa]{border-color:var(--bl);color:var(--bl)}
+.b2[data-wa]:hover{background:rgba(34,214,95,.12)}
+@media(max-width:620px){
+ .wa{padding:14px;right:14px}.wa span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}.wa svg{width:26px;height:26px}
+ .acts{flex-direction:column}.acts .btn{width:100%;justify-content:center}
+ .hero h1{font-size:clamp(32px,9vw,40px)}
+ .btn,.ib,.burger{min-height:44px}
+}
+/* mobile speed: skip rendering of off-screen sections until needed */
+@media(max-width:900px){section+section,footer{content-visibility:auto;contain-intrinsic-size:1px 600px}}
+
+/* ===== Mobile view (matches homepage redesign) ===== */
+.mv{display:none}
+@media(max-width:620px){
+ body{font-size:15px}
+ .w{padding-left:16px;padding-right:16px}
+ .logo small{display:none}
+ /* hero */
+ .hero{padding:26px 0 22px;text-align:center}
+ .hero .eb{display:inline-block;background:var(--bl);color:#04110a;padding:5px 12px;border-radius:6px;font-size:11px;letter-spacing:.04em;margin-bottom:14px}
+ .hero .eb::before{display:none}
+ .hero h1{font-size:clamp(30px,9vw,38px);line-height:1.12;margin-bottom:12px}
+ .hero p.l{font-size:15.5px;margin:0 auto 18px}
+ .acts{gap:10px;margin-bottom:14px}
+ .acts .btn{padding:15px 18px;font-size:16px;border-radius:8px}
+ .acts .b1{box-shadow:0 6px 18px rgba(34,214,95,.28)}
+ .acts .b2:not([data-wa]){display:none}
+ .acts .b2[data-wa]{background:#fff;color:#0b0f0e;border-color:#fff}
+ .hero .note{font-size:12px}
+ .stage{display:none}
+ /* trust strip */
+ .strip{gap:0;margin-top:8px;text-align:center}
+ .strip div{padding:10px 0}.strip b{font-size:14px}.strip span{font-size:12.5px}
+ /* sections */
+ section{padding:26px 0}
+ .sech{flex-direction:column;align-items:center;text-align:center;gap:6px;margin-bottom:16px}
+ .sech h2,.mv h2,.band h2{font-size:22px;line-height:1.2}
+ .mv .eb{display:inline-block;background:rgba(34,214,95,.14);padding:3px 10px;border-radius:6px;margin-bottom:8px}
+ .mv{display:block;text-align:center}
+ /* service cards: compact */
+ .g3{gap:10px}
+ .card{padding:14px 16px;border-radius:12px;text-align:left}
+ .card .num{margin-bottom:8px;min-width:30px;height:30px}
+ .card h3{font-size:17px;margin-bottom:4px}.card p{font-size:13.5px}
+ /* pricing (mobile only) */
+ .mv-sub{color:var(--mu);font-size:13.5px;margin:4px 0 16px}
+ .mv-plans{display:grid;gap:12px;text-align:left}
+ .mv-plan{position:relative;display:flex;flex-direction:column;gap:4px;padding:16px;border:1px solid var(--ln);border-radius:12px;background:var(--card)}
+ .mv-plan b{font-size:19px}.mv-plan small{color:var(--bl);font-weight:700}
+ .mv-plan ul{margin:8px 0 12px 18px;color:var(--mu);font-size:13.5px;display:grid;gap:4px}
+ .mv-go{display:block;text-align:center;background:var(--bl);color:#04110a;font-weight:700;padding:11px;border-radius:8px}
+ .mv-pop{border:2px solid var(--bl);box-shadow:0 10px 28px rgba(34,214,95,.15)}
+ .mv-pop i{position:absolute;top:-11px;left:14px;background:var(--bl);color:#04110a;font:700 11px Inter,sans-serif;font-style:normal;padding:3px 10px;border-radius:6px}
+ /* big WhatsApp button above footer */
+ .mv-wabtn{width:100%;justify-content:center;padding:15px;font-size:16px;border-radius:10px}
+ /* CTA + footer */
+ .cta{text-align:center;justify-content:center}.cta .btn{width:100%;justify-content:center}
+ footer .fr,footer .fc{flex-direction:column;align-items:center;text-align:center;gap:10px}
+ footer .fl3{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:13px}
+ footer{padding-bottom:84px}
+}
+
