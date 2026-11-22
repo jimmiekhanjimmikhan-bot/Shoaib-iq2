@@ -1,3 +1,5 @@
+/* compatibility: older firebase-init.js files have no LS.setNow — add it so sign-up and saving never fail */
+if(typeof LS!=='undefined'&&typeof LS.setNow!=='function'){LS.setNow=function(k,v){if(typeof PRIV_KEYS!=='undefined'&&PRIV_KEYS.includes(k)&&!window.PRIVOK)return Promise.reject(new Error('data still loading, try again'));CACHE[k]=JSON.stringify(v);return DB.child(k).set(CACHE[k])}}
 /* ShoaibScale front-end (shared by every page) */
 /* ===== ShoaibScale front-end (light theme). Firebase Realtime Database. ===== */
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];

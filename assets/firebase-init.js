@@ -21,6 +21,7 @@ const LS={
   try{const s=JSON.stringify(v);CACHE[k]=s;DB.child(k).set(s).catch(e=>{try{toast('Database save failed: '+e.message)}catch(_){}});if(PUB_KEYS.includes(k))savePub();return true}
   catch(e){try{toast('Could not save data')}catch(_){}return false}
  },
+ setNow(k,v){if(PRIV_KEYS.includes(k)&&!window.PRIVOK)return Promise.reject(new Error('data still loading, try again'));CACHE[k]=JSON.stringify(v);return DB.child(k).set(CACHE[k])},
  del(k){delete CACHE[k];DB.child(k).remove().catch(()=>{})},
  keys(){return Object.keys(CACHE)}
 };
